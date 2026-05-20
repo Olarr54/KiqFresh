@@ -179,6 +179,31 @@
 .drop-zone p { font-weight: 700; font-size: 0.88rem; color: #666; line-height: 1.5; }
 .drop-zone input { display: none; }
 
+/* Field error state */
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+  border-color: #e53;
+  box-shadow: 3px 3px 0 #e53;
+  animation: fieldShake 0.4s ease;
+}
+.field-error-msg {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #e53;
+  letter-spacing: 0.05em;
+  display: none;
+  margin-top: 0.15rem;
+}
+.form-group.has-error .field-error-msg { display: block; }
+@keyframes fieldShake {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
 /* Submit btn */
 .form-submit {
   width: 100%;
@@ -340,60 +365,65 @@
         <div class="step-bubble" id="sb3">3</div>
       </div>
 
-      <form id="bookingForm">
+      <form id="bookingForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="7c55ba88-d386-42f1-949d-0e6f1979b575">
+        <input type="hidden" name="subject" value="New Kiq Fresh Booking Request">
+        <input type="hidden" name="from_name" value="Kiq Fresh Website">
+        <input type="hidden" id="selectedServiceInput" name="service" value="Deep Clean">
+        <!-- honeypot spam trap -->
+        <input type="checkbox" name="botcheck" style="display:none;">
         <!-- STEP 1 -->
         <div id="step1" class="form-step">
           <h3 style="font-family:'Bangers',cursive;font-size:1.8rem;letter-spacing:0.04em;margin-bottom:1.5rem;">YOUR DETAILS</h3>
           <div class="form-row">
             <div class="form-group" style="margin-bottom:0;">
-              <label>First Name</label>
-              <input type="text" id="fname" placeholder="Jordan" required>
+              <label>First Name <span style="color:#e53;font-weight:900;">*</span></label>
+              <input type="text" id="fname" name="first_name" placeholder="Jordan" autocomplete="given-name">
+              <span class="field-error-msg">First name is required.</span>
             </div>
             <div class="form-group" style="margin-bottom:0;">
-              <label>Last Name</label>
-              <input type="text" id="lname" placeholder="Smith" required>
+              <label>Last Name <span style="color:#e53;font-weight:900;">*</span></label>
+              <input type="text" id="lname" name="last_name" placeholder="Smith" autocomplete="family-name">
+              <span class="field-error-msg">Last name is required.</span>
             </div>
           </div>
           <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" id="email" placeholder="jordan@email.com" required>
+            <label>Email Address <span style="color:#e53;font-weight:900;">*</span></label>
+            <input type="email" id="email" name="email" placeholder="jordan@email.com" autocomplete="email">
+            <span class="field-error-msg">Enter a valid email — we'll send your next steps here.</span>
           </div>
           <div class="form-group">
-            <label>Phone (optional)</label>
-            <input type="tel" id="phone" placeholder="+44 7700 000000">
+            <label>Phone <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="+44 7700 000000">
           </div>
-          <div class="form-group">
-            <label>Collection Address</label>
-            <input type="text" id="address" placeholder="Your street address" required>
-          </div>
-          <button type="button" class="form-submit" onclick="goStep(2)">Next: Choose Service →</button>
+          <button type="button" class="form-submit" onclick="goStep(2)">Next: Your Trainers →</button>
         </div>
 
         <!-- STEP 2 -->
         <div id="step2" class="form-step" style="display:none;">
-          <h3 style="font-family:'Bangers',cursive;font-size:1.8rem;letter-spacing:0.04em;margin-bottom:1.5rem;">CHOOSE SERVICE</h3>
+          <h3 style="font-family:'Bangers',cursive;font-size:1.8rem;letter-spacing:0.04em;margin-bottom:1.5rem;">YOUR TRAINERS</h3>
           <label style="font-size:0.72rem;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#666;display:block;margin-bottom:0.7rem;">Service Type</label>
           <div class="service-options">
-            <div class="service-option" onclick="selectService(this,'Basic Clean','£12')">
-              <div class="sopt-name">🧹 BASIC CLEAN</div>
-              <div class="sopt-price">£12 / pair</div>
+            <div class="service-option" onclick="selectService(this,'Essential Clean','£12')">
+              <div class="sopt-name">🧹 ESSENTIAL CLEAN</div>
+              <div class="sopt-price">From £12 / pair</div>
             </div>
             <div class="service-option selected" onclick="selectService(this,'Deep Clean','£22')">
               <div class="sopt-name">🔥 DEEP CLEAN</div>
-              <div class="sopt-price">£22 / pair</div>
+              <div class="sopt-price">From £22 / pair</div>
             </div>
             <div class="service-option" onclick="selectService(this,'Restoration','£40')">
               <div class="sopt-name">✨ RESTORATION</div>
-              <div class="sopt-price">£40 / pair</div>
+              <div class="sopt-price">From £40 / pair</div>
             </div>
-            <div class="service-option" onclick="selectService(this,'Express','£28')">
-              <div class="sopt-name">⚡ EXPRESS</div>
-              <div class="sopt-price">£28 / pair</div>
+            <div class="service-option" onclick="selectService(this,'Resale Prep','£28')">
+              <div class="sopt-name">📦 RESALE PREP</div>
+              <div class="sopt-price">From £28 / pair</div>
             </div>
           </div>
           <div class="form-group">
             <label>Number of Pairs</label>
-            <select id="pairs">
+            <select id="pairs" name="pairs">
               <option value="1">1 pair</option>
               <option value="2">2 pairs</option>
               <option value="3">3 pairs</option>
@@ -401,12 +431,13 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Shoe Type / Model</label>
-            <input type="text" id="shoeType" placeholder="e.g. Nike Air Force 1, Jordan 1...">
+            <label>Shoe Type / Model <span style="color:#e53;font-weight:900;">*</span></label>
+            <input type="text" id="shoeType" name="shoe_type" placeholder="e.g. Nike Air Force 1, Jordan 1...">
+            <span class="field-error-msg">Tell us the shoe — it helps us prepare the right treatment.</span>
           </div>
           <div class="form-group">
             <label>Special Instructions</label>
-            <textarea id="notes" rows="3" placeholder="Any areas to focus on? Sole yellowing? Specific stains?"></textarea>
+            <textarea id="notes" name="notes" rows="3" placeholder="Any areas to focus on? Sole yellowing? Specific stains?"></textarea>
           </div>
           <div style="display:flex;gap:1rem;flex-wrap:wrap;">
             <button type="button" class="btn-comic btn-outline" onclick="goStep(1)" style="flex:1;min-width:100px;">← Back</button>
@@ -441,7 +472,7 @@
         <div class="success-title">BOOKING SENT!</div>
         <p class="success-msg">
           We've received your booking request.<br>
-          We'll confirm your slot and collection time via email within 1 hour.
+          We'll email you a prepaid returns label and next steps within a few hours.
         </p>
         <a href="index.html" class="btn-comic btn-orange" style="margin-top:0.5rem;">Back to Home</a>
       </div>
@@ -472,17 +503,17 @@
       <div class="sidebar-card">
         <h3>WHY KIQFRESH?</h3>
         <div class="sidebar-feature">
-          <div class="sf-icon">🚚</div>
+          <div class="sf-icon">📬</div>
           <div class="sf-text">
-            <strong>Free Collection & Delivery</strong>
-            <span>We come to you. No faff.</span>
+            <strong>Post To Us, We Return Them</strong>
+            <span>UK-wide postal service. We send them back spotless.</span>
           </div>
         </div>
         <div class="sidebar-feature">
           <div class="sf-icon">⚡</div>
           <div class="sf-text">
             <strong>Fast Turnaround</strong>
-            <span>24–48h standard. Same day express.</span>
+            <span>Cleaned and returned within 3–5 working days.</span>
           </div>
         </div>
         <div class="sidebar-feature">
@@ -504,8 +535,8 @@
       <div class="sidebar-card" id="priceSidebar">
         <h3>PRICE ESTIMATE</h3>
         <div class="price-summary">
-          <div class="price-row"><span id="pSvc">Deep Clean</span><span>£22</span></div>
-          <div class="price-row"><span>Collection</span><span>FREE</span></div>
+          <div class="price-row"><span id="pSvc">Deep Clean</span><span id="pPrice">£22</span></div>
+          <div class="price-row"><span>Return Postage</span><span>FREE</span></div>
           <div class="price-row" style="border-top:2px dashed rgba(0,0,0,0.1);padding-top:0.6rem;margin-top:0.2rem;">
             <span style="font-size:1rem;font-weight:900;">TOTAL</span>
             <span class="price-total" id="pTotal">£22</span>
@@ -520,7 +551,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand"><span class="logo-text">KiqFresh</span><p>The sneaker cleaning service that hits different.</p></div>
-    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Basic Clean</a></li><li><a href="services.html">Deep Clean</a></li><li><a href="services.html">Restoration</a></li><li><a href="services.html">Express</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Essential Clean</a></li><li><a href="services.html">Deep Clean</a></li><li><a href="services.html">Restoration</a></li><li><a href="services.html">Resale Prep</a></li></ul></div>
     <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="results.html">Results</a></li><li><a href="booking.html">Book Now</a></li></ul></div>
     <div class="footer-col"><h4>Social</h4><ul><li><a href="#">TikTok</a></li><li><a href="#">Instagram</a></li><li><a href="#">Twitter</a></li></ul></div>
   </div>
@@ -532,7 +563,46 @@
   let selectedService = 'Deep Clean';
   let selectedPrice = '£22';
 
+  function getCurrentStep() {
+    for (let i = 1; i <= 3; i++) {
+      const el = document.getElementById('step' + i);
+      if (el && el.style.display !== 'none') return i;
+    }
+    return 1;
+  }
+
+  function checkField(id, testFn, errMsg) {
+    const el = document.getElementById(id);
+    if (!el) return true;
+    const group = el.closest('.form-group');
+    const val = el.value.trim();
+    if (!testFn(val)) {
+      group.classList.add('has-error');
+      const span = group.querySelector('.field-error-msg');
+      if (span && errMsg) span.textContent = errMsg;
+      el.addEventListener('input', () => group.classList.remove('has-error'), { once: true });
+      return false;
+    }
+    group.classList.remove('has-error');
+    return true;
+  }
+
+  function validateStep(n) {
+    let ok = true;
+    if (n === 1) {
+      ok = checkField('fname',  v => v.length > 0,  'First name is required.') & ok;
+      ok = checkField('lname',  v => v.length > 0,  'Last name is required.') & ok;
+      ok = checkField('email',  v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Enter a valid email — we\'ll send your next steps here.') & ok;
+    }
+    if (n === 2) {
+      ok = checkField('shoeType', v => v.length > 0, 'Tell us the shoe — it helps us prepare the right treatment.') & ok;
+    }
+    return !!ok;
+  }
+
   function goStep(n) {
+    const current = getCurrentStep();
+    if (n > current && !validateStep(current)) return;
     [1,2,3].forEach(i => {
       const el = document.getElementById('step'+i);
       if (el) el.style.display = n === i ? 'block' : 'none';
@@ -554,7 +624,9 @@
     el.classList.add('selected');
     selectedService = name;
     selectedPrice = price;
+    document.getElementById('selectedServiceInput').value = name;
     document.getElementById('pSvc').textContent = name;
+    document.getElementById('pPrice').textContent = price;
     document.getElementById('pTotal').textContent = price;
     updateSummary();
   }
@@ -587,13 +659,10 @@
     dz.style.background = 'rgba(245,84,10,0.04)';
   }
 
-  // Form submit
-  document.getElementById('bookingForm').addEventListener('submit', e => {
-    e.preventDefault();
+  function showSuccess() {
     document.getElementById('step3').style.display = 'none';
     const ss = document.getElementById('successScreen');
     ss.style.display = 'flex';
-    // Update steps
     ['sb1','sb2','sb3'].forEach(id => {
       const el = document.getElementById(id);
       el.classList.remove('active');
@@ -601,6 +670,32 @@
       el.textContent = '✓';
     });
     ['sl1','sl2'].forEach(id => document.getElementById(id).classList.add('done'));
+  }
+
+  // Form submit — real Web3Forms fetch
+  document.getElementById('bookingForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const submitBtn = e.target.querySelector('[type="submit"]');
+    submitBtn.textContent = 'Sending…';
+    submitBtn.disabled = true;
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: new FormData(e.target)
+      });
+      const json = await res.json();
+      if (json.success) {
+        showSuccess();
+      } else {
+        alert('Something went wrong: ' + (json.message || 'Please try again.'));
+        submitBtn.textContent = 'Confirm Booking ✓';
+        submitBtn.disabled = false;
+      }
+    } catch {
+      alert('Connection error. Please check your internet and try again.');
+      submitBtn.textContent = 'Confirm Booking ✓';
+      submitBtn.disabled = false;
+    }
   });
 
   // Pairs change
