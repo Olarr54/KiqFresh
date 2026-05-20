@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KiqFresh — Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bangers&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ===== SERVICES CARDS ===== */
+#services-section {
+  padding: 6rem 5%;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 3rem auto 0;
+}
+.service-card {
+  background: white;
+  border: 3.5px solid var(--black);
+  border-radius: 22px;
+  box-shadow: 6px 6px 0 var(--black);
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.service-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--black);
+}
+.service-card.featured {
+  border-color: var(--orange);
+  box-shadow: 6px 6px 0 var(--orange);
+}
+.service-card.featured:hover {
+  box-shadow: 9px 9px 0 var(--orange);
+}
+.service-sticker {
+  position: absolute;
+  top: -2px; right: 1.5rem;
+  background: var(--orange);
+  color: white;
+  font-weight: 900;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.9rem;
+  border: 2px solid var(--black);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 2px 3px 0 var(--black);
+}
+.service-icon {
+  width: 68px; height: 68px;
+  background: var(--cream);
+  border: 3px solid var(--black);
+  border-radius: 16px;
+  box-shadow: 3px 3px 0 var(--black);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s;
+}
+.service-card:hover .service-icon { transform: rotate(-8deg) scale(1.1); }
+.service-name {
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.6rem;
+  color: var(--black);
+}
+.service-desc {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.service-includes {
+  list-style: none;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.service-includes li {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.service-includes li::before {
+  content: '✓';
+  background: var(--orange);
+  color: white;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--black);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+.service-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.service-price {
+  font-family: 'Bangers', cursive;
+  font-size: 2.4rem;
+  letter-spacing: 0.02em;
+  color: var(--orange);
+  line-height: 1;
+}
+.service-price small {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #888;
+}
+
+/* ===== PROCESS ===== */
+#process {
+  padding: 7rem 5%;
+  background: white;
+  border-top: 3.5px solid var(--black);
+}
+.process-header { text-align: center; margin-bottom: 4rem; }
+.process-steps {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+.process-steps::before {
+  content: '';
+  position: absolute;
+  left: 35px;
+  top: 40px; bottom: 40px;
+  width: 3px;
+  background: repeating-linear-gradient(to bottom, var(--black) 0px, var(--black) 8px, transparent 8px, transparent 16px);
+}
+@media(max-width:600px){
+  .process-steps::before{ left:30px; }
+}
+.process-step {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 1.5rem 0;
+}
+.step-num {
+  width: 72px; height: 72px;
+  background: var(--orange);
+  border: 3.5px solid var(--black);
+  border-radius: 50%;
+  box-shadow: 4px 4px 0 var(--black);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bangers', cursive;
+  font-size: 1.8rem;
+  letter-spacing: 0.05em;
+  color: white;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.step-content {
+  padding-top: 0.5rem;
+}
+.step-title {
+  font-family: 'Bangers', cursive;
+  font-size: 1.6rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+  color: var(--black);
+}
+.step-desc {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ===== SERVICE BA SLIDER ===== */
+#service-ba {
+  padding: 6rem 5%;
+  background: var(--white);
+  border-top: 3.5px solid var(--black);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.sba-wrap { max-width: 860px; margin: 3rem auto 0; }
+.sba-container {
+  position: relative;
+  border: 3.5px solid var(--black);
+  border-radius: 22px;
+  box-shadow: 8px 8px 0 var(--black);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  user-select: none;
+  cursor: ew-resize;
+}
+.sba-side { position: absolute; inset: 0; }
+.sba-before { background: var(--cream); }
+.sba-after {
+  background: var(--white);
+  clip-path: inset(0 50% 0 0);
+}
+.sba-side img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  transition: opacity 0.35s ease;
+}
+.sba-side img.fading { opacity: 0; }
+.sba-badge {
+  position: absolute;
+  bottom: 1.2rem;
+  font-family: 'Bangers', cursive;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  background: var(--black);
+  color: white;
+  padding: 0.3rem 0.9rem;
+  border-radius: 8px;
+  z-index: 4;
+}
+.sba-before .sba-badge { left: 1.5rem; }
+.sba-after  .sba-badge { right: 1.5rem; color: var(--blue); }
+.sba-divider {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  background: var(--blue);
+  border-left: 2px solid var(--black);
+  border-right: 2px solid var(--black);
+  z-index: 5;
+  pointer-events: none;
+}
+.sba-handle {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 3.5px solid var(--black);
+  box-shadow: 4px 4px 0 var(--black);
+  display: flex; align-items: center; justify-content: center;
+  cursor: ew-resize;
+  z-index: 6;
+  font-size: 1.1rem;
+  pointer-events: all;
+  transition: transform 0.15s;
+  color: white;
+}
+.sba-handle:hover { transform: translate(-50%, -50%) scale(1.1); }
+.sba-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+.sba-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.15);
+  border: 2px solid var(--black);
+  cursor: pointer; padding: 0;
+  transition: background 0.25s, transform 0.25s;
+}
+.sba-dot.active { background: var(--blue); transform: scale(1.3); }
+.sba-caption {
+  margin-top: 0.8rem;
+  font-family: 'Bangers', cursive;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  color: rgba(0,0,0,0.4);
+}
+
+/* ===== FAQ ===== */
+#faq {
+  padding: 7rem 5%;
+  background: var(--cream);
+  border-top: 3.5px solid var(--black);
+}
+.faq-list {
+  max-width: 750px;
+  margin: 3rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.faq-item {
+  background: white;
+  border: 3.5px solid var(--black);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--black);
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+.faq-question {
+  width: 100%;
+  padding: 1.3rem 1.5rem;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--black);
+}
+.faq-question .faq-arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+  color: var(--orange);
+}
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+  padding: 0 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #555;
+  line-height: 1.7;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-item.open .faq-answer {
+  max-height: 300px;
+  padding: 0 1.5rem 1.3rem;
+}
+</style>
+</head>
+<body>
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="KiqFresh" class="nav-logo-img"></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="results.html">Results</a></li>
+    <li><a href="booking.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <button class="nav-burger" id="navBurger"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <span class="deco-star" style="top:3rem;right:22%;color:rgba(17,17,17,0.07);font-size:2.5rem;animation:sparkle 3s ease-in-out infinite;">✦</span>
+  <span class="deco-star" style="bottom:2rem;right:10%;color:rgba(165,210,255,0.4);font-size:1.5rem;animation:sparkle 2.5s ease-in-out infinite;animation-delay:1s;">✦</span>
+  <div class="page-header-inner">
+    <span class="section-tag">What We Do</span>
+    <h1>OUR<br>SERVICES.</h1>
+    <p>From a quick refresh to a full restoration — we have a service for every pair and every budget.</p>
+  </div>
+  <div class="page-header-deco">CLEAN</div>
+</div>
+
+<!-- SERVICES -->
+<section id="services-section">
+  <span class="deco-star" style="top:1.5rem;right:2%;color:rgba(17,17,17,0.04);font-size:6rem;">✦</span>
+  <span class="deco-star" style="bottom:2rem;left:2%;color:rgba(165,210,255,0.3);font-size:2rem;animation:sparkle 3.5s ease-in-out infinite;animation-delay:0.5s;">✦</span>
+  <div style="text-align:center;">
+    <h2 class="graffiti-heading reveal">PICK YOUR<br><span style="color:var(--orange);">PACKAGE.</span></h2>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <div class="service-icon">🧹</div>
+      <div class="service-name">BASIC CLEAN</div>
+      <p class="service-desc">A solid refresh for everyday kicks. Exterior clean, midsole wipe-down, lace re-tie. In and out.</p>
+      <ul class="service-includes">
+        <li>Full exterior clean</li>
+        <li>Midsole wipe down</li>
+        <li>Lace refresh</li>
+        <li>Deodorising spray</li>
+      </ul>
+      <div class="service-price-row">
+        <div class="service-price">£12 <small>/ pair</small></div>
+        <a href="booking.html" class="btn-comic btn-outline" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
+      </div>
+    </div>
+
+    <div class="service-card featured reveal">
+      <div class="service-sticker">Most Popular</div>
+      <div class="service-icon" style="background:var(--orange);">🔥</div>
+      <div class="service-name">DEEP CLEAN</div>
+      <p class="service-desc">Full interior and exterior treatment. We go in deep — insoles, tongue, toebox, sole edges. Everything.</p>
+      <ul class="service-includes">
+        <li>Full interior + exterior</li>
+        <li>Insole deodorize + refresh</li>
+        <li>Sole scrub + whitening</li>
+        <li>Lace wash + re-lace</li>
+        <li>Crease reduction</li>
+      </ul>
+      <div class="service-price-row">
+        <div class="service-price">£22 <small>/ pair</small></div>
+        <a href="booking.html" class="btn-comic btn-orange" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon" style="background:var(--black);">✨</div>
+      <div class="service-name">RESTORATION</div>
+      <p class="service-desc">For your special pairs. Sole repaint, midsole restore, crease treatment, full condition and protect.</p>
+      <ul class="service-includes">
+        <li>Everything in Deep Clean</li>
+        <li>Midsole repaint</li>
+        <li>Sole whitening + repaint</li>
+        <li>Crease removal treatment</li>
+        <li>Protective coating</li>
+      </ul>
+      <div class="service-price-row">
+        <div class="service-price">£40 <small>/ pair</small></div>
+        <a href="booking.html" class="btn-comic btn-outline" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon" style="background:var(--blue);">⚡</div>
+      <div class="service-name">EXPRESS</div>
+      <p class="service-desc">Same-day turnaround. Drop them off in the morning, get them back looking fresh by evening.</p>
+      <ul class="service-includes">
+        <li>Full exterior clean</li>
+        <li>Midsole refresh</li>
+        <li>Lace clean</li>
+        <li>Same-day return</li>
+      </ul>
+      <div class="service-price-row">
+        <div class="service-price">£28 <small>/ pair</small></div>
+        <a href="booking.html" class="btn-comic btn-blue" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICE BEFORE/AFTER SLIDER -->
+<section id="service-ba">
+  <span class="deco-star" style="top:2rem;left:3%;color:rgba(17,17,17,0.04);font-size:5rem;">✦</span>
+  <span class="deco-star" style="top:2rem;right:3%;color:rgba(165,210,255,0.35);font-size:2rem;animation:sparkle 3s ease-in-out infinite;animation-delay:0.4s;">✦</span>
+  <span class="deco-star" style="bottom:2.5rem;right:5%;color:rgba(165,210,255,0.22);font-size:1.3rem;animation:sparkle 2.5s ease-in-out infinite;animation-delay:1.6s;">✦</span>
+  <span class="section-tag">Proof In The Pudding</span>
+  <h2 class="graffiti-heading reveal">DRAG TO<br><span style="color:var(--blue);">REVEAL.</span></h2>
+  <p style="color:#555;font-weight:700;margin:0.6rem auto 0;max-width:440px;">Auto-cycling through real transformations. Drag the handle to explore.</p>
+  <div class="sba-wrap">
+    <div class="sba-container" id="sbaContainer">
+      <div class="sba-side sba-before">
+        <img id="sbaBeforeImg" src="before1.jpg" alt="Before cleaning">
+        <span class="sba-badge">BEFORE</span>
+      </div>
+      <div class="sba-side sba-after" id="sbaAfterDiv">
+        <img id="sbaAfterImg" src="after1.jpg" alt="After cleaning">
+        <span class="sba-badge">AFTER</span>
+      </div>
+      <div class="sba-divider" id="sbaDivider">
+        <div class="sba-handle" id="sbaHandle">⟺</div>
+      </div>
+    </div>
+    <div class="sba-dots">
+      <button class="sba-dot active" data-pair="0" aria-label="Pair 1"></button>
+      <button class="sba-dot"        data-pair="1" aria-label="Pair 2"></button>
+      <button class="sba-dot"        data-pair="2" aria-label="Pair 3"></button>
+    </div>
+    <p class="sba-caption" id="sbaPairLabel">Nike Air Force 1</p>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="process-header">
+    <span class="section-tag">How It Works</span>
+    <h2 class="graffiti-heading reveal">THE<br><span style="color:var(--orange);">PROCESS.</span></h2>
+    <p style="color:#555;font-weight:700;margin-top:0.5rem;font-size:1rem;">5 steps from dirty to done.</p>
+  </div>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">BOOK ONLINE</div>
+        <p class="step-desc">Fill in the booking form, choose your service, and upload photos of your kicks. We'll confirm your slot instantly.</p>
+      </div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num" style="background:var(--blue);">02</div>
+      <div class="step-content">
+        <div class="step-title">WE COLLECT</div>
+        <p class="step-desc">Free collection from your door. We'll wrap your kicks carefully and bring them to our cleaning studio.</p>
+      </div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num" style="background:var(--black);">03</div>
+      <div class="step-content">
+        <div class="step-title">THE DEEP CLEAN</div>
+        <p class="step-desc">Our specialists get to work — brushes, solutions, ultrasonic treatment, sole whitening. Every millimetre covered.</p>
+      </div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num" style="background:var(--orange);">04</div>
+      <div class="step-content">
+        <div class="step-title">QUALITY CHECK</div>
+        <p class="step-desc">Every pair goes through a final inspection. We send you a before/after photo so you can see the result yourself.</p>
+      </div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num" style="background:var(--blue);">05</div>
+      <div class="step-content">
+        <div class="step-title">DELIVERED BACK</div>
+        <p class="step-desc">Your freshly cleaned kicks are wrapped, packaged, and delivered back to you. Job done. Looking dead clean.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div style="text-align:center;">
+    <span class="section-tag">FAQ</span>
+    <h2 class="graffiti-heading reveal">GOT<br><span style="color:var(--blue);">QUESTIONS?</span></h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <button class="faq-question">How long does cleaning take? <span class="faq-arrow">▼</span></button>
+      <div class="faq-answer">Standard cleaning takes 24–48 hours. Our Express service is same-day. For restoration work, allow up to 72 hours depending on the condition of the shoes.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question">Do you offer free pickup and delivery? <span class="faq-arrow">▼</span></button>
+      <div class="faq-answer">Yes — free collection and delivery is included with every service. We cover the local area; reach out if you're further afield and we'll work something out.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question">What shoe types do you clean? <span class="faq-arrow">▼</span></button>
+      <div class="faq-answer">We clean all types — leather, suede, mesh, canvas, knit. Air Forces, Jordan 1s, Yeezys, TNs, Samba, Ultraboost. If you're not sure, just send us a message and we'll let you know.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question">Are the products safe for my shoes? <span class="faq-arrow">▼</span></button>
+      <div class="faq-answer">Yes. We use premium sneaker-specific cleaning solutions that are safe for all materials including suede and nubuck. We always test on a small area first when dealing with delicate pairs.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question">Can you restore really wrecked shoes? <span class="faq-arrow">▼</span></button>
+      <div class="faq-answer">Often yes. Send us photos first and we'll give you an honest assessment. We've brought back some seriously beaten-up pairs — but we'll always tell you upfront if something isn't fixable.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL VIDEOS -->
+<section id="social-videos">
+  <span class="deco-star" style="top:0;left:1%;color:rgba(252,255,255,0.03);font-size:8rem;">✦</span>
+  <span class="deco-star" style="top:8%;right:4%;color:rgba(165,210,255,0.18);font-size:2.8rem;animation:sparkle 3.2s ease-in-out infinite;animation-delay:0.5s;">✦</span>
+  <span class="deco-star" style="bottom:12%;left:4%;color:rgba(252,255,255,0.12);font-size:1.8rem;animation:sparkle 2.6s ease-in-out infinite;animation-delay:1.5s;">✦</span>
+  <span class="deco-star" style="bottom:5%;right:7%;color:rgba(165,210,255,0.15);font-size:1.2rem;animation:sparkle 3.8s ease-in-out infinite;animation-delay:2.2s;">✦</span>
+  <span class="section-tag">On TikTok</span>
+  <h2 class="graffiti-heading">SEE US<br><span style="color:var(--blue);">WORK.</span></h2>
+  <p class="vid-sub">Real cleans. Real results. Watch us go.</p>
+  <div class="video-grid">
+    <div class="video-card">
+      <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
+        <source src="tiktokvid1.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-card">
+      <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
+        <source src="tiktokvid2.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-card">
+      <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
+        <source src="tiktokvid3.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+  <div style="margin-top:2.5rem;">
+    <a href="https://www.tiktok.com/@kiqfresh" target="_blank" rel="noopener noreferrer" class="btn-social">
+      Follow us on TikTok ✦
+    </a>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <span class="deco-star" style="top:1.5rem;left:3%;color:rgba(17,17,17,0.08);font-size:3.5rem;animation:sparkle 3.2s ease-in-out infinite;">✦</span>
+  <span class="deco-star" style="bottom:1.5rem;right:4%;color:rgba(17,17,17,0.06);font-size:2.5rem;animation:sparkle 2.8s ease-in-out infinite;animation-delay:1.1s;">✦</span>
+  <span class="deco-star" style="top:50%;right:8%;color:rgba(17,17,17,0.05);font-size:1.5rem;animation:sparkle 3.5s ease-in-out infinite;animation-delay:0.7s;">✦</span>
+  <h2>READY TO GET<br>THEM FRESH?</h2>
+  <p>Book in seconds. Free collection. Results that slap.</p>
+  <a href="booking.html" class="btn-comic btn-black">Book Your Clean →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-text">KiqFresh</span>
+      <p>The sneaker cleaning service that hits different. Professional results with playful energy.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html">Basic Clean</a></li>
+        <li><a href="services.html">Deep Clean</a></li>
+        <li><a href="services.html">Restoration</a></li>
+        <li><a href="services.html">Express Clean</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="booking.html">Book Now</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Social</h4>
+      <ul>
+        <li><a href="#">TikTok</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Twitter / X</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 KiqFresh. All rights reserved.</p>
+    <p>Fresh kicks only. ✦</p>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ===== AUTO-CYCLING BA SLIDER =====
+  (function() {
+    const container  = document.getElementById('sbaContainer');
+    const afterDiv   = document.getElementById('sbaAfterDiv');
+    const divider    = document.getElementById('sbaDivider');
+    const handle     = document.getElementById('sbaHandle');
+    const beforeImg  = document.getElementById('sbaBeforeImg');
+    const afterImg   = document.getElementById('sbaAfterImg');
+    const caption    = document.getElementById('sbaPairLabel');
+    const dots       = document.querySelectorAll('.sba-dot');
+
+    const pairs = [
+      { before: 'before1.jpg', after: 'after1.jpg', label: 'Nike Air Force 1',         pos: 'center 40%' },
+      { before: 'before2.png', after: 'after2.png', label: 'AF1 — Midsole Clean',       pos: 'center 28%' },
+      { before: 'before3.png', after: 'after3.png', label: 'Jordan 11 — Restoration',   pos: 'center 28%' }
+    ];
+
+    let current = 0, dragging = false, timer;
+
+    function setPos(pct) {
+      afterDiv.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      divider.style.left = pct + '%';
+    }
+
+    function goTo(idx, animate) {
+      const p = pairs[idx];
+      if (animate) {
+        beforeImg.classList.add('fading');
+        afterImg.classList.add('fading');
+        setTimeout(function() {
+          beforeImg.src = p.before;
+          afterImg.src  = p.after;
+          beforeImg.style.objectPosition = p.pos;
+          afterImg.style.objectPosition  = p.pos;
+          beforeImg.classList.remove('fading');
+          afterImg.classList.remove('fading');
+          setPos(50);
+        }, 350);
+      } else {
+        beforeImg.src = p.before;
+        afterImg.src  = p.after;
+        beforeImg.style.objectPosition = p.pos;
+        afterImg.style.objectPosition  = p.pos;
+        setPos(50);
+      }
+      caption.textContent = p.label;
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+      current = idx;
+    }
+
+    function startCycle() {
+      clearInterval(timer);
+      timer = setInterval(function() {
+        if (!dragging) goTo((current + 1) % pairs.length, true);
+      }, 4000);
+    }
+
+    function dragTo(x) {
+      var r = container.getBoundingClientRect();
+      setPos(Math.max(5, Math.min(95, ((x - r.left) / r.width) * 100)));
+    }
+
+    handle.addEventListener('mousedown',  function() { dragging = true;  clearInterval(timer); });
+    document.addEventListener('mouseup',  function() { if (dragging) { dragging = false; startCycle(); } });
+    document.addEventListener('mousemove',function(e){ if (dragging) dragTo(e.clientX); });
+    handle.addEventListener('touchstart', function() { dragging = true;  clearInterval(timer); }, { passive: true });
+    document.addEventListener('touchend', function() { if (dragging) { dragging = false; startCycle(); } });
+    document.addEventListener('touchmove',function(e){ if (dragging) dragTo(e.touches[0].clientX); }, { passive: true });
+
+    dots.forEach(function(dot, i) {
+      dot.addEventListener('click', function() { clearInterval(timer); goTo(i, true); startCycle(); });
+    });
+
+    goTo(0, false);
+    startCycle();
+  })();
+</script>
+</body>
+</html>
