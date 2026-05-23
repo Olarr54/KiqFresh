@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; object-src 'none'; frame-src 'none'">
+<title>Page Not Found | Kiq Fresh</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="icon" type="image/jpeg" href="logo.jpeg">
+<link rel="apple-touch-icon" href="logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bangers&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+#not-found {
+  min-height: 100vh;
+  background: var(--black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 5%;
+  position: relative;
+  overflow: hidden;
+}
+.nf-bg-word {
+  position: absolute;
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(18rem, 40vw, 36rem);
+  color: rgba(255,255,255,0.025);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 0.03em;
+}
+.nf-tag {
+  background: var(--orange);
+  color: var(--black);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.35rem 1rem;
+  border-radius: 100px;
+  border: 2.5px solid rgba(255,255,255,0.3);
+  box-shadow: 2px 2px 0 rgba(255,255,255,0.15);
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+.nf-number {
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(7rem, 22vw, 16rem);
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  color: var(--orange);
+  text-shadow: 8px 8px 0 rgba(165,210,255,0.15);
+  position: relative;
+  z-index: 1;
+}
+.nf-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  letter-spacing: 0.05em;
+  color: white;
+  margin: 0.5rem 0 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+.nf-desc {
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.45);
+  max-width: 400px;
+  line-height: 1.65;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+.nf-btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+.nf-shoe {
+  font-size: clamp(4rem, 10vw, 7rem);
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+  animation: nfBob 2.5s ease-in-out infinite;
+}
+@keyframes nfBob {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50%       { transform: translateY(-18px) rotate(5deg); }
+}
+.nf-deco {
+  position: absolute;
+  font-family: 'Bangers', cursive;
+  pointer-events: none;
+  user-select: none;
+  color: rgba(165,210,255,0.08);
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo"><img src="logo.jpeg" alt="KiqFresh" class="nav-logo-img"></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="results.html">Results</a></li>
+    <li><a href="booking.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <button class="nav-burger" id="navBurger"><span></span><span></span><span></span></button>
+</nav>
+
+<section id="not-found">
+  <span class="nf-bg-word" aria-hidden="true">404</span>
+  <span class="nf-deco" style="top:8%;left:5%;font-size:3rem;">✦</span>
+  <span class="nf-deco" style="top:15%;right:8%;font-size:2rem;">✦</span>
+  <span class="nf-deco" style="bottom:12%;left:8%;font-size:1.5rem;">✦</span>
+  <span class="nf-deco" style="bottom:20%;right:5%;font-size:2.5rem;">✦</span>
+
+  <span class="nf-shoe" aria-hidden="true">👟</span>
+  <span class="nf-tag">Lost pair</span>
+  <div class="nf-number">404</div>
+  <div class="nf-title">These kicks weren't found.</div>
+  <p class="nf-desc">The page you're looking for has gone missing — kind of like a single trainer under the bed. Let's get you back on track.</p>
+  <div class="nf-btns">
+    <a href="index.html" class="btn-comic btn-orange">Back to Home →</a>
+    <a href="booking.html" class="btn-comic btn-outline" style="color:white;border-color:rgba(255,255,255,0.3);box-shadow:4px 4px 0 rgba(255,255,255,0.1);">Book a Clean</a>
+  </div>
+</section>
+
+<script src="shared.js"></script>
+</body>
+</html>

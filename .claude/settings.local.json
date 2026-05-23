@@ -4,7 +4,12 @@
       "Bash(dir C:\\\\Users\\\\suboo\\\\OneDrive\\\\Documents\\\\KiqFresh\\\\build *)",
       "Bash(dir C:\\\\Users\\\\suboo\\\\OneDrive\\\\Documents\\\\KiqFresh\\\\build\\\\logo* *)",
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\suboo\\\\OneDrive\\\\Documents\\\\KiqFresh\\\\build\\\\\" | Where-Object { $_.Name -match \"tiktok\" })",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git commit -m ' *#)",
+      "Bash(rm tiktokvid1.mp4 tiktokvid2.mp4 tiktokvid3.mp4 tiktokvid4.mp4)",
+      "Bash(ls *.mp4)"
     ]
   }
 }
