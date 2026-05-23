@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.web3forms.com; img-src 'self' data: blob:; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'; frame-src 'none'">
 <title>Kiq Fresh | Professional Shoe Cleaning Service UK | Post Your Trainers, Get Them Back Fresh</title>
 <meta name="description" content="Kiq Fresh is a trusted UK postal shoe cleaning service. Post us your trainers, we deep clean them and return them spotless. Fully insured, signed return contract guaranteed. Founded by a trained shoe care professional. Book today.">
 <meta name="keywords" content="shoe cleaning service UK, professional trainer cleaning, send shoes for cleaning, postal shoe cleaning UK, deep clean sneakers UK, shoe restoration service, trusted shoe cleaning, trainer cleaning by post">
@@ -727,6 +731,7 @@
   </div>
 </footer>
 
+<script src="security.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="shared.js"></script>
@@ -873,21 +878,45 @@
     }
   });
 
-  /* ── Email signup ── */
+  /* ── Email signup (secured) ── */
   document.getElementById('emailSignupForm').addEventListener('submit', async e => {
     e.preventDefault();
+    const form = e.target;
     const btn  = document.getElementById('ecBtn');
     const note = document.getElementById('ecNote');
+
+    // Bot check
+    if (!KiqSecurity.honeypotClean(form)) return;
+
+    // Rate limit: max 2 signups per 30 min from this browser
+    const rl = KiqSecurity.rateLimit('email_signup', 2, 30 * 60 * 1000);
+    if (!rl.allowed) {
+      note.textContent = `Too many attempts. Please wait ${Math.ceil(rl.wait / 60)} minutes.`;
+      note.style.color = 'rgba(255,100,100,0.7)';
+      return;
+    }
+
+    // Strict email validation
+    const emailInput = form.querySelector('input[type="email"]');
+    if (!KiqSecurity.validate.email(emailInput.value)) {
+      note.textContent = 'Please enter a valid email address.';
+      note.style.color = 'rgba(255,100,100,0.7)';
+      return;
+    }
+
     btn.textContent = 'Sending…';
     btn.disabled = true;
+    note.style.color = 'rgba(255,255,255,0.22)';
+    note.textContent = 'No spam. Unsubscribe any time.';
+
     try {
-      const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(e.target) });
+      const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: KiqSecurity.cleanFormData(new FormData(form)) });
       const json = await res.json();
       if (json.success) {
         btn.textContent = 'SUBSCRIBED ✓';
         note.textContent = "You're on the list!";
         note.style.color = 'rgba(165,210,255,0.7)';
-        e.target.querySelector('input[type="email"]').value = '';
+        emailInput.value = '';
       } else {
         btn.textContent = 'JOIN THE LIST ✦';
         btn.disabled = false;

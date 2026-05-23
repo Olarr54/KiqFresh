@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.web3forms.com; img-src 'self' data: blob:; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'; frame-src 'none'">
 <title>Book a Shoe Clean | Kiq Fresh UK Postal Shoe Cleaning Service</title>
 <meta name="description" content="Book your Kiq Fresh shoe clean online. Choose your service, post your trainers to us, and get them back spotless. Fully insured, signed return contract. UK wide.">
 <meta property="og:type" content="website">
@@ -388,23 +392,23 @@
           <div class="form-row">
             <div class="form-group" style="margin-bottom:0;">
               <label>First Name <span style="color:#e53;font-weight:900;">*</span></label>
-              <input type="text" id="fname" name="first_name" placeholder="Jordan" autocomplete="given-name">
+              <input type="text" id="fname" name="first_name" placeholder="Jordan" autocomplete="given-name" maxlength="60" spellcheck="false">
               <span class="field-error-msg">First name is required.</span>
             </div>
             <div class="form-group" style="margin-bottom:0;">
               <label>Last Name <span style="color:#e53;font-weight:900;">*</span></label>
-              <input type="text" id="lname" name="last_name" placeholder="Smith" autocomplete="family-name">
+              <input type="text" id="lname" name="last_name" placeholder="Smith" autocomplete="family-name" maxlength="60" spellcheck="false">
               <span class="field-error-msg">Last name is required.</span>
             </div>
           </div>
           <div class="form-group">
             <label>Email Address <span style="color:#e53;font-weight:900;">*</span></label>
-            <input type="email" id="email" name="email" placeholder="jordan@email.com" autocomplete="email">
+            <input type="email" id="email" name="email" placeholder="jordan@email.com" autocomplete="email" maxlength="254">
             <span class="field-error-msg">Enter a valid email. We'll send your next steps here.</span>
           </div>
           <div class="form-group">
             <label>Phone <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
-            <input type="tel" id="phone" name="phone" placeholder="+44 7700 000000">
+            <input type="tel" id="phone" name="phone" placeholder="+44 7700 000000" autocomplete="tel" maxlength="25">
           </div>
           <button type="button" class="form-submit" onclick="goStep(2)">Next: Your Trainers →</button>
         </div>
@@ -447,12 +451,12 @@
           </div>
           <div class="form-group">
             <label>Shoe Type / Model <span style="color:#e53;font-weight:900;">*</span></label>
-            <input type="text" id="shoeType" name="shoe_type" placeholder="e.g. Nike Air Force 1, Jordan 1...">
+            <input type="text" id="shoeType" name="shoe_type" placeholder="e.g. Nike Air Force 1, Jordan 1..." maxlength="120">
             <span class="field-error-msg">Tell us the shoe. It helps us prepare the right treatment.</span>
           </div>
           <div class="form-group">
             <label>Special Instructions</label>
-            <textarea id="notes" name="notes" rows="3" placeholder="Any areas to focus on? Sole yellowing? Specific stains?"></textarea>
+            <textarea id="notes" name="notes" rows="3" placeholder="Any areas to focus on? Sole yellowing? Specific stains?" maxlength="1000"></textarea>
           </div>
           <div style="display:flex;gap:1rem;flex-wrap:wrap;">
             <button type="button" class="btn-comic btn-outline" onclick="goStep(1)" style="flex:1;min-width:100px;">← Back</button>
@@ -622,6 +626,7 @@
   </div>
 </footer>
 
+<script src="security.js"></script>
 <script src="shared.js"></script>
 <script>
   let selectedService = 'Deep Clean';
@@ -740,27 +745,84 @@
     ['sl1','sl2'].forEach(id => document.getElementById(id).classList.add('done'));
   }
 
-  // Form submit
+  // Form submit (secured)
   document.getElementById('bookingForm').addEventListener('submit', async e => {
     e.preventDefault();
-    const submitBtn = e.target.querySelector('[type="submit"]');
+    const form = e.target;
+
+    // Bot check
+    if (!KiqSecurity.honeypotClean(form)) return;
+
+    // Rate limit: max 3 bookings per hour from this browser
+    const rl = KiqSecurity.rateLimit('booking_submit', 3, 60 * 60 * 1000);
+    if (!rl.allowed) {
+      KiqSecurity.showError(form, `Too many submissions. Please wait ${Math.ceil(rl.wait / 60)} minutes and try again.`);
+      return;
+    }
+
+    // Validate individual fields
+    const fname = document.getElementById('fname').value;
+    const lname = document.getElementById('lname').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const shoeType = document.getElementById('shoeType').value;
+    const notes = document.getElementById('notes').value;
+
+    if (!KiqSecurity.validate.name(fname)) {
+      KiqSecurity.showError(form, 'First name contains invalid characters.');
+      return;
+    }
+    if (!KiqSecurity.validate.name(lname)) {
+      KiqSecurity.showError(form, 'Last name contains invalid characters.');
+      return;
+    }
+    if (!KiqSecurity.validate.email(email)) {
+      KiqSecurity.showError(form, 'Please enter a valid email address.');
+      return;
+    }
+    if (!KiqSecurity.validate.phone(phone)) {
+      KiqSecurity.showError(form, 'Phone number format is invalid.');
+      return;
+    }
+    if (!KiqSecurity.validate.shoeType(shoeType)) {
+      KiqSecurity.showError(form, 'Please describe the shoe type (max 120 characters).');
+      return;
+    }
+    if (!KiqSecurity.validate.text(notes, 1000)) {
+      KiqSecurity.showError(form, 'Notes must be under 1000 characters and contain no HTML tags.');
+      return;
+    }
+
+    // File upload security check
+    const fi = document.getElementById('fileInput');
+    if (fi && fi.files.length) {
+      const fv = KiqSecurity.validateFiles(fi.files);
+      if (!fv.ok) {
+        KiqSecurity.showError(form, fv.msg);
+        return;
+      }
+    }
+
+    KiqSecurity.clearError(form);
+    const submitBtn = form.querySelector('[type="submit"]');
     submitBtn.textContent = 'Sending…';
     submitBtn.disabled = true;
+
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: new FormData(e.target)
+        body: KiqSecurity.cleanFormData(new FormData(form))
       });
       const json = await res.json();
       if (json.success) {
         showSuccess();
       } else {
-        alert('Something went wrong: ' + (json.message || 'Please try again.'));
+        KiqSecurity.showError(form, 'Something went wrong: ' + (json.message || 'Please try again.'));
         submitBtn.textContent = 'Confirm Booking ✓';
         submitBtn.disabled = false;
       }
     } catch {
-      alert('Connection error. Please check your internet and try again.');
+      KiqSecurity.showError(form, 'Connection error. Please check your internet and try again.');
       submitBtn.textContent = 'Confirm Booking ✓';
       submitBtn.disabled = false;
     }
