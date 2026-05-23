@@ -3,16 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; base-uri 'self'; object-src 'none'; frame-src https://www.instagram.com">
 <title>KiqFresh — Results</title>
-<link rel="icon" type="image/svg+xml" href="logo.svg">
-<link rel="icon" type="image/jpeg" href="logo.jpeg">
-<link rel="apple-touch-icon" href="logo.jpeg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bangers&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -89,80 +80,6 @@
   color: #888;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-}
-
-/* ===== COMIC PANEL LAYOUT ===== */
-.comic-car-wrap {
-  position: relative;
-  margin: 3rem auto 0;
-  max-width: 860px;
-  padding: 0 60px;
-}
-/* The orange row is the "background" — shows through the diagonal gaps as the divider colour */
-.comic-row {
-  overflow: hidden;
-  border-radius: 20px;
-  border: 3.5px solid var(--black);
-  box-shadow: 8px 8px 0 var(--black);
-  background: var(--orange);
-}
-.comic-car-track {
-  display: flex;
-  gap: 6px;
-  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-}
-/* Each slab is skewed — creates the parallelogram panel shape */
-.comic-slab {
-  flex: 1;
-  min-width: 0;
-  aspect-ratio: 9/16;
-  overflow: hidden;
-  transform: skewX(-10deg);
-}
-/* Counter-skew the content so video/image appears normal inside the angled slab */
-.comic-slab-inner {
-  width: 145%;
-  height: 100%;
-  margin-left: -22%;
-  transform: skewX(10deg);
-}
-.comic-slab-inner video,
-.comic-slab-inner iframe {
-  width: 100%; height: 100%; object-fit: cover; display: block; border: none;
-}
-.comic-slab-inner .video-card-placeholder { height: 100%; }
-.comic-car-btn {
-  position: absolute;
-  top: 50%; transform: translateY(-50%);
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  background: var(--orange);
-  border: 3.5px solid var(--black);
-  box-shadow: 4px 4px 0 var(--black);
-  font-family: 'Bangers', cursive;
-  font-size: 1.8rem;
-  line-height: 1;
-  cursor: pointer;
-  z-index: 20;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--black);
-  transition: transform 0.12s, box-shadow 0.12s;
-}
-.comic-car-btn:hover {
-  transform: translateY(-50%) translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--black);
-}
-.comic-car-btn:active {
-  transform: translateY(-50%) translate(2px, 2px);
-  box-shadow: 0 0 0 var(--black);
-}
-.comic-car-btn.prev { left: 0; }
-.comic-car-btn.next { right: 0; }
-.comic-car-btn[disabled] { opacity: 0.3; cursor: default; pointer-events: none; }
-@media(max-width:680px) {
-  .comic-car-wrap { padding: 0 44px; }
-  .comic-car-btn { width: 42px; height: 42px; font-size: 1.4rem; }
 }
 
 /* ===== TRANSFORMATION CARDS ===== */
@@ -415,38 +332,6 @@
         <span class="transform-service">Deep Clean</span>
       </div>
     </div>
-    <div class="transform-card reveal">
-      <div class="transform-img">
-        <div class="transform-before">👟</div>
-        <div class="transform-after" style="font-size:2.8rem;">✨</div>
-        <div class="transform-divider-label">→</div>
-      </div>
-      <div class="transform-info">
-        <div class="transform-shoe-name">Nike TN Air Max</div>
-        <span class="transform-service" style="background:var(--black);">Express</span>
-      </div>
-    </div>
-    <div class="transform-card reveal">
-      <div class="transform-img">
-        <div class="transform-before">👟</div>
-        <div class="transform-after" style="font-size:2.8rem;">✨</div>
-        <div class="transform-divider-label">→</div>
-      </div>
-      <div class="transform-info">
-        <div class="transform-shoe-name">New Balance 550</div>
-        <span class="transform-service">Basic Clean</span>
-      </div>
-    </div>
-    <div class="transform-card reveal">
-      <div class="transform-img">
-        <div class="transform-before">👟</div>
-        <div class="transform-after" style="font-size:2.8rem;">✨</div>
-        <div class="transform-divider-label">→</div>
-      </div>
-      <div class="transform-info">
-        <div class="transform-shoe-name">Travis Scott x AJ1</div>
-        <span class="transform-service" style="background:var(--orange);">Restoration</span>
-      </div>
     </div>
   </div>
 </section>
@@ -528,32 +413,23 @@
   <span class="section-tag">They Said It</span>
   <h2 class="graffiti-heading">CUSTOMER<br><span style="color:var(--blue);">REVIEWS.</span></h2>
   <p class="vid-sub">Real reactions. No script, no filter.</p>
-  <div class="comic-car-wrap" id="instCarousel">
-    <button class="comic-car-btn prev" aria-label="Previous">&#8249;</button>
-    <div class="comic-row">
-      <div class="comic-car-track">
-        <div class="comic-slab">
-          <div class="comic-slab-inner">
-            <iframe src="https://www.instagram.com/reel/DCKGhb5MNC-/embed/"
-              frameborder="0" scrolling="no" allowtransparency="true"
-              allow="encrypted-media" allowfullscreen></iframe>
-          </div>
-        </div>
-        <div class="comic-slab">
-          <div class="comic-slab-inner">
-            <iframe src="https://www.instagram.com/reel/DB9OkGqsWn9/embed/"
-              frameborder="0" scrolling="no" allowtransparency="true"
-              allow="encrypted-media" allowfullscreen></iframe>
-          </div>
-        </div>
-        <div class="comic-slab">
-          <div class="comic-slab-inner">
-            <div class="video-card-placeholder"><span style="font-size:2rem;opacity:0.45;">▶</span><br>CUSTOMER<br>REVIEW</div>
-          </div>
-        </div>
-      </div>
+  <div class="video-grid">
+    <!-- Instagram testimonial 1 -->
+    <div class="video-card">
+      <iframe src="https://www.instagram.com/reel/DCKGhb5MNC-/embed/"
+        frameborder="0" scrolling="no" allowtransparency="true"
+        allow="encrypted-media" allowfullscreen></iframe>
     </div>
-    <button class="comic-car-btn next" aria-label="Next">&#8250;</button>
+    <!-- Instagram testimonial 2 -->
+    <div class="video-card">
+      <iframe src="https://www.instagram.com/reel/DB9OkGqsWn9/embed/"
+        frameborder="0" scrolling="no" allowtransparency="true"
+        allow="encrypted-media" allowfullscreen></iframe>
+    </div>
+    <!-- Instagram testimonial 3 -->
+    <div class="video-card">
+      <div class="video-card-placeholder"><span style="font-size:2rem;opacity:0.45;">▶</span><br>CUSTOMER<br>REVIEW</div>
+    </div>
   </div>
   <div style="margin-top:2.5rem;">
     <a href="https://www.instagram.com/kiqfresh" target="_blank" rel="noopener noreferrer" class="btn-social">
@@ -561,6 +437,39 @@
     </a>
   </div>
 
+  <!-- ── TikTok videos ── -->
+  <div style="margin-top:5rem;padding-top:4rem;border-top:1px solid rgba(255,255,255,0.08);">
+    <span class="section-tag">On TikTok</span>
+    <h2 class="graffiti-heading" style="margin-top:0.8rem;">SEE US<br><span style="color:var(--blue);">WORK.</span></h2>
+    <p class="vid-sub">Watch the process. Every clean, documented.</p>
+    <div class="video-grid">
+      <div class="video-card">
+        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
+          <source src="tiktokvid1.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
+          <source src="tiktokvid2.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
+          <source src="tiktokvid3.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
+          <source src="tiktokvid4.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;">
+      <a href="https://www.tiktok.com/@kiqfresh" target="_blank" rel="noopener noreferrer" class="btn-social">
+        Follow us on TikTok ✦
+      </a>
+    </div>
+  </div>
 </section>
 
 <!-- CTA -->
@@ -574,50 +483,12 @@
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="index.html" class="footer-brand-logo">
-        <img src="logo.jpeg" alt="KiqFresh" class="footer-logo-img">
-        <span class="logo-text">KiqFresh</span>
-      </a>
-      <p>Post your trainers to us and get them back spotless. Professional results, insured, signed contract every time.</p>
-      <div class="footer-socials">
-        <a href="https://www.tiktok.com/@kiqfresh" class="footer-social-btn">TikTok</a>
-        <a href="#" class="footer-social-btn">Instagram</a>
-        <a href="#" class="footer-social-btn">Twitter</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Services</h4>
-      <ul>
-        <li><a href="services.html">Essential Clean</a></li>
-        <li><a href="services.html">Deep Clean</a></li>
-        <li><a href="services.html">Restoration</a></li>
-        <li><a href="services.html">Resale Prep</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Pages</h4>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="index.html#process">How It Works</a></li>
-        <li><a href="results.html">Results</a></li>
-        <li><a href="booking.html">Book Now</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Get In Touch</h4>
-      <ul>
-        <li><a href="booking.html">Book a Clean</a></li>
-        <li><a href="services.html">View Services</a></li>
-        <li><a href="https://www.tiktok.com/@kiqfresh">Follow Us</a></li>
-        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-      </ul>
-    </div>
+    <div class="footer-brand"><span class="logo-text">KiqFresh</span><p>The sneaker cleaning service that hits different.</p></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Basic Clean</a></li><li><a href="services.html">Deep Clean</a></li><li><a href="services.html">Restoration</a></li><li><a href="services.html">Express</a></li></ul></div>
+    <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="results.html">Results</a></li><li><a href="booking.html">Book Now</a></li></ul></div>
+    <div class="footer-col"><h4>Social</h4><ul><li><a href="#">TikTok</a></li><li><a href="#">Instagram</a></li><li><a href="#">Twitter</a></li></ul></div>
   </div>
-  <div class="footer-bottom">
-    <p>&copy; 2026 KiqFresh. All rights reserved.</p>
-    <p>Fresh kicks only. ✦</p>
-  </div>
+  <div class="footer-bottom"><p>&copy; 2025 KiqFresh.</p><p>Fresh kicks only. ✦</p></div>
 </footer>
 
 <script src="shared.js"></script>
@@ -642,47 +513,6 @@
   baMain.addEventListener('touchstart', e => { dragging = true; setBA(e.touches[0].clientX); }, { passive: true });
   document.addEventListener('touchend', () => dragging = false);
   document.addEventListener('touchmove', e => { if (dragging) setBA(e.touches[0].clientX); }, { passive: true });
-</script>
-<script>
-  function initComicCarousel(wrapId) {
-    const wrap = document.getElementById(wrapId);
-    if (!wrap) return;
-    const row = wrap.querySelector('.comic-row');
-    const track = wrap.querySelector('.comic-car-track');
-    const slabs = Array.from(track.querySelectorAll('.comic-slab'));
-    const prevBtn = wrap.querySelector('.comic-car-btn.prev');
-    const nextBtn = wrap.querySelector('.comic-car-btn.next');
-    let idx = 0;
-
-    function slabW() { return slabs[0] ? slabs[0].offsetWidth : 200; }
-    function maxIdx() {
-      const visible = Math.max(1, Math.round(row.offsetWidth / slabW()));
-      return Math.max(0, slabs.length - visible);
-    }
-
-    function update() {
-      track.style.transform = `translateX(${-idx * slabW()}px)`;
-      prevBtn.disabled = idx === 0;
-      nextBtn.disabled = idx >= maxIdx();
-    }
-
-    prevBtn.addEventListener('click', () => { if (idx > 0) { idx--; update(); } });
-    nextBtn.addEventListener('click', () => { if (idx < maxIdx()) { idx++; update(); } });
-
-    let tx = 0;
-    row.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
-    row.addEventListener('touchend', e => {
-      const dx = tx - e.changedTouches[0].clientX;
-      if (dx > 40 && idx < maxIdx()) { idx++; update(); }
-      if (dx < -40 && idx > 0) { idx--; update(); }
-    });
-
-    window.addEventListener('resize', update);
-    update();
-  }
-
-  initComicCarousel('instCarousel');
-  initComicCarousel('tiktokCarousel');
 </script>
 </body>
 </html>
