@@ -4,13 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kiq Fresh | Professional Shoe Cleaning Service UK | Post Your Trainers, Get Them Back Fresh</title>
-<meta name="description" content="Kiq Fresh is a trusted UK shoe cleaning service. Post us your trainers, we deep clean them and return them — fully insured, signed contract guaranteed. Founded by a trained shoe care professional. Book today.">
+<meta name="description" content="Kiq Fresh is a trusted UK postal shoe cleaning service. Post us your trainers, we deep clean them and return them spotless. Fully insured, signed return contract guaranteed. Founded by a trained shoe care professional. Book today.">
 <meta name="keywords" content="shoe cleaning service UK, professional trainer cleaning, send shoes for cleaning, postal shoe cleaning UK, deep clean sneakers UK, shoe restoration service, trusted shoe cleaning, trainer cleaning by post">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kiq Fresh | Professional Shoe Cleaning Service UK">
+<meta property="og:description" content="Post us your trainers, we deep clean them and return them spotless. Fully insured, signed return contract guaranteed. UK wide postal service.">
+<meta property="og:image" content="https://kiqfresh.co.uk/logo.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kiq Fresh | Professional Shoe Cleaning Service UK">
+<meta name="twitter:description" content="Post us your trainers, we deep clean them and return them spotless. Fully insured, signed return contract guaranteed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bangers&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Kiq Fresh",
+  "description": "UK postal shoe cleaning service. Post your trainers, we deep clean them and return them spotless. Fully insured with a signed return contract.",
+  "url": "https://kiqfresh.co.uk",
+  "image": "https://kiqfresh.co.uk/logo.jpeg",
+  "areaServed": { "@type": "Country", "name": "United Kingdom" },
+  "priceRange": "££",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Shoe Cleaning Services",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Essential Clean" }, "price": "12", "priceCurrency": "GBP" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Deep Clean" }, "price": "22", "priceCurrency": "GBP" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Restoration" }, "price": "40", "priceCurrency": "GBP" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Resale Prep" }, "price": "28", "priceCurrency": "GBP" }
+    ]
+  }
+}
+</script>
 <style>
 
 /* ===== SCROLL PROGRESS ===== */
@@ -125,7 +153,15 @@
   transform:translateX(-25vw);
   animation: slideLogoRight 1s .8s cubic-bezier(.25,1,.5,1) forwards;
 }
-@media(max-width:900px){ .hero-right-anim{ transform:translateX(0)!important; animation:none!important; } }
+@media(max-width:900px){
+  .hero-right-anim{ transform:translateX(0)!important; animation:none!important; }
+  /* Flatten 3D — iOS Safari leaks preserve-3d children through overflow:hidden */
+  .hero-sneaker-wrap { transform-style:flat!important; }
+  .hero-svg-main { transform:scale(.5)!important; animation:popLogoIn2d .8s .2s cubic-bezier(.175,.885,.32,1.275) forwards!important; }
+  @keyframes popLogoIn2d { to { opacity:1; transform:scale(1); } }
+  .hero-logo-spark { transform:none!important; }
+  .hero-sneaker-wrap > [style*="translateZ"] { transform:none!important; }
+}
 @keyframes slideLogoRight { to { transform:translateX(0); } }
 
 .hero-sneaker-wrap {
@@ -274,19 +310,88 @@
 }
 .ba-mini-handle:hover { transform:translate(-50%,-50%) scale(1.15); }
 
-/* ===== FOOTER ===== */
-footer { background:var(--black); padding:4rem 5% 2rem; color:white; }
-.footer-inner { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
-@media(max-width:768px){ .footer-inner{ grid-template-columns:1fr 1fr; gap:2rem; } }
-@media(max-width:480px){ .footer-inner{ grid-template-columns:1fr; } }
-.footer-brand .logo-text { font-family:'Bangers',cursive; font-size:2.5rem; letter-spacing:.05em; color:var(--ice); display:block; margin-bottom:1rem; }
-.footer-brand p { color:rgba(255,255,255,.45); font-size:.9rem; line-height:1.6; max-width:240px; font-weight:700; }
-.footer-col h4 { font-family:'Bangers',cursive; font-size:1rem; letter-spacing:.2em; color:rgba(255,255,255,.4); text-transform:uppercase; margin-bottom:1rem; }
-.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:.5rem; }
-.footer-col a { color:rgba(255,255,255,.65); text-decoration:none; font-weight:700; font-size:.9rem; transition:color .2s; }
-.footer-col a:hover { color:var(--orange); }
-.footer-bottom { border-top:1px solid rgba(255,255,255,.08); padding-top:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem; }
-.footer-bottom p { color:rgba(255,255,255,.2); font-size:.8rem; font-weight:700; }
+/* footer styles live in shared.css */
+
+/* ===== EMAIL CAPTURE ===== */
+#email-capture {
+  background: var(--black);
+  border-top: 3.5px solid var(--black);
+  border-bottom: 3.5px solid var(--black);
+  padding: 6rem 5%;
+  position: relative;
+  overflow: hidden;
+}
+.email-capture-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media(max-width:768px) {
+  .email-capture-inner { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+  .email-capture-row { justify-content: center; }
+}
+#email-capture h2 {
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  color: white;
+  margin: 0.8rem 0 1rem;
+}
+#email-capture .ec-sub {
+  color: rgba(255,255,255,0.45);
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.email-capture-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+.email-capture-row input[type="email"] {
+  flex: 1;
+  min-width: 200px;
+  background: rgba(255,255,255,0.07);
+  border: 3px solid rgba(255,255,255,0.2);
+  border-radius: 100px;
+  padding: 0.85rem 1.4rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: white;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.email-capture-row input[type="email"]:focus { border-color: var(--orange); }
+.email-capture-row input::placeholder { color: rgba(255,255,255,0.3); }
+.email-capture-row button {
+  background: var(--orange);
+  color: var(--black);
+  border: 3px solid rgba(255,255,255,0.25);
+  border-radius: 100px;
+  box-shadow: 4px 4px 0 rgba(255,255,255,0.1);
+  padding: 0.85rem 1.8rem;
+  font-family: 'Bangers', cursive;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.email-capture-row button:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 rgba(255,255,255,0.15); }
+.email-capture-row button:disabled { opacity: 0.7; cursor: default; transform: none; }
+.ec-note {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.22);
+  letter-spacing: 0.05em;
+}
 
 </style>
 </head>
@@ -323,8 +428,8 @@ footer { background:var(--black); padding:4rem 5% 2rem; color:white; }
   <div class="hero-left hero-left-anim">
     <div class="hero-kicker"><span>✦</span> UK Postal Shoe Cleaning Service</div>
     <span class="hero-title">YOUR TRAINERS DESERVE BETTER.</span>
-    <span class="hero-title-sub">Send Them. We Clean Them. You Get Them Back — Spotless.</span>
-    <p class="hero-desc">Professional shoe cleaning by post. Trusted, insured, and backed by a signed return contract — so you never have to worry.</p>
+    <span class="hero-title-sub">Send Them. We Clean Them. You Get Them Back. Spotless.</span>
+    <p class="hero-desc">Professional shoe cleaning by post. Trusted, insured, and backed by a signed return contract. So you never have to worry.</p>
     <div class="hero-btns">
       <a href="booking.html" class="btn-comic btn-orange" data-magnetic>Book a Clean →</a>
       <a href="results.html" class="btn-comic btn-outline" data-magnetic>See Results</a>
@@ -410,13 +515,13 @@ footer { background:var(--black); padding:4rem 5% 2rem; color:white; }
       <div class="step-num">01</div>
       <span class="step-icon">📦</span>
       <div class="step-title">BOOK & POST</div>
-      <p class="step-desc">Book online and we send you our postal address plus a packaging guide. Box them up and send them tracked — simple.</p>
+      <p class="step-desc">Book online and we send you our postal address plus a packaging guide. Box them up and send them tracked. Simple.</p>
     </div>
     <div class="process-step" data-step>
       <div class="step-num" style="background:var(--orange);color:var(--black);">02</div>
       <span class="step-icon">🧹</span>
       <div class="step-title">WE DEEP CLEAN</div>
-      <p class="step-desc">Every pair gets a full inspection and tailored treatment. Panel by panel, stitch by stitch — no shortcuts.</p>
+      <p class="step-desc">Every pair gets a full inspection and tailored treatment. Panel by panel, stitch by stitch. No shortcuts.</p>
     </div>
     <div class="process-step" data-step>
       <div class="step-num">03</div>
@@ -434,20 +539,20 @@ footer { background:var(--black); padding:4rem 5% 2rem; color:white; }
   <div class="features-header">
     <span class="section-tag">Why Kiq Fresh?</span>
     <h2 class="graffiti-heading">NOT JUST<br><span style="color:var(--blue);">ANY SERVICE.</span></h2>
-    <p style="color:#555;font-weight:700;max-width:500px;margin:1rem auto 0;line-height:1.6;">Kiq Fresh was built in a university dorm room and sharpened under the roof of one of the fastest-growing shoe cleaning companies in the UK. Our founder didn't just watch — he worked, learned, and brought that knowledge back. Quality is personal here, because our reputation rides on every single pair.</p>
+    <p style="color:#555;font-weight:700;max-width:500px;margin:1rem auto 0;line-height:1.6;">Kiq Fresh was built in a university dorm room and sharpened under the roof of one of the fastest-growing shoe cleaning companies in the UK. Our founder didn't just watch. He worked, learned, and brought that knowledge back. Quality is personal here, because our reputation rides on every single pair.</p>
   </div>
   <div class="features-grid">
     <div class="feat-card" data-tilt>
       <div class="feat-accent"></div>
       <div class="feat-icon-wrap">📋</div>
       <div class="feat-title">SIGNED CONTRACT</div>
-      <p class="feat-desc">Every booking is backed by a signed return contract. Your trainers' condition, the service agreed, and the confirmed return — all documented before we begin.</p>
+      <p class="feat-desc">Every booking is backed by a signed return contract. Your trainers' condition, the service agreed, and the confirmed return. All documented before we begin.</p>
     </div>
     <div class="feat-card" data-tilt>
       <div class="feat-accent" style="background:var(--orange);"></div>
       <div class="feat-icon-wrap" style="background:var(--blue);">🛡️</div>
       <div class="feat-title">FULLY INSURED</div>
-      <p class="feat-desc">Your trainers are fully covered from the moment they arrive with us. We take complete responsibility — no exceptions, no excuses.</p>
+      <p class="feat-desc">Your trainers are fully covered from the moment they arrive with us. We take complete responsibility. No exceptions, no excuses.</p>
     </div>
     <div class="feat-card" data-tilt>
       <div class="feat-accent" style="background:black;"></div>
@@ -506,34 +611,29 @@ footer { background:var(--black); padding:4rem 5% 2rem; color:white; }
   </div>
 </section>
 
-<!-- SOCIAL VIDEOS -->
-<section id="social-videos">
-  <span class="deco-star" style="position:absolute;top:0;left:1%;color:rgba(252,255,255,.03);font-size:8rem;">✦</span>
-  <span class="deco-star" style="position:absolute;top:6%;right:4%;color:rgba(165,210,255,.2);font-size:3rem;animation:sparkle 3s ease-in-out infinite;animation-delay:.6s;">✦</span>
-  <span class="section-tag">On TikTok</span>
-  <h2 class="graffiti-heading">SEE US<br><span style="color:var(--blue);">WORK.</span></h2>
-  <p class="vid-sub">Real cleans. Real results. Watch us go.</p>
-  <div class="video-grid">
-    <div class="video-card">
-      <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
-        <source src="tiktokvid1.mp4" type="video/mp4">
-      </video>
+<!-- EMAIL CAPTURE -->
+<section id="email-capture">
+  <span class="deco-star" style="position:absolute;top:1rem;right:3%;color:rgba(255,255,255,0.03);font-size:8rem;">✦</span>
+  <span class="deco-star" style="position:absolute;bottom:1.5rem;left:2%;color:rgba(165,210,255,0.06);font-size:5rem;">✦</span>
+  <div class="email-capture-inner">
+    <div>
+      <span class="section-tag" style="background:white;color:var(--black);border-color:rgba(255,255,255,0.2);">Stay Fresh</span>
+      <h2>GET DEALS &amp;<br>ORDER UPDATES.</h2>
+      <p class="ec-sub">Drop your email below. We'll send you order updates, exclusive deals, and care tips. No spam, ever.</p>
     </div>
-    <div class="video-card">
-      <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
-        <source src="tiktokvid2.mp4" type="video/mp4">
-      </video>
+    <div>
+      <form id="emailSignupForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="7c55ba88-d386-42f1-949d-0e6f1979b575">
+        <input type="hidden" name="subject" value="New Email Signup - Kiq Fresh">
+        <input type="hidden" name="from_name" value="Kiq Fresh Website">
+        <input type="checkbox" name="botcheck" style="display:none;">
+        <div class="email-capture-row">
+          <input type="email" name="email" placeholder="your@email.com" required autocomplete="email">
+          <button type="submit" id="ecBtn">JOIN THE LIST ✦</button>
+        </div>
+        <p class="ec-note" id="ecNote">No spam. Unsubscribe any time.</p>
+      </form>
     </div>
-    <div class="video-card">
-      <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
-        <source src="tiktokvid3.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-  <div style="margin-top:2.5rem;">
-    <a href="https://www.tiktok.com/@kiqfresh" target="_blank" rel="noopener noreferrer" class="btn-social">
-      Follow us on TikTok ✦
-    </a>
   </div>
 </section>
 
@@ -551,15 +651,15 @@ footer { background:var(--black); padding:4rem 5% 2rem; color:white; }
     </div>
     <div class="comic-card" style="padding:2rem;background:#1a1a1a;border-color:rgba(255,255,255,.1);box-shadow:6px 6px 0 rgba(165,210,255,.15);">
       <div style="font-family:'Bangers',cursive;font-size:1.2rem;letter-spacing:.05em;color:var(--orange);margin-bottom:.6rem;">Are my shoes insured while they're with you?</div>
-      <p style="color:rgba(255,255,255,.6);font-weight:700;line-height:1.6;font-size:.95rem;">Yes. We take full responsibility for your shoes from the moment they arrive. Our signed contract outlines the agreed condition, the service, and the confirmed return — so everything is documented and protected.</p>
+      <p style="color:rgba(255,255,255,.6);font-weight:700;line-height:1.6;font-size:.95rem;">Yes. We take full responsibility for your shoes from the moment they arrive. Our signed contract outlines the agreed condition, the service, and the confirmed return. So everything is documented and protected.</p>
     </div>
     <div class="comic-card" style="padding:2rem;background:#1a1a1a;border-color:rgba(255,255,255,.1);box-shadow:6px 6px 0 rgba(165,210,255,.15);">
       <div style="font-family:'Bangers',cursive;font-size:1.2rem;letter-spacing:.05em;color:var(--orange);margin-bottom:.6rem;">How long does it take?</div>
-      <p style="color:rgba(255,255,255,.6);font-weight:700;line-height:1.6;font-size:.95rem;">Turnaround time depends on the service level and current demand. We give you a confirmed timeline at booking — no vague estimates, just a clear date you can count on.</p>
+      <p style="color:rgba(255,255,255,.6);font-weight:700;line-height:1.6;font-size:.95rem;">Turnaround time depends on the service level and current demand. We give you a confirmed timeline at booking. No vague estimates, just a clear date you can count on.</p>
     </div>
     <div class="comic-card" style="padding:2rem;background:#1a1a1a;border-color:rgba(255,255,255,.1);box-shadow:6px 6px 0 rgba(165,210,255,.15);">
       <div style="font-family:'Bangers',cursive;font-size:1.2rem;letter-spacing:.05em;color:var(--orange);margin-bottom:.6rem;">What types of trainers do you clean?</div>
-      <p style="color:rgba(255,255,255,.6);font-weight:700;line-height:1.6;font-size:.95rem;">All of them. Air Force 1s, Jordan 1s, Yeezys, TNs, suede, leather, mesh — we've worked on every silhouette and material. If you're unsure, just message us before booking.</p>
+      <p style="color:rgba(255,255,255,.6);font-weight:700;line-height:1.6;font-size:.95rem;">All of them. Air Force 1s, Jordan 1s, Yeezys, TNs, suede, leather, mesh. We've worked on every silhouette and material. If you're unsure, just message us before booking.</p>
     </div>
   </div>
 </section>
@@ -569,16 +669,30 @@ footer { background:var(--black); padding:4rem 5% 2rem; color:white; }
   <span class="deco-star" style="position:absolute;top:1rem;left:3%;font-size:3rem;opacity:.12;">✦</span>
   <span class="deco-star" style="position:absolute;bottom:1rem;right:4%;font-size:2rem;opacity:.12;">✦</span>
   <h2>READY TO GO FRESH?</h2>
-  <p>Post us your trainers — we deep clean them and send them back spotless, under a signed contract.</p>
+  <p>Post us your trainers. We deep clean them and send them back spotless, under a signed contract.</p>
   <a href="booking.html" class="btn-comic btn-black" data-magnetic>Book a Clean →</a>
 </div>
 
 <!-- FOOTER -->
 <footer>
+  <div class="footer-trust-band">
+    <span class="footer-trust-item">SIGNED RETURN CONTRACT</span>
+    <span class="footer-trust-item">FULLY INSURED</span>
+    <span class="footer-trust-item">UK WIDE SERVICE</span>
+    <span class="footer-trust-item">PROFESSIONAL RESULTS</span>
+  </div>
   <div class="footer-inner">
     <div class="footer-brand">
-      <span class="logo-text">KiqFresh</span>
-      <p>The sneaker cleaning service that hits different. Professional results with playful energy.</p>
+      <a href="index.html" class="footer-brand-logo">
+        <img src="logo.jpeg" alt="KiqFresh" class="footer-logo-img">
+        <span class="logo-text">KiqFresh</span>
+      </a>
+      <p>Post your trainers to us and get them back spotless. Professional results, insured, signed contract every time.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@kiqfresh" class="footer-social-btn">TikTok</a>
+        <a href="#" class="footer-social-btn">Instagram</a>
+        <a href="#" class="footer-social-btn">Twitter</a>
+      </div>
     </div>
     <div class="footer-col">
       <h4>Services</h4>
@@ -593,34 +707,31 @@ footer { background:var(--black); padding:4rem 5% 2rem; color:white; }
       <h4>Pages</h4>
       <ul>
         <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#process">How It Works</a></li>
         <li><a href="results.html">Results</a></li>
         <li><a href="booking.html">Book Now</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Social</h4>
+      <h4>Get In Touch</h4>
       <ul>
-        <li><a href="https://www.tiktok.com/@kiqfresh">TikTok</a></li>
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Twitter / X</a></li>
+        <li><a href="booking.html">Book a Clean</a></li>
+        <li><a href="services.html">View Services</a></li>
+        <li><a href="https://www.tiktok.com/@kiqfresh">Follow Us</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&copy; 2025 KiqFresh. All rights reserved.</p>
+    <p>&copy; 2026 KiqFresh. All rights reserved.</p>
     <p>Fresh kicks only. ✦</p>
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="shared.js"></script>
 <script>
   gsap.registerPlugin(ScrollTrigger);
-
-  /* ── Lenis smooth scroll ── */
-  const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add(t => lenis.raf(t * 1000));
-  gsap.ticker.lagSmoothing(0);
 
   /* ── Scroll progress bar ── */
   gsap.to('#scroll-bar', {
@@ -759,6 +870,35 @@ footer { background:var(--black); padding:4rem 5% 2rem; color:white; }
           baDivider.style.left   = obj.v + '%';
         }
       });
+    }
+  });
+
+  /* ── Email signup ── */
+  document.getElementById('emailSignupForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn  = document.getElementById('ecBtn');
+    const note = document.getElementById('ecNote');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    try {
+      const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(e.target) });
+      const json = await res.json();
+      if (json.success) {
+        btn.textContent = 'SUBSCRIBED ✓';
+        note.textContent = "You're on the list!";
+        note.style.color = 'rgba(165,210,255,0.7)';
+        e.target.querySelector('input[type="email"]').value = '';
+      } else {
+        btn.textContent = 'JOIN THE LIST ✦';
+        btn.disabled = false;
+        note.textContent = 'Something went wrong. Please try again.';
+        note.style.color = 'rgba(255,100,100,0.7)';
+      }
+    } catch {
+      btn.textContent = 'JOIN THE LIST ✦';
+      btn.disabled = false;
+      note.textContent = 'Connection error. Please try again.';
+      note.style.color = 'rgba(255,100,100,0.7)';
     }
   });
 

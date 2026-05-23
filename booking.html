@@ -3,7 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KiqFresh — Book A Clean</title>
+<title>Book a Shoe Clean | Kiq Fresh UK Postal Shoe Cleaning Service</title>
+<meta name="description" content="Book your Kiq Fresh shoe clean online. Choose your service, post your trainers to us, and get them back spotless. Fully insured, signed return contract. UK wide.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Book a Shoe Clean | Kiq Fresh UK">
+<meta property="og:description" content="Book your Kiq Fresh shoe clean online. Choose your service, post your trainers, get them back spotless. Fully insured, signed return contract.">
+<meta property="og:image" content="https://kiqfresh.co.uk/logo.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Book a Shoe Clean | Kiq Fresh UK">
+<meta name="twitter:description" content="Book your Kiq Fresh shoe clean. Post your trainers, get them back spotless. Fully insured, signed return contract.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bangers&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -390,7 +400,7 @@
           <div class="form-group">
             <label>Email Address <span style="color:#e53;font-weight:900;">*</span></label>
             <input type="email" id="email" name="email" placeholder="jordan@email.com" autocomplete="email">
-            <span class="field-error-msg">Enter a valid email — we'll send your next steps here.</span>
+            <span class="field-error-msg">Enter a valid email. We'll send your next steps here.</span>
           </div>
           <div class="form-group">
             <label>Phone <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
@@ -421,6 +431,11 @@
               <div class="sopt-price">From £28 / pair</div>
             </div>
           </div>
+          <div id="selectedBadge" style="display:flex;align-items:center;justify-content:space-between;background:var(--black);border:3px solid var(--black);border-radius:14px;padding:.85rem 1.2rem;margin-bottom:1.1rem;">
+            <span style="font-family:'Bangers',cursive;font-size:1.1rem;letter-spacing:.06em;color:white;" id="badgeName">Deep Clean</span>
+            <span style="font-family:'Bangers',cursive;font-size:1.4rem;letter-spacing:.04em;color:var(--orange);" id="badgePrice">From £22</span>
+          </div>
+
           <div class="form-group">
             <label>Number of Pairs</label>
             <select id="pairs" name="pairs">
@@ -433,7 +448,7 @@
           <div class="form-group">
             <label>Shoe Type / Model <span style="color:#e53;font-weight:900;">*</span></label>
             <input type="text" id="shoeType" name="shoe_type" placeholder="e.g. Nike Air Force 1, Jordan 1...">
-            <span class="field-error-msg">Tell us the shoe — it helps us prepare the right treatment.</span>
+            <span class="field-error-msg">Tell us the shoe. It helps us prepare the right treatment.</span>
           </div>
           <div class="form-group">
             <label>Special Instructions</label>
@@ -458,6 +473,12 @@
           <div style="background:var(--cream);border:2.5px solid var(--black);border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.5rem;">
             <div style="font-family:'Bangers',cursive;font-size:1rem;letter-spacing:0.05em;margin-bottom:0.4rem;">ORDER SUMMARY</div>
             <div style="font-size:0.88rem;font-weight:800;color:#444;" id="summaryLine">Deep Clean × 1 pair = £22</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:0.75rem;background:var(--cream);border:2.5px solid var(--black);border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.2rem;">
+            <input type="checkbox" id="marketingOptIn" name="marketing_opt_in" value="Yes" style="margin-top:2px;width:18px;height:18px;cursor:pointer;accent-color:var(--orange);flex-shrink:0;">
+            <label for="marketingOptIn" style="font-size:0.82rem;font-weight:700;color:#555;line-height:1.5;cursor:pointer;">
+              Keep me updated with exclusive offers, cleaning tips and news from Kiq Fresh. You can unsubscribe any time.
+            </label>
           </div>
           <div style="display:flex;gap:1rem;flex-wrap:wrap;">
             <button type="button" class="btn-comic btn-outline" onclick="goStep(2)" style="flex:1;min-width:100px;">← Back</button>
@@ -513,7 +534,7 @@
           <div class="sf-icon">⚡</div>
           <div class="sf-text">
             <strong>Fast Turnaround</strong>
-            <span>Cleaned and returned within 3–5 working days.</span>
+            <span>Cleaned and returned within 3 to 5 working days.</span>
           </div>
         </div>
         <div class="sidebar-feature">
@@ -535,11 +556,11 @@
       <div class="sidebar-card" id="priceSidebar">
         <h3>PRICE ESTIMATE</h3>
         <div class="price-summary">
-          <div class="price-row"><span id="pSvc">Deep Clean</span><span id="pPrice">£22</span></div>
+          <div class="price-row"><span id="pSvc">Deep Clean</span><span id="pPrice">From £22</span></div>
           <div class="price-row"><span>Return Postage</span><span>FREE</span></div>
           <div class="price-row" style="border-top:2px dashed rgba(0,0,0,0.1);padding-top:0.6rem;margin-top:0.2rem;">
             <span style="font-size:1rem;font-weight:900;">TOTAL</span>
-            <span class="price-total" id="pTotal">£22</span>
+            <span class="price-total" id="pTotal">From £22</span>
           </div>
         </div>
       </div>
@@ -549,13 +570,56 @@
 </section>
 
 <footer>
-  <div class="footer-inner">
-    <div class="footer-brand"><span class="logo-text">KiqFresh</span><p>The sneaker cleaning service that hits different.</p></div>
-    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Essential Clean</a></li><li><a href="services.html">Deep Clean</a></li><li><a href="services.html">Restoration</a></li><li><a href="services.html">Resale Prep</a></li></ul></div>
-    <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="results.html">Results</a></li><li><a href="booking.html">Book Now</a></li></ul></div>
-    <div class="footer-col"><h4>Social</h4><ul><li><a href="#">TikTok</a></li><li><a href="#">Instagram</a></li><li><a href="#">Twitter</a></li></ul></div>
+  <div class="footer-trust-band">
+    <span class="footer-trust-item">SIGNED RETURN CONTRACT</span>
+    <span class="footer-trust-item">FULLY INSURED</span>
+    <span class="footer-trust-item">UK WIDE SERVICE</span>
+    <span class="footer-trust-item">PROFESSIONAL RESULTS</span>
   </div>
-  <div class="footer-bottom"><p>&copy; 2025 KiqFresh.</p><p>Fresh kicks only. ✦</p></div>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="footer-brand-logo">
+        <img src="logo.jpeg" alt="KiqFresh" class="footer-logo-img">
+        <span class="logo-text">KiqFresh</span>
+      </a>
+      <p>Post your trainers to us and get them back spotless. Professional results, insured, signed contract every time.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@kiqfresh" class="footer-social-btn">TikTok</a>
+        <a href="#" class="footer-social-btn">Instagram</a>
+        <a href="#" class="footer-social-btn">Twitter</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html">Essential Clean</a></li>
+        <li><a href="services.html">Deep Clean</a></li>
+        <li><a href="services.html">Restoration</a></li>
+        <li><a href="services.html">Resale Prep</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#process">How It Works</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="booking.html">Book Now</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Get In Touch</h4>
+      <ul>
+        <li><a href="booking.html">Book a Clean</a></li>
+        <li><a href="services.html">View Services</a></li>
+        <li><a href="https://www.tiktok.com/@kiqfresh">Follow Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 KiqFresh. All rights reserved.</p>
+    <p>Fresh kicks only. ✦</p>
+  </div>
 </footer>
 
 <script src="shared.js"></script>
@@ -592,10 +656,10 @@
     if (n === 1) {
       ok = checkField('fname',  v => v.length > 0,  'First name is required.') & ok;
       ok = checkField('lname',  v => v.length > 0,  'Last name is required.') & ok;
-      ok = checkField('email',  v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Enter a valid email — we\'ll send your next steps here.') & ok;
+      ok = checkField('email',  v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Enter a valid email. We\'ll send your next steps here.') & ok;
     }
     if (n === 2) {
-      ok = checkField('shoeType', v => v.length > 0, 'Tell us the shoe — it helps us prepare the right treatment.') & ok;
+      ok = checkField('shoeType', v => v.length > 0, 'Tell us the shoe. It helps us prepare the right treatment.') & ok;
     }
     return !!ok;
   }
@@ -625,9 +689,13 @@
     selectedService = name;
     selectedPrice = price;
     document.getElementById('selectedServiceInput').value = name;
+    // inline badge (always visible)
+    document.getElementById('badgeName').textContent = name;
+    document.getElementById('badgePrice').textContent = 'From ' + price;
+    // sidebar
     document.getElementById('pSvc').textContent = name;
-    document.getElementById('pPrice').textContent = price;
-    document.getElementById('pTotal').textContent = price;
+    document.getElementById('pPrice').textContent = 'From ' + price;
+    document.getElementById('pTotal').textContent = 'From ' + price;
     updateSummary();
   }
 
@@ -672,7 +740,7 @@
     ['sl1','sl2'].forEach(id => document.getElementById(id).classList.add('done'));
   }
 
-  // Form submit — real Web3Forms fetch
+  // Form submit
   document.getElementById('bookingForm').addEventListener('submit', async e => {
     e.preventDefault();
     const submitBtn = e.target.querySelector('[type="submit"]');

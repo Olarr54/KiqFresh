@@ -3,7 +3,8 @@
     "allow": [
       "Bash(dir C:\\\\Users\\\\suboo\\\\OneDrive\\\\Documents\\\\KiqFresh\\\\build *)",
       "Bash(dir C:\\\\Users\\\\suboo\\\\OneDrive\\\\Documents\\\\KiqFresh\\\\build\\\\logo* *)",
-      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\suboo\\\\OneDrive\\\\Documents\\\\KiqFresh\\\\build\\\\\" | Where-Object { $_.Name -match \"tiktok\" })"
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\suboo\\\\OneDrive\\\\Documents\\\\KiqFresh\\\\build\\\\\" | Where-Object { $_.Name -match \"tiktok\" })",
+      "Bash(git add *)"
     ]
   }
 }
