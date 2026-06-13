@@ -643,12 +643,13 @@
       <!-- SUCCESS -->
       <div class="success-screen" id="successScreen">
         <div class="success-icon">✓</div>
-        <div class="success-title">BOOKING SENT!</div>
+        <div class="success-title">BOOKING RECEIVED!</div>
         <p class="success-msg">
-          We've received your booking request.<br>
-          We'll email you a prepaid returns label and next steps within a few hours.
+          Step 1 done. Now complete payment to confirm your booking.<br>
+          You'll get a Stripe receipt instantly — then we'll send you your prepaid returns label.
         </p>
-        <a href="index.html" class="btn-comic btn-orange" style="margin-top:0.5rem;">Back to Home</a>
+        <a id="payNowBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn-comic btn-orange" style="margin-top:0.5rem;font-size:1.15rem;">Pay Now →</a>
+        <a href="index.html" style="margin-top:1rem;font-size:0.82rem;font-weight:800;color:#888;text-decoration:underline;text-underline-offset:3px;">Back to Home</a>
       </div>
 
       </div><!-- /postalFlow -->
@@ -907,6 +908,13 @@
     dz.style.background = 'rgba(245,84,10,0.04)';
   }
 
+  const STRIPE_LINKS = {
+    'Full Shoe Clean':              'https://buy.stripe.com/28E5kFeAEacN94qdYS8og00',
+    'Full Clean + Plastic Wrap':    'https://buy.stripe.com/7sYeVf1NSet34OaaMG8og01',
+    'Full Shoe Deep Clean':         'https://buy.stripe.com/eVq3cxgIMbgReoK8Ey8og02',
+    'Triple Clean Bundle (3 pairs)':'https://buy.stripe.com/8x2cN7ako5Wx0xUg708og03'
+  };
+
   function showSuccess() {
     document.getElementById('step3').style.display = 'none';
     const ss = document.getElementById('successScreen');
@@ -918,6 +926,8 @@
       el.textContent = '✓';
     });
     ['sl1','sl2'].forEach(id => document.getElementById(id).classList.add('done'));
+    const payBtn = document.getElementById('payNowBtn');
+    payBtn.href = STRIPE_LINKS[selectedService] || STRIPE_LINKS['Full Shoe Clean'];
   }
 
   // Form submit (secured)
