@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /privacy-policy.html
+Disallow: /contract.html
+Disallow: /terms.html
 
 Sitemap: https://kiqfresh.net/sitemap.xml
