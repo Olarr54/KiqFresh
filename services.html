@@ -369,6 +369,77 @@
   max-height: 300px;
   padding: 0 1.5rem 1.3rem;
 }
+
+/* ===== CATEGORY LABELS ===== */
+.services-category { margin-bottom: 3rem; }
+.services-cat-label {
+  display: inline-flex; align-items: center;
+  background: var(--black); color: white;
+  font-family: 'Bangers', cursive; font-size: 0.85rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 0.4rem 1.1rem; border-radius: 100px;
+  border: 2.5px solid var(--black); margin-bottom: 1.5rem;
+  box-shadow: 3px 3px 0 var(--black);
+}
+.services-cat-label--orange { background: var(--orange); border-color: var(--orange); }
+.services-grid--2col { grid-template-columns: repeat(2, 1fr) !important; }
+@media(max-width:680px) { .services-grid--2col { grid-template-columns: 1fr !important; } }
+.services-grid--center { max-width: 580px; margin-left: auto !important; margin-right: auto !important; }
+.service-card--premium { border-color: var(--black); box-shadow: 6px 6px 0 var(--black); }
+
+/* ===== BUNDLE + EXTRAS ===== */
+.bundle-extras-wrap {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.5rem; max-width: 1200px; margin: 0 auto 3rem;
+}
+@media(max-width:700px) { .bundle-extras-wrap { grid-template-columns: 1fr; } }
+.bundle-price-box {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  background: var(--black); border: 3px solid var(--black);
+  border-radius: 14px; padding: 0.8rem 1.2rem; margin-bottom: 1.5rem;
+}
+.extras-list { display: flex; flex-direction: column; gap: 0.7rem; }
+.extra-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--cream); border: 2.5px solid var(--black);
+  border-radius: 12px; padding: 0.75rem 1rem;
+  box-shadow: 2px 2px 0 var(--black);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.extra-item:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--black); }
+.extra-name { font-size: 0.88rem; font-weight: 800; color: var(--black); }
+.extra-price { font-family: 'Bangers', cursive; font-size: 1.2rem; letter-spacing: 0.04em; color: var(--orange); }
+
+/* ===== LOYALTY ===== */
+.loyalty-banner {
+  background: var(--black); border: 3.5px solid var(--black);
+  border-radius: 24px; box-shadow: 8px 8px 0 var(--orange);
+  padding: 2.5rem 3rem; max-width: 1200px; margin: 0 auto;
+}
+@media(max-width:600px){ .loyalty-banner { padding: 2rem 1.5rem; } }
+.loyalty-inner {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+}
+.loyalty-title {
+  font-family: 'Bangers', cursive; font-size: 2.5rem;
+  letter-spacing: 0.05em; color: var(--orange); margin-bottom: 0.4rem;
+}
+.loyalty-desc { font-size: 0.9rem; font-weight: 700; color: rgba(255,255,255,0.6); line-height: 1.6; max-width: 280px; }
+.stamp-row { display: flex; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+.stamp {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--orange); border: 3px solid white;
+  box-shadow: 3px 3px 0 rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: white;
+}
+.loyalty-free {
+  font-family: 'Bangers', cursive; font-size: 1.5rem;
+  letter-spacing: 0.06em; color: white; text-align: center;
+  background: rgba(255,255,255,0.1); border: 2.5px solid rgba(255,255,255,0.2);
+  border-radius: 12px; padding: 0.5rem 1.2rem; margin-top: 0.3rem;
+}
 </style>
 </head>
 <body>
@@ -400,87 +471,145 @@
 <section id="services-section">
   <span class="deco-star" style="top:1.5rem;right:2%;color:rgba(17,17,17,0.04);font-size:6rem;">✦</span>
   <span class="deco-star" style="bottom:2rem;left:2%;color:rgba(165,210,255,0.3);font-size:2rem;animation:sparkle 3.5s ease-in-out infinite;animation-delay:0.5s;">✦</span>
-  <div style="text-align:center;">
+  <div style="text-align:center;margin-bottom:2.5rem;">
     <h2 class="graffiti-heading reveal">PICK YOUR<br><span style="color:var(--orange);">PACKAGE.</span></h2>
+    <p style="color:#555;font-weight:700;max-width:480px;margin:.75rem auto 0;line-height:1.6;">Local &amp; postal · Reading and UK wide. Clear pricing, no hidden extras.</p>
   </div>
-  <div class="services-grid">
 
-    <!-- Service 1 -->
-    <div class="service-card reveal">
-      <div class="service-icon">🧹</div>
-      <div class="service-name">ESSENTIAL CLEAN</div>
-      <p class="service-desc">The basics done properly. Sole scrub, upper wipe down, lace clean, and a fresh finish. Perfect for lightly worn shoes that just need bringing back to life.</p>
-      <ul class="service-includes">
-        <li>Sole scrub</li>
-        <li>Upper wipe down</li>
-        <li>Lace clean</li>
-        <li>Fresh finish</li>
-      </ul>
-      <p style="font-size:0.78rem;font-weight:900;letter-spacing:0.08em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;">Best for: everyday trainers, light dirt, regular maintenance</p>
-      <div class="service-price-row">
-        <div class="service-price">From £12 <small>/ pair</small></div>
-        <a href="booking.html" class="btn-comic btn-outline" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
+  <!-- STANDARD SERVICES -->
+  <div class="services-category">
+    <div class="services-cat-label">Standard Services</div>
+    <div class="services-grid services-grid--2col">
+
+      <div class="service-card reveal">
+        <div class="service-icon">🧹</div>
+        <div class="service-name">FULL SHOE CLEAN</div>
+        <p class="service-desc">Deep clean on laces, uppers &amp; soles — laces included. Ideal for keeping your pair in top condition.</p>
+        <ul class="service-includes">
+          <li>Uppers deep cleaned</li>
+          <li>Soles scrubbed</li>
+          <li>Laces cleaned &amp; included</li>
+          <li>Fresh finish</li>
+        </ul>
+        <p style="font-size:0.78rem;font-weight:900;letter-spacing:0.08em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;">Turnaround: 3–5 days · Best for regular maintenance</p>
+        <div class="service-price-row">
+          <div class="service-price">£15 <small>/ pair</small></div>
+          <a href="booking.html" class="btn-comic btn-outline" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
+        </div>
       </div>
+
+      <div class="service-card featured reveal">
+        <div class="service-sticker">Box-Fresh Finish</div>
+        <div class="service-icon" style="background:var(--orange);">📦</div>
+        <div class="service-name">FULL CLEAN + PLASTIC WRAP</div>
+        <p class="service-desc">Full clean finished with a protective plastic wrap to keep them box-fresh. Perfect for storage or gifting.</p>
+        <ul class="service-includes">
+          <li>Everything in Full Shoe Clean</li>
+          <li>Protective plastic wrap</li>
+          <li>Box-fresh presentation</li>
+          <li>Laces included</li>
+        </ul>
+        <p style="font-size:0.78rem;font-weight:900;letter-spacing:0.08em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;">Turnaround: 3–5 days · Best for storage &amp; gifting</p>
+        <div class="service-price-row">
+          <div class="service-price">£20 <small>/ pair</small></div>
+          <a href="booking.html" class="btn-comic btn-orange" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PREMIUM SERVICE -->
+  <div class="services-category">
+    <div class="services-cat-label services-cat-label--orange">Premium Service</div>
+    <div class="services-grid services-grid--center">
+
+      <div class="service-card service-card--premium reveal">
+        <div class="service-sticker" style="background:var(--black);">Most Thorough</div>
+        <div class="service-icon" style="background:var(--black);">🔥</div>
+        <div class="service-name">FULL SHOE DEEP CLEAN</div>
+        <p class="service-desc">Everything in a standard clean, plus odour neutralising treatment, smell replenish, and protective wrap. The full works for pairs that need serious attention.</p>
+        <ul class="service-includes">
+          <li>Full standard clean</li>
+          <li>Odour neutraliser treatment</li>
+          <li>Smell replenish</li>
+          <li>Protective plastic wrap</li>
+          <li>Laces included</li>
+        </ul>
+        <p style="font-size:0.78rem;font-weight:900;letter-spacing:0.08em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;">Turnaround: 3–5 days · Best for heavily worn or odour-affected pairs</p>
+        <div class="service-price-row">
+          <div class="service-price">£25 <small>/ pair</small></div>
+          <a href="booking.html" class="btn-comic btn-black" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BUNDLE + EXTRAS -->
+  <div class="bundle-extras-wrap">
+
+    <!-- Bundle -->
+    <div class="service-card reveal">
+      <div class="services-cat-label" style="margin-bottom:1.2rem;">Bundle</div>
+      <div class="service-icon" style="background:var(--blue);">🎁</div>
+      <div class="service-name">TRIPLE CLEAN</div>
+      <p style="font-family:'Bangers',cursive;font-size:1rem;letter-spacing:0.08em;color:#888;margin-bottom:0.6rem;">3 PAIRS · SENT OR DROPPED OFF TOGETHER</p>
+      <p class="service-desc">Got multiple pairs? Send or drop them all off together and save. The more, the fresher.</p>
+      <div class="bundle-price-box">
+        <span style="font-family:'Bangers',cursive;font-size:1.1rem;color:rgba(255,255,255,0.4);text-decoration:line-through;">£45</span>
+        <span style="font-family:'Bangers',cursive;font-size:2rem;color:var(--orange);">£40</span>
+        <span style="background:var(--orange);color:white;font-family:'Bangers',cursive;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.6rem;border-radius:8px;border:2px solid rgba(255,255,255,0.2);">SAVE £5</span>
+      </div>
+      <a href="booking.html" class="btn-comic btn-orange" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
     </div>
 
-    <!-- Service 2 -->
-    <div class="service-card featured reveal">
-      <div class="service-sticker">Most Popular</div>
-      <div class="service-icon" style="background:var(--orange);">🔥</div>
-      <div class="service-name">DEEP CLEAN</div>
-      <p class="service-desc">Our most popular service. Full sole restoration, midsole brightening, upper deep clean, lace replacement (if needed), and a protective finish. This is where the transformation happens.</p>
-      <ul class="service-includes">
-        <li>Full sole restoration</li>
-        <li>Midsole brightening</li>
-        <li>Upper deep clean</li>
-        <li>Lace replacement (if needed)</li>
-        <li>Protective finish</li>
-      </ul>
-      <p style="font-size:0.78rem;font-weight:900;letter-spacing:0.08em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;">Best for: heavily worn shoes, creasing, yellowing soles, surface stains</p>
-      <div class="service-price-row">
-        <div class="service-price">From £22 <small>/ pair</small></div>
-        <a href="booking.html" class="btn-comic btn-orange" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
-      </div>
-    </div>
-
-    <!-- Service 3 -->
+    <!-- Extras -->
     <div class="service-card reveal">
-      <div class="service-icon" style="background:var(--black);">✨</div>
-      <div class="service-name">RESTORATION</div>
-      <p class="service-desc">For shoes that have seen better days. Colour restoration, crease treatment, sole rewhitening, and full premium clean. We bring back what you thought was gone.</p>
-      <ul class="service-includes">
-        <li>Colour restoration</li>
-        <li>Crease treatment</li>
-        <li>Sole rewhitening</li>
-        <li>Full premium clean</li>
-        <li>Protective coating</li>
-      </ul>
-      <p style="font-size:0.78rem;font-weight:900;letter-spacing:0.08em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;">Best for: vintage pairs, resale prep, collectors, sentimental sneakers</p>
-      <div class="service-price-row">
-        <div class="service-price">From £40 <small>/ pair</small></div>
-        <a href="booking.html" class="btn-comic btn-outline" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
-      </div>
-    </div>
-
-    <!-- Service 4 -->
-    <div class="service-card reveal">
-      <div class="service-icon" style="background:var(--blue);">📦</div>
-      <div class="service-name">RESALE PREP</div>
-      <p class="service-desc">Planning to sell on Vinted, Depop, or StockX? We clean and prep your pair to maximise resale value. Presentation matters, and a clean pair sells faster and for more.</p>
-      <ul class="service-includes">
-        <li>Full clean + restoration</li>
-        <li>Presentation-ready finish</li>
-        <li>Photo ready condition</li>
-        <li>Lace replacement (if needed)</li>
-      </ul>
-      <p style="font-size:0.78rem;font-weight:900;letter-spacing:0.08em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;">Best for: sneaker resellers, Vinted/Depop sellers, collection flipping</p>
-      <div class="service-price-row">
-        <div class="service-price">From £28 <small>/ pair</small></div>
-        <a href="booking.html" class="btn-comic btn-outline" style="font-size:0.9rem;padding:0.6rem 1.4rem;">Book →</a>
+      <div class="services-cat-label" style="margin-bottom:1.2rem;">Extras &amp; Add-ons</div>
+      <p class="service-desc" style="margin-bottom:1.2rem;">Add any of these to your booking. Just mention it in the special instructions.</p>
+      <div class="extras-list">
+        <div class="extra-item">
+          <span class="extra-name">🎨 Repaint touch-up</span>
+          <span class="extra-price">£10</span>
+        </div>
+        <div class="extra-item">
+          <span class="extra-name">🖌️ Suede re-dye</span>
+          <span class="extra-price">£15</span>
+        </div>
+        <div class="extra-item">
+          <span class="extra-name">⚪ Midsole repaint</span>
+          <span class="extra-price">from £12</span>
+        </div>
+        <div class="extra-item">
+          <span class="extra-name">⚡ Express clean (48hr)</span>
+          <span class="extra-price">+£8</span>
+        </div>
       </div>
     </div>
 
   </div>
+
+  <!-- LOYALTY BANNER -->
+  <div class="loyalty-banner reveal">
+    <div class="loyalty-inner">
+      <div>
+        <div class="loyalty-title">LOYALTY STAMPS</div>
+        <p class="loyalty-desc">Get a stamp on every clean. Fill your card with 5 stamps and your 6th clean is completely on us.</p>
+      </div>
+      <div style="text-align:center;">
+        <div class="stamp-row">
+          <div class="stamp">★</div>
+          <div class="stamp">★</div>
+          <div class="stamp">★</div>
+          <div class="stamp">★</div>
+          <div class="stamp">★</div>
+        </div>
+        <div class="loyalty-free">6TH CLEAN ON US ✦</div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- SERVICE BEFORE/AFTER SLIDER -->
@@ -624,10 +753,10 @@
     <div class="footer-col">
       <h4>Services</h4>
       <ul>
-        <li><a href="services.html">Essential Clean</a></li>
-        <li><a href="services.html">Deep Clean</a></li>
-        <li><a href="services.html">Restoration</a></li>
-        <li><a href="services.html">Resale Prep</a></li>
+        <li><a href="services.html">Full Shoe Clean</a></li>
+        <li><a href="services.html">Full Shoe Deep Clean</a></li>
+        <li><a href="services.html">Triple Clean Bundle</a></li>
+        <li><a href="services.html">Extras &amp; Add-ons</a></li>
       </ul>
     </div>
     <div class="footer-col">

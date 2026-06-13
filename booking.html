@@ -344,6 +344,80 @@
   margin-bottom: 0.2rem;
 }
 .mascot-text span { font-size: 0.82rem; color: rgba(255,255,255,0.85); font-weight: 700; }
+
+/* === METHOD CHOOSER === */
+.method-chooser { text-align: center; padding: 0.5rem 0 1rem; }
+.method-chooser > h3 {
+  font-family: 'Bangers', cursive;
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 1.5rem;
+  color: var(--black);
+}
+.method-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media(max-width:500px){ .method-options { grid-template-columns: 1fr; } }
+.method-option {
+  border: 3.5px solid var(--black);
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  cursor: pointer;
+  box-shadow: 5px 5px 0 var(--black);
+  background: var(--cream);
+  transition: transform 0.15s, box-shadow 0.15s;
+  text-align: center;
+}
+.method-option:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--black); }
+.method-option:active { transform: translate(2px,2px); box-shadow: 3px 3px 0 var(--black); }
+.method-icon { font-size: 2.8rem; display: block; margin-bottom: 0.75rem; }
+.method-name { font-family: 'Bangers', cursive; font-size: 1.7rem; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+.method-sub { font-size: 0.82rem; font-weight: 800; color: #666; line-height: 1.4; }
+.method-option.method-collection {
+  border-color: var(--blue);
+  box-shadow: 5px 5px 0 var(--blue);
+}
+.method-option.method-collection:hover { box-shadow: 7px 7px 0 var(--blue); }
+
+/* === COLLECTION SCREEN === */
+.collection-screen { text-align: center; padding: 1.5rem 0; }
+.coll-icon { font-size: 3.5rem; display: block; margin-bottom: 1rem; }
+.collection-screen h3 {
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  color: var(--black);
+}
+.collection-screen p {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #555;
+  line-height: 1.65;
+  margin: 0 auto 2rem;
+  max-width: 380px;
+}
+.wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #25D366;
+  color: white;
+  border: 3.5px solid var(--black);
+  border-radius: 100px;
+  box-shadow: 5px 5px 0 var(--black);
+  padding: 1rem 2rem;
+  font-family: 'Bangers', cursive;
+  font-size: 1.3rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: transform 0.12s, box-shadow 0.12s;
+  margin-bottom: 1.2rem;
+}
+.wa-btn:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--black); }
+.wa-btn:active { transform: translate(2px,2px); box-shadow: 3px 3px 0 var(--black); }
 </style>
 </head>
 <body>
@@ -373,6 +447,44 @@
 
     <!-- FORM -->
     <div class="booking-form-card">
+
+      <!-- METHOD CHOOSER -->
+      <div id="methodChoose" class="method-chooser">
+        <h3>HOW WOULD YOU LIKE TO USE OUR SERVICE?</h3>
+        <div class="method-options">
+          <div class="method-option method-postal" onclick="chooseMethod('postal')">
+            <span class="method-icon">📬</span>
+            <div class="method-name">POST TO US</div>
+            <div class="method-sub">UK Wide — Book online &amp; send your trainers by post</div>
+          </div>
+          <div class="method-option method-collection" onclick="chooseMethod('collection')">
+            <span class="method-icon">🚗</span>
+            <div class="method-name">COLLECTION</div>
+            <div class="method-sub">Reading Area Only — We come to collect from you</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLLECTION SCREEN -->
+      <div id="collectionScreen" class="collection-screen" style="display:none;">
+        <span class="coll-icon">📍</span>
+        <h3>COLLECTION — READING AREA ONLY</h3>
+        <p>Just so you know, we only offer our collection service within the Reading area. Drop us a WhatsApp message and we'll sort out all the details — service type, timing, and pickup — directly with you.</p>
+        <a href="https://wa.me/447833931681?text=Hi%20Kiq%20Fresh%2C%20I%20would%20like%20to%20arrange%20a%20collection%20in%20Reading." class="wa-btn" target="_blank" rel="noopener noreferrer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          TEXT US ON WHATSAPP
+        </a>
+        <div>
+          <button onclick="chooseMethod('back')" class="btn-comic btn-outline">← Back</button>
+        </div>
+      </div>
+
+      <!-- POSTAL FLOW -->
+      <div id="postalFlow" style="display:none;">
+      <div style="margin-bottom:0.75rem;text-align:right;">
+        <button onclick="chooseMethod('back')" style="background:none;border:none;cursor:pointer;font-size:0.75rem;font-weight:900;color:#aaa;letter-spacing:0.08em;text-transform:uppercase;padding:0;">← Change delivery method</button>
+      </div>
+
       <!-- Step bar -->
       <div class="steps-bar">
         <div class="step-bubble active" id="sb1">1</div>
@@ -386,7 +498,7 @@
         <input type="hidden" name="access_key" value="b80110e8-924f-4279-8651-bf379dd8748f">
         <input type="hidden" name="subject" value="New Kiq Fresh Booking Request">
         <input type="hidden" name="from_name" value="Kiq Fresh Website">
-        <input type="hidden" id="selectedServiceInput" name="service" value="Deep Clean">
+        <input type="hidden" id="selectedServiceInput" name="service" value="Full Shoe Clean">
         <!-- honeypot spam trap -->
         <input type="checkbox" name="botcheck" style="display:none;">
         <!-- STEP 1 -->
@@ -421,26 +533,26 @@
           <h3 style="font-family:'Bangers',cursive;font-size:1.8rem;letter-spacing:0.04em;margin-bottom:1.5rem;">YOUR TRAINERS</h3>
           <label style="font-size:0.72rem;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#666;display:block;margin-bottom:0.7rem;">Service Type</label>
           <div class="service-options">
-            <div class="service-option" onclick="selectService(this,'Essential Clean','£12')">
-              <div class="sopt-name">🧹 ESSENTIAL CLEAN</div>
-              <div class="sopt-price">From £12 / pair</div>
+            <div class="service-option selected" onclick="selectService(this,'Full Shoe Clean','£15')">
+              <div class="sopt-name">🧹 FULL SHOE CLEAN</div>
+              <div class="sopt-price">£15 / pair</div>
             </div>
-            <div class="service-option selected" onclick="selectService(this,'Deep Clean','£22')">
-              <div class="sopt-name">🔥 DEEP CLEAN</div>
-              <div class="sopt-price">From £22 / pair</div>
+            <div class="service-option" onclick="selectService(this,'Full Clean + Plastic Wrap','£20')">
+              <div class="sopt-name">📦 FULL CLEAN + WRAP</div>
+              <div class="sopt-price">£20 / pair</div>
             </div>
-            <div class="service-option" onclick="selectService(this,'Restoration','£40')">
-              <div class="sopt-name">✨ RESTORATION</div>
-              <div class="sopt-price">From £40 / pair</div>
+            <div class="service-option" onclick="selectService(this,'Full Shoe Deep Clean','£25')">
+              <div class="sopt-name">🔥 FULL SHOE DEEP CLEAN</div>
+              <div class="sopt-price">£25 / pair</div>
             </div>
-            <div class="service-option" onclick="selectService(this,'Resale Prep','£28')">
-              <div class="sopt-name">📦 RESALE PREP</div>
-              <div class="sopt-price">From £28 / pair</div>
+            <div class="service-option" onclick="selectService(this,'Triple Clean Bundle (3 pairs)','£40')">
+              <div class="sopt-name">🎁 TRIPLE CLEAN (3 pairs)</div>
+              <div class="sopt-price">£40 total · save £5</div>
             </div>
           </div>
           <div id="selectedBadge" style="display:flex;align-items:center;justify-content:space-between;background:var(--black);border:3px solid var(--black);border-radius:14px;padding:.85rem 1.2rem;margin-bottom:1.1rem;">
-            <span style="font-family:'Bangers',cursive;font-size:1.1rem;letter-spacing:.06em;color:white;" id="badgeName">Deep Clean</span>
-            <span style="font-family:'Bangers',cursive;font-size:1.4rem;letter-spacing:.04em;color:var(--orange);" id="badgePrice">From £22</span>
+            <span style="font-family:'Bangers',cursive;font-size:1.1rem;letter-spacing:.06em;color:white;" id="badgeName">Full Shoe Clean</span>
+            <span style="font-family:'Bangers',cursive;font-size:1.4rem;letter-spacing:.04em;color:var(--orange);" id="badgePrice">£15</span>
           </div>
 
           <div class="form-group">
@@ -504,6 +616,8 @@
         </p>
         <a href="index.html" class="btn-comic btn-orange" style="margin-top:0.5rem;">Back to Home</a>
       </div>
+
+      </div><!-- /postalFlow -->
     </div>
 
     <!-- SIDEBAR -->
@@ -533,8 +647,8 @@
         <div class="sidebar-feature">
           <div class="sf-icon">📬</div>
           <div class="sf-text">
-            <strong>Post To Us, We Return Them</strong>
-            <span>UK-wide postal service. We send them back spotless.</span>
+            <strong>Post (UK Wide) or Collect (Reading)</strong>
+            <span>Send by post from anywhere in the UK, or book a collection if you're in Reading.</span>
           </div>
         </div>
         <div class="sidebar-feature">
@@ -563,11 +677,11 @@
       <div class="sidebar-card" id="priceSidebar">
         <h3>PRICE ESTIMATE</h3>
         <div class="price-summary">
-          <div class="price-row"><span id="pSvc">Deep Clean</span><span id="pPrice">From £22</span></div>
+          <div class="price-row"><span id="pSvc">Full Shoe Clean</span><span id="pPrice">£15</span></div>
           <div class="price-row"><span>Return Postage</span><span>FREE</span></div>
           <div class="price-row" style="border-top:2px dashed rgba(0,0,0,0.1);padding-top:0.6rem;margin-top:0.2rem;">
             <span style="font-size:1rem;font-weight:900;">TOTAL</span>
-            <span class="price-total" id="pTotal">From £22</span>
+            <span class="price-total" id="pTotal">£15</span>
           </div>
         </div>
       </div>
@@ -633,8 +747,27 @@
 <script src="security.js"></script>
 <script src="shared.js"></script>
 <script>
-  let selectedService = 'Deep Clean';
-  let selectedPrice = '£22';
+  function chooseMethod(type) {
+    const mc = document.getElementById('methodChoose');
+    const cs = document.getElementById('collectionScreen');
+    const pf = document.getElementById('postalFlow');
+    if (type === 'postal') {
+      mc.style.display = 'none';
+      cs.style.display = 'none';
+      pf.style.display = 'block';
+    } else if (type === 'collection') {
+      mc.style.display = 'none';
+      cs.style.display = 'block';
+      pf.style.display = 'none';
+    } else {
+      mc.style.display = 'block';
+      cs.style.display = 'none';
+      pf.style.display = 'none';
+    }
+  }
+
+  let selectedService = 'Full Shoe Clean';
+  let selectedPrice = '£15';
 
   function getCurrentStep() {
     for (let i = 1; i <= 3; i++) {
