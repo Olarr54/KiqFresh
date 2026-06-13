@@ -8,14 +8,14 @@
 <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.web3forms.com; img-src 'self' data: blob:; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'; frame-src 'none'">
 <title>Book a Shoe Clean | Kiq Fresh UK Postal Shoe Cleaning Service</title>
-<meta name="description" content="Book your Kiq Fresh shoe clean online. Choose your service, post your trainers to us, and get them back spotless. Fully insured, signed return contract. UK wide.">
+<meta name="description" content="Book your Kiq Fresh shoe clean online. Choose your service, post your trainers to us, and get them back spotless. Fully insured, service agreement included. UK wide.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Book a Shoe Clean | Kiq Fresh UK">
-<meta property="og:description" content="Book your Kiq Fresh shoe clean online. Choose your service, post your trainers, get them back spotless. Fully insured, signed return contract.">
+<meta property="og:description" content="Book your Kiq Fresh shoe clean online. Choose your service, post your trainers, get them back spotless. Fully insured, service agreement included.">
 <meta property="og:image" content="https://kiqfresh.net/logo.jpeg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Book a Shoe Clean | Kiq Fresh UK">
-<meta name="twitter:description" content="Book your Kiq Fresh shoe clean. Post your trainers, get them back spotless. Fully insured, signed return contract.">
+<meta name="twitter:description" content="Book your Kiq Fresh shoe clean. Post your trainers, get them back spotless. Fully insured, service agreement included.">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="icon" type="image/jpeg" href="logo.jpeg">
 <link rel="apple-touch-icon" href="logo.jpeg">
@@ -624,6 +624,15 @@
               Keep me updated with exclusive offers, cleaning tips and news from Kiq Fresh. You can unsubscribe any time. <a href="privacy-policy.html" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">Privacy Policy</a>
             </label>
           </div>
+          <div style="display:flex;align-items:flex-start;gap:0.75rem;background:var(--cream);border:2.5px solid var(--orange);border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.4rem;">
+            <input type="checkbox" id="contractAgree" name="contract_agreed" value="Yes" style="margin-top:2px;width:18px;height:18px;cursor:pointer;accent-color:var(--orange);flex-shrink:0;">
+            <label for="contractAgree" style="font-size:0.82rem;font-weight:700;color:#333;line-height:1.5;cursor:pointer;">
+              I have read and agree to the <a href="contract.html" target="_blank" style="color:var(--orange);font-weight:900;text-decoration:underline;text-underline-offset:2px;">Kiq Fresh Service Agreement</a>. <span style="color:#888;">(Required)</span>
+            </label>
+          </div>
+          <div id="contractError" style="display:none;background:#fff0f0;border:2px solid #e53;border-radius:10px;padding:0.7rem 1rem;margin-bottom:1rem;font-size:0.83rem;font-weight:800;color:#c00;">
+            Please read and agree to our Service Agreement before confirming your booking.
+          </div>
           <div style="display:flex;gap:1rem;flex-wrap:wrap;">
             <button type="button" class="btn-comic btn-outline" onclick="goStep(2)" style="flex:1;min-width:100px;">← Back</button>
             <button type="submit" class="form-submit" style="flex:2;">Confirm Booking ✓</button>
@@ -717,7 +726,7 @@
 
 <footer>
   <div class="footer-trust-band">
-    <span class="footer-trust-item">SIGNED RETURN CONTRACT</span>
+    <span class="footer-trust-item">SERVICE AGREEMENT</span>
     <span class="footer-trust-item">FULLY INSURED</span>
     <span class="footer-trust-item">UK WIDE SERVICE</span>
     <span class="footer-trust-item">PROFESSIONAL RESULTS</span>
@@ -728,7 +737,7 @@
         <img src="logo.jpeg" alt="KiqFresh" class="footer-logo-img">
         <span class="logo-text">KiqFresh</span>
       </a>
-      <p>Post your trainers to us and get them back spotless. Professional results, insured, signed contract every time.</p>
+      <p>Post your trainers to us and get them back spotless. Professional results, fully insured, service agreement every booking.</p>
       <div class="footer-socials">
         <a href="https://www.tiktok.com/@kiqfresh" class="footer-social-btn">TikTok</a>
         <a href="https://www.instagram.com/kiqfresh/" class="footer-social-btn" target="_blank" rel="noopener noreferrer">Instagram</a>
@@ -760,6 +769,7 @@
         <li><a href="services.html">View Services</a></li>
         <li><a href="https://www.tiktok.com/@kiqfresh">Follow Us</a></li>
         <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="contract.html">Service Agreement</a></li>
       </ul>
     </div>
   </div>
@@ -972,6 +982,16 @@
       KiqSecurity.showError(form, 'Notes must be under 1000 characters and contain no HTML tags.');
       return;
     }
+
+    // Service agreement checkbox
+    const contractAgree = document.getElementById('contractAgree');
+    const contractError = document.getElementById('contractError');
+    if (!contractAgree.checked) {
+      contractError.style.display = 'block';
+      contractAgree.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    contractError.style.display = 'none';
 
     // File upload security check
     const fi = document.getElementById('fileInput');
