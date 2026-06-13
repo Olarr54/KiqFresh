@@ -29,6 +29,10 @@ body {
   justify-content: space-between;
   height: 68px;
   box-shadow: 0 4px 0 var(--black);
+  transition: transform 0.3s ease;
+}
+#main-nav.nav-hidden {
+  transform: translateY(-100%);
 }
 
 .nav-logo {

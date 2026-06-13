@@ -7,6 +7,31 @@ if (burger && navLinks) {
   });
 }
 
+// Smart nav: hide on scroll down, show on scroll up
+(function () {
+  const nav = document.getElementById('main-nav');
+  if (!nav) return;
+  let lastY = window.scrollY;
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const currentY = window.scrollY;
+      const menuOpen = navLinks && navLinks.classList.contains('open');
+      if (!menuOpen) {
+        if (currentY > lastY && currentY > 80) {
+          nav.classList.add('nav-hidden');
+        } else {
+          nav.classList.remove('nav-hidden');
+        }
+      }
+      lastY = currentY;
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
 // Reveal on scroll
 const reveals = document.querySelectorAll('.reveal');
 const revealObserver = new IntersectionObserver(entries => {
