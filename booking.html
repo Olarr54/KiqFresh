@@ -499,6 +499,7 @@
         <input type="hidden" name="subject" value="New Kiq Fresh Booking Request">
         <input type="hidden" name="from_name" value="Kiq Fresh Website">
         <input type="hidden" id="selectedServiceInput" name="service" value="Full Shoe Clean">
+        <input type="hidden" name="delivery_method" value="Postal — UK Wide">
         <!-- honeypot spam trap -->
         <input type="checkbox" name="botcheck" style="display:none;">
         <!-- STEP 1 -->
@@ -524,6 +525,30 @@
           <div class="form-group">
             <label>Phone <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
             <input type="tel" id="phone" name="phone" placeholder="+44 7700 000000" autocomplete="tel" maxlength="25">
+          </div>
+          <div style="background:rgba(165,210,255,0.12);border:2.5px solid var(--blue);border-radius:14px;padding:0.9rem 1.1rem;margin-bottom:1.1rem;font-size:0.82rem;font-weight:800;color:#444;line-height:1.5;">
+            📬 We need your address to send you a prepaid postal label.
+          </div>
+          <div class="form-group">
+            <label>Address Line 1 <span style="color:#e53;font-weight:900;">*</span></label>
+            <input type="text" id="addr1" name="address_line_1" placeholder="12 Trainer Street" autocomplete="address-line1" maxlength="100">
+            <span class="field-error-msg">Please enter your address.</span>
+          </div>
+          <div class="form-group">
+            <label>Address Line 2 <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+            <input type="text" id="addr2" name="address_line_2" placeholder="Flat 3, Apt B..." autocomplete="address-line2" maxlength="100">
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>City / Town <span style="color:#e53;font-weight:900;">*</span></label>
+              <input type="text" id="city" name="city" placeholder="Reading" autocomplete="address-level2" maxlength="60">
+              <span class="field-error-msg">Please enter your city or town.</span>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Postcode <span style="color:#e53;font-weight:900;">*</span></label>
+              <input type="text" id="postcode" name="postcode" placeholder="RG1 1AA" autocomplete="postal-code" maxlength="10" style="text-transform:uppercase;">
+              <span class="field-error-msg">Please enter a valid UK postcode.</span>
+            </div>
           </div>
           <button type="button" class="form-submit" onclick="goStep(2)">Next: Your Trainers →</button>
         </div>
@@ -796,9 +821,12 @@
   function validateStep(n) {
     let ok = true;
     if (n === 1) {
-      ok = checkField('fname',  v => v.length > 0,  'First name is required.') & ok;
-      ok = checkField('lname',  v => v.length > 0,  'Last name is required.') & ok;
-      ok = checkField('email',  v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Enter a valid email. We\'ll send your next steps here.') & ok;
+      ok = checkField('fname',    v => v.length > 0,  'First name is required.') & ok;
+      ok = checkField('lname',    v => v.length > 0,  'Last name is required.') & ok;
+      ok = checkField('email',    v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Enter a valid email. We\'ll send your next steps here.') & ok;
+      ok = checkField('addr1',    v => v.length > 0,  'Please enter your address.') & ok;
+      ok = checkField('city',     v => v.length > 0,  'Please enter your city or town.') & ok;
+      ok = checkField('postcode', v => /^[a-z]{1,2}\d[a-z\d]?\s?\d[a-z]{2}$/i.test(v.trim()), 'Please enter a valid UK postcode.') & ok;
     }
     if (n === 2) {
       ok = checkField('shoeType', v => v.length > 0, 'Tell us the shoe. It helps us prepare the right treatment.') & ok;
@@ -898,12 +926,15 @@
     }
 
     // Validate individual fields
-    const fname = document.getElementById('fname').value;
-    const lname = document.getElementById('lname').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
+    const fname    = document.getElementById('fname').value;
+    const lname    = document.getElementById('lname').value;
+    const email    = document.getElementById('email').value;
+    const phone    = document.getElementById('phone').value;
+    const addr1    = document.getElementById('addr1').value;
+    const city     = document.getElementById('city').value;
+    const postcode = document.getElementById('postcode').value;
     const shoeType = document.getElementById('shoeType').value;
-    const notes = document.getElementById('notes').value;
+    const notes    = document.getElementById('notes').value;
 
     if (!KiqSecurity.validate.name(fname)) {
       KiqSecurity.showError(form, 'First name contains invalid characters.');
@@ -919,6 +950,18 @@
     }
     if (!KiqSecurity.validate.phone(phone)) {
       KiqSecurity.showError(form, 'Phone number format is invalid.');
+      return;
+    }
+    if (!KiqSecurity.validate.text(addr1, 100) || addr1.trim().length < 2) {
+      KiqSecurity.showError(form, 'Please enter a valid address.');
+      return;
+    }
+    if (!KiqSecurity.validate.text(city, 60) || city.trim().length < 2) {
+      KiqSecurity.showError(form, 'Please enter your city or town.');
+      return;
+    }
+    if (!/^[a-z]{1,2}\d[a-z\d]?\s?\d[a-z]{2}$/i.test(postcode.trim())) {
+      KiqSecurity.showError(form, 'Please enter a valid UK postcode.');
       return;
     }
     if (!KiqSecurity.validate.shoeType(shoeType)) {
