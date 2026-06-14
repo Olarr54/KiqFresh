@@ -892,9 +892,11 @@
     if (pairsEl) {
       if (isBundle) {
         pairsEl.value = '3';
-        pairsEl.disabled = true;
+        pairsEl.style.pointerEvents = 'none';
+        pairsEl.style.opacity = '0.5';
       } else {
-        pairsEl.disabled = false;
+        pairsEl.style.pointerEvents = '';
+        pairsEl.style.opacity = '';
       }
     }
     updateSummary();
