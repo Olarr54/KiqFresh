@@ -871,33 +871,43 @@
     document.getElementById('selectedServiceInput').value = name;
     document.getElementById('badgeName').textContent = name;
     document.getElementById('badgePrice').textContent = 'From ' + price;
-    document.getElementById('pSvc').textContent = name;
-    document.getElementById('pPrice').textContent = 'From ' + price;
     updateSummary();
   }
 
   function updateSummary() {
-    const pairs = document.getElementById('pairs') ? +document.getElementById('pairs').value : 1;
-    const baseNum = parseFloat(selectedPrice.replace('£', ''));
-    const totalNum = isPostal ? baseNum + RETURN_POSTAGE : baseNum;
+    const pairsEl  = document.getElementById('pairs');
+    const pairsNum = pairsEl ? +pairsEl.value : 1;
+    const contactUs = pairsEl && pairsEl.options[pairsEl.selectedIndex].text.toLowerCase().includes('contact');
+
+    const baseNum      = parseFloat(selectedPrice.replace('£', ''));
+    const serviceTotal = baseNum * pairsNum;
+    const grandTotal   = isPostal ? serviceTotal + RETURN_POSTAGE : serviceTotal;
+
+    function fmt(n) { return '£' + parseFloat(n.toFixed(2)); }
+    const svcDisplay   = contactUs ? 'Contact us' : fmt(serviceTotal);
+    const totalDisplay = contactUs ? 'Contact us' : fmt(grandTotal);
+
+    // Sidebar
+    const pSvc = document.getElementById('pSvc');
+    if (pSvc) pSvc.textContent = pairsNum > 1 ? `${selectedService} ×${pairsNum}` : selectedService;
+    const pPrice = document.getElementById('pPrice');
+    if (pPrice) pPrice.textContent = svcDisplay;
+    const pTotal = document.getElementById('pTotal');
+    if (pTotal) pTotal.textContent = totalDisplay;
 
     // Step 3 summary box
     const lbl = document.getElementById('summaryServiceLabel');
     const sp  = document.getElementById('summaryServicePrice');
-    if (lbl) lbl.textContent = `${selectedService} × ${pairs} pair${pairs > 1 ? 's' : ''}`;
-    if (sp)  sp.textContent  = `From ${selectedPrice}`;
+    if (lbl) lbl.textContent = `${selectedService} × ${pairsNum} pair${pairsNum > 1 ? 's' : ''}`;
+    if (sp)  sp.textContent  = svcDisplay;
 
     const summaryPostage = document.getElementById('summaryPostage');
     if (summaryPostage) summaryPostage.style.display = isPostal ? 'flex' : 'none';
 
-    const summaryTotal = document.getElementById('summaryTotal');
+    const summaryTotal    = document.getElementById('summaryTotal');
     const summaryTotalVal = document.getElementById('summaryTotalVal');
-    if (summaryTotal) summaryTotal.style.display = isPostal ? 'flex' : 'none';
-    if (summaryTotalVal && isPostal) summaryTotalVal.textContent = `From £${totalNum.toFixed(2)}`;
-
-    // Sidebar total
-    const pTotal = document.getElementById('pTotal');
-    if (pTotal) pTotal.textContent = `From £${totalNum.toFixed(2)}`;
+    if (summaryTotal)    summaryTotal.style.display = isPostal ? 'flex' : 'none';
+    if (summaryTotalVal) summaryTotalVal.textContent = totalDisplay;
   }
 
   // Drop zone
