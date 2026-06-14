@@ -805,17 +805,23 @@
   let isPostal = false;
   const RETURN_POSTAGE = 3.99;
 
-  const STRIPE_LINKS_COLLECTION = {
-    'Full Shoe Clean':           'https://buy.stripe.com/28E5kFeAEacN94qdYS8og00',
-    'Full Clean + Plastic Wrap': 'https://buy.stripe.com/7sYeVf1NSet34OaaMG8og01',
-    'Full Shoe Deep Clean':      'https://buy.stripe.com/eVq3cxgIMbgReoK8Ey8og02',
-    'Triple Clean Bundle':       'https://buy.stripe.com/8x2cN7ako5Wx0xUg708og03',
-  };
   const STRIPE_LINKS_POSTAL = {
-    'Full Shoe Clean':           'https://buy.stripe.com/28E6oJbos84FgwSdYS8og05',
-    'Full Clean + Plastic Wrap': 'https://buy.stripe.com/5kQ14pgIM70Ba8udYS8og06',
-    'Full Shoe Deep Clean':      'https://buy.stripe.com/5kQbJ3648gBb94qbQK8og07',
-    'Triple Clean Bundle':       'https://buy.stripe.com/fZu5kF78c1GhdkGf2W8og08',
+    'Full Shoe Clean': {
+      1: 'https://buy.stripe.com/28E6oJbos84FgwSdYS8og05',
+      2: 'https://buy.stripe.com/14AfZjfEIgBb80mdYS8og09',
+      3: 'https://buy.stripe.com/7sY00l78c5Wx80mdYS8og0c',
+    },
+    'Full Clean + Plastic Wrap': {
+      1: 'https://buy.stripe.com/5kQ14pgIM70Ba8udYS8og06',
+      2: 'https://buy.stripe.com/6oU3cxdwAacNbcyg708og0a',
+      3: 'https://buy.stripe.com/28EcN7gIMfx72G2aMG8og0d',
+    },
+    'Full Shoe Deep Clean': {
+      1: 'https://buy.stripe.com/5kQbJ3648gBb94qbQK8og07',
+      2: 'https://buy.stripe.com/8x26oJbosfx7eoK3ke8og0b',
+      3: 'https://buy.stripe.com/aFadRb3W01GhgwS7Au8og0e',
+    },
+    'Triple Clean Bundle': 'https://buy.stripe.com/fZu5kF78c1GhdkGf2W8og08',
   };
   let selectedService = 'Full Shoe Clean';
   let selectedPrice = '£15';
@@ -1069,14 +1075,14 @@
         const pairsEl = document.getElementById('pairs');
         const pairsNum = pairsEl ? +pairsEl.value : 1;
         const isContactUs = !isBundleService && pairsEl && pairsEl.options[pairsEl.selectedIndex].text.toLowerCase().includes('contact');
-        const stripeUrl = (isPostal ? STRIPE_LINKS_POSTAL : STRIPE_LINKS_COLLECTION)[selectedService];
+
+        const linkEntry = STRIPE_LINKS_POSTAL[selectedService];
+        const stripeUrl = isBundleService
+          ? linkEntry
+          : (linkEntry && linkEntry[pairsNum]) || null;
 
         if (stripeUrl && !isContactUs) {
-          // Multi-pair non-bundle: append quantity so Stripe charges the right amount
-          // (requires "adjustable quantity" enabled on the product in Stripe dashboard)
-          let url = stripeUrl;
-          if (!isBundleService && pairsNum > 1) url += '?quantity=' + pairsNum;
-          window.location.href = url;
+          window.location.href = stripeUrl;
         } else {
           // 4+ pairs — Ola will send a manual payment link
           showSuccess();
