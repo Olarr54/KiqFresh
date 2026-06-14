@@ -137,9 +137,15 @@ body {
     flex-direction: column;
     padding: 1.5rem 5%;
     gap: 1.2rem;
-    transform: translateY(-120%);
+    /* -200% ensures the full element (including border + shadow) clears
+       the viewport top regardless of menu height, since -120% left the
+       bottom edge sitting inside the nav area on iOS Safari. */
+    transform: translateY(-200%);
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 6px 0 var(--black);
+    /* Sit just below the nav so the nav's solid background covers any
+       remaining peek-through during the slide animation. */
+    z-index: 999;
   }
   .nav-links.open { transform: translateY(0); }
   .nav-burger { display: flex; }
