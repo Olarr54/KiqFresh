@@ -805,11 +805,17 @@
   let isPostal = false;
   const RETURN_POSTAGE = 3.99;
 
-  const STRIPE_LINKS = {
+  const STRIPE_LINKS_COLLECTION = {
     'Full Shoe Clean':           'https://buy.stripe.com/28E5kFeAEacN94qdYS8og00',
     'Full Clean + Plastic Wrap': 'https://buy.stripe.com/7sYeVf1NSet34OaaMG8og01',
     'Full Shoe Deep Clean':      'https://buy.stripe.com/eVq3cxgIMbgReoK8Ey8og02',
     'Triple Clean Bundle':       'https://buy.stripe.com/8x2cN7ako5Wx0xUg708og03',
+  };
+  const STRIPE_LINKS_POSTAL = {
+    'Full Shoe Clean':           'https://buy.stripe.com/28E6oJbos84FgwSdYS8og05',
+    'Full Clean + Plastic Wrap': 'https://buy.stripe.com/5kQ14pgIM70Ba8udYS8og06',
+    'Full Shoe Deep Clean':      'https://buy.stripe.com/5kQbJ3648gBb94qbQK8og07',
+    'Triple Clean Bundle':       'https://buy.stripe.com/fZu5kF78c1GhdkGf2W8og08',
   };
   let selectedService = 'Full Shoe Clean';
   let selectedPrice = '£15';
@@ -1061,7 +1067,7 @@
         const pairsEl = document.getElementById('pairs');
         const pairsNum = pairsEl ? +pairsEl.value : 1;
         const isContactUs = !isBundleService && pairsEl && pairsEl.options[pairsEl.selectedIndex].text.toLowerCase().includes('contact');
-        const stripeUrl = STRIPE_LINKS[selectedService];
+        const stripeUrl = (isPostal ? STRIPE_LINKS_POSTAL : STRIPE_LINKS_COLLECTION)[selectedService];
 
         if (stripeUrl && !isContactUs) {
           // Multi-pair non-bundle: append quantity so Stripe charges the right amount
