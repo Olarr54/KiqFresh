@@ -508,7 +508,7 @@
         <input type="hidden" name="access_key" value="b80110e8-924f-4279-8651-bf379dd8748f">
         <input type="hidden" name="subject" value="New Kiq Fresh Booking Request">
         <input type="hidden" name="from_name" value="Kiq Fresh Website">
-        <input type="hidden" id="selectedServiceInput" name="service" value="Deep Clean">
+        <input type="hidden" id="selectedServiceInput" name="service" value="Full Shoe Clean">
         <!-- honeypot spam trap -->
         <input type="checkbox" name="botcheck" style="display:none;">
         <!-- STEP 1 -->
@@ -543,26 +543,26 @@
           <h3 style="font-family:'Bangers',cursive;font-size:1.8rem;letter-spacing:0.04em;margin-bottom:1.5rem;">YOUR TRAINERS</h3>
           <label style="font-size:0.72rem;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#666;display:block;margin-bottom:0.7rem;">Service Type</label>
           <div class="service-options">
-            <div class="service-option" onclick="selectService(this,'Essential Clean','£12')">
-              <div class="sopt-name">🧹 ESSENTIAL CLEAN</div>
-              <div class="sopt-price">From £12 / pair</div>
+            <div class="service-option selected" onclick="selectService(this,'Full Shoe Clean','£15')">
+              <div class="sopt-name">🧹 FULL SHOE CLEAN</div>
+              <div class="sopt-price">£15 / pair</div>
             </div>
-            <div class="service-option selected" onclick="selectService(this,'Deep Clean','£22')">
-              <div class="sopt-name">🔥 DEEP CLEAN</div>
-              <div class="sopt-price">From £22 / pair</div>
+            <div class="service-option" onclick="selectService(this,'Full Clean + Plastic Wrap','£20')">
+              <div class="sopt-name">📦 FULL CLEAN + WRAP</div>
+              <div class="sopt-price">£20 / pair</div>
             </div>
-            <div class="service-option" onclick="selectService(this,'Restoration','£40')">
-              <div class="sopt-name">✨ RESTORATION</div>
-              <div class="sopt-price">From £40 / pair</div>
+            <div class="service-option" onclick="selectService(this,'Full Shoe Deep Clean','£25')">
+              <div class="sopt-name">🔥 FULL SHOE DEEP CLEAN</div>
+              <div class="sopt-price">£25 / pair</div>
             </div>
-            <div class="service-option" onclick="selectService(this,'Resale Prep','£28')">
-              <div class="sopt-name">📦 RESALE PREP</div>
-              <div class="sopt-price">From £28 / pair</div>
+            <div class="service-option" onclick="selectService(this,'Triple Clean Bundle','£40',true)">
+              <div class="sopt-name">🎁 TRIPLE CLEAN BUNDLE</div>
+              <div class="sopt-price">£40 — 3 pairs</div>
             </div>
           </div>
           <div id="selectedBadge" style="display:flex;align-items:center;justify-content:space-between;background:var(--black);border:3px solid var(--black);border-radius:14px;padding:.85rem 1.2rem;margin-bottom:1.1rem;">
-            <span style="font-family:'Bangers',cursive;font-size:1.1rem;letter-spacing:.06em;color:white;" id="badgeName">Deep Clean</span>
-            <span style="font-family:'Bangers',cursive;font-size:1.4rem;letter-spacing:.04em;color:var(--orange);" id="badgePrice">From £22</span>
+            <span style="font-family:'Bangers',cursive;font-size:1.1rem;letter-spacing:.06em;color:white;" id="badgeName">Full Shoe Clean</span>
+            <span style="font-family:'Bangers',cursive;font-size:1.4rem;letter-spacing:.04em;color:var(--orange);" id="badgePrice">£15 / pair</span>
           </div>
 
           <div class="form-group">
@@ -602,7 +602,7 @@
           <div style="background:var(--cream);border:2.5px solid var(--black);border-radius:14px;padding:1rem 1.2rem;margin-bottom:1.5rem;">
             <div style="font-family:'Bangers',cursive;font-size:1rem;letter-spacing:0.05em;margin-bottom:0.6rem;">ORDER SUMMARY</div>
             <div style="display:flex;justify-content:space-between;font-size:0.88rem;font-weight:800;color:#444;" id="summaryLine">
-              <span id="summaryServiceLabel">Deep Clean × 1 pair</span><span id="summaryServicePrice">From £22</span>
+              <span id="summaryServiceLabel">Full Shoe Clean × 1 pair</span><span id="summaryServicePrice">£15</span>
             </div>
             <div style="display:none;justify-content:space-between;font-size:0.88rem;font-weight:800;color:#444;margin-top:0.2rem;" id="summaryPostage">
               <span>Return Postage</span><span>£3.99</span>
@@ -701,11 +701,11 @@
       <div class="sidebar-card" id="priceSidebar">
         <h3>PRICE ESTIMATE</h3>
         <div class="price-summary">
-          <div class="price-row"><span id="pSvc">Deep Clean</span><span id="pPrice">From £22</span></div>
+          <div class="price-row"><span id="pSvc">Full Shoe Clean</span><span id="pPrice">£15</span></div>
           <div class="price-row"><span>Return Postage</span><span id="pPostage">FREE</span></div>
           <div class="price-row" style="border-top:2px dashed rgba(0,0,0,0.1);padding-top:0.6rem;margin-top:0.2rem;">
             <span style="font-size:1rem;font-weight:900;">TOTAL</span>
-            <span class="price-total" id="pTotal">From £22</span>
+            <span class="price-total" id="pTotal">£15</span>
           </div>
         </div>
       </div>
@@ -804,8 +804,9 @@
 
   let isPostal = false;
   const RETURN_POSTAGE = 3.99;
-  let selectedService = 'Deep Clean';
-  let selectedPrice = '£22';
+  let selectedService = 'Full Shoe Clean';
+  let selectedPrice = '£15';
+  let isBundleService = false;
 
   function getCurrentStep() {
     for (let i = 1; i <= 3; i++) {
@@ -863,24 +864,37 @@
     updateSummary();
   }
 
-  function selectService(el, name, price) {
+  function selectService(el, name, price, isBundle) {
     document.querySelectorAll('.service-option').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
     selectedService = name;
     selectedPrice = price;
+    isBundleService = !!isBundle;
     document.getElementById('selectedServiceInput').value = name;
     document.getElementById('badgeName').textContent = name;
-    document.getElementById('badgePrice').textContent = 'From ' + price;
+    // Bundle shows fixed price label; others show per-pair
+    document.getElementById('badgePrice').textContent = isBundle ? price + ' — 3 pairs' : price + ' / pair';
+    // Lock pairs dropdown to 3 for bundle
+    const pairsEl = document.getElementById('pairs');
+    if (pairsEl) {
+      if (isBundle) {
+        pairsEl.value = '3';
+        pairsEl.disabled = true;
+      } else {
+        pairsEl.disabled = false;
+      }
+    }
     updateSummary();
   }
 
   function updateSummary() {
     const pairsEl  = document.getElementById('pairs');
     const pairsNum = pairsEl ? +pairsEl.value : 1;
-    const contactUs = pairsEl && pairsEl.options[pairsEl.selectedIndex].text.toLowerCase().includes('contact');
+    const contactUs = !isBundleService && pairsEl && pairsEl.options[pairsEl.selectedIndex].text.toLowerCase().includes('contact');
 
-    const baseNum      = parseFloat(selectedPrice.replace('£', ''));
-    const serviceTotal = baseNum * pairsNum;
+    const baseNum = parseFloat(selectedPrice.replace('£', ''));
+    // Bundle is a fixed price for 3 pairs — never multiply
+    const serviceTotal = isBundleService ? baseNum : baseNum * pairsNum;
     const grandTotal   = isPostal ? serviceTotal + RETURN_POSTAGE : serviceTotal;
 
     function fmt(n) { return '£' + parseFloat(n.toFixed(2)); }
@@ -889,7 +903,13 @@
 
     // Sidebar
     const pSvc = document.getElementById('pSvc');
-    if (pSvc) pSvc.textContent = pairsNum > 1 ? `${selectedService} ×${pairsNum}` : selectedService;
+    if (pSvc) {
+      if (isBundleService) {
+        pSvc.textContent = 'Triple Clean Bundle (3 pairs)';
+      } else {
+        pSvc.textContent = pairsNum > 1 ? `${selectedService} ×${pairsNum}` : selectedService;
+      }
+    }
     const pPrice = document.getElementById('pPrice');
     if (pPrice) pPrice.textContent = svcDisplay;
     const pTotal = document.getElementById('pTotal');
@@ -898,8 +918,14 @@
     // Step 3 summary box
     const lbl = document.getElementById('summaryServiceLabel');
     const sp  = document.getElementById('summaryServicePrice');
-    if (lbl) lbl.textContent = `${selectedService} × ${pairsNum} pair${pairsNum > 1 ? 's' : ''}`;
-    if (sp)  sp.textContent  = svcDisplay;
+    if (lbl) {
+      if (isBundleService) {
+        lbl.textContent = 'Triple Clean Bundle (3 pairs)';
+      } else {
+        lbl.textContent = `${selectedService} × ${pairsNum} pair${pairsNum > 1 ? 's' : ''}`;
+      }
+    }
+    if (sp) sp.textContent = svcDisplay;
 
     const summaryPostage = document.getElementById('summaryPostage');
     if (summaryPostage) summaryPostage.style.display = isPostal ? 'flex' : 'none';
