@@ -30,6 +30,12 @@ body {
   height: 68px;
   box-shadow: 0 4px 0 var(--black);
   transition: transform 0.3s ease;
+  /* Force nav into its own GPU compositing layer so iOS Safari 3D-rendered
+     sections (preserve-3d / perspective) cannot visually bleed over it. */
+  isolation: isolate;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 #main-nav.nav-hidden {
   transform: translateY(-100%);
