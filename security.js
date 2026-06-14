@@ -10,6 +10,8 @@ const KiqSecurity = (() => {
   function sanitize(str) {
     if (typeof str !== 'string') return '';
     return str
+      .replace(/javascript\s*:/gi, '')  // strip javascript: URI schemes
+      .replace(/data\s*:/gi, '')        // strip data: URI schemes
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
@@ -17,7 +19,7 @@ const KiqSecurity = (() => {
       .replace(/'/g, '&#39;')
       .replace(/`/g, '&#96;')
       .trim()
-      .slice(0, 2000);           // hard cap — no field ever sends >2000 chars
+      .slice(0, 2000);
   }
 
   // ── Validators ──
@@ -38,8 +40,8 @@ const KiqSecurity = (() => {
     // Phone: optional — digits, spaces, +, (), - only
     phone: v => !v.trim() || /^[\d\s+\-(). ]{7,25}$/.test(v.trim()),
 
-    // Free text with a length cap and no script injection
-    text: (v, max = 1000) => v.length <= max && !/<script/i.test(v),
+    // Free text with a length cap and no HTML injection
+    text: (v, max = 1000) => v.length <= max && !/<[a-zA-Z]/.test(v),
 
     // Shoe type: no HTML, reasonable length
     shoeType: v => {
@@ -76,11 +78,13 @@ const KiqSecurity = (() => {
 
   // ── File upload validation ──
   const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
+  const ALLOWED_EXTS  = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif']);
   const MAX_FILE_MB   = 10;
 
   function validateFiles(files) {
     for (const f of Array.from(files)) {
-      if (!ALLOWED_TYPES.has(f.type))
+      const ext = f.name.split('.').pop().toLowerCase();
+      if (!ALLOWED_TYPES.has(f.type) || !ALLOWED_EXTS.has(ext))
         return { ok: false, msg: `"${f.name}" is not a supported format. Please use JPEG, PNG, WebP or GIF.` };
       if (f.size > MAX_FILE_MB * 1024 * 1024)
         return { ok: false, msg: `"${f.name}" is over ${MAX_FILE_MB} MB. Please use a smaller image.` };
