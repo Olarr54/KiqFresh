@@ -636,7 +636,7 @@
         <div class="success-title">BOOKING SENT!</div>
         <p class="success-msg">
           We've received your booking request.<br>
-          We'll email you our postal address and next steps within a few hours — just pack your trainers up and send them to us.
+          Because you've booked 4+ pairs, we'll send you a payment link directly. We'll email you our postal address and next steps within a few hours.
         </p>
         <a href="index.html" class="btn-comic btn-orange" style="margin-top:0.5rem;">Back to Home</a>
       </div>
@@ -804,6 +804,13 @@
 
   let isPostal = false;
   const RETURN_POSTAGE = 3.99;
+
+  const STRIPE_LINKS = {
+    'Full Shoe Clean':           'https://buy.stripe.com/28E5kFeAEacN94qdYS8og00',
+    'Full Clean + Plastic Wrap': 'https://buy.stripe.com/7sYeVf1NSet34OaaMG8og01',
+    'Full Shoe Deep Clean':      'https://buy.stripe.com/eVq3cxgIMbgReoK8Ey8og02',
+    'Triple Clean Bundle':       'https://buy.stripe.com/8x2cN7ako5Wx0xUg708og03',
+  };
   let selectedService = 'Full Shoe Clean';
   let selectedPrice = '£15';
   let isBundleService = false;
@@ -1051,7 +1058,21 @@
       });
       const json = await res.json();
       if (json.success) {
-        showSuccess();
+        const pairsEl = document.getElementById('pairs');
+        const pairsNum = pairsEl ? +pairsEl.value : 1;
+        const isContactUs = !isBundleService && pairsEl && pairsEl.options[pairsEl.selectedIndex].text.toLowerCase().includes('contact');
+        const stripeUrl = STRIPE_LINKS[selectedService];
+
+        if (stripeUrl && !isContactUs) {
+          // Multi-pair non-bundle: append quantity so Stripe charges the right amount
+          // (requires "adjustable quantity" enabled on the product in Stripe dashboard)
+          let url = stripeUrl;
+          if (!isBundleService && pairsNum > 1) url += '?quantity=' + pairsNum;
+          window.location.href = url;
+        } else {
+          // 4+ pairs — Ola will send a manual payment link
+          showSuccess();
+        }
       } else {
         KiqSecurity.showError(form, 'Something went wrong: ' + (json.message || 'Please try again.'));
         submitBtn.textContent = 'Confirm Booking ✓';
