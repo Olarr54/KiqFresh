@@ -7,7 +7,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.web3forms.com; img-src 'self' data: blob:; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'; frame-src 'none'">
-<title>Book a Shoe Clean | KiqFresh — UK Postal Shoe Cleaning & Restoration</title>
+<title>Book a Shoe Clean | KiqFresh UK Postal Shoe Cleaning & Restoration</title>
 <meta name="description" content="Book your KiqFresh shoe clean online. Choose your service, post your trainers, and get them back restored and fresh. Fully insured, UK wide, from £15.">
 <link rel="canonical" href="https://kiqfresh.net/booking.html">
 <meta property="og:type" content="website">
@@ -470,8 +470,8 @@
       <!-- COLLECTION SCREEN -->
       <div id="collectionScreen" class="collection-screen" style="display:none;">
         <span class="coll-icon">📍</span>
-        <h3>COLLECTION — READING AREA ONLY</h3>
-        <p>Just so you know, we only offer our collection service within the Reading area. Drop us a WhatsApp message and we'll sort out all the details — service type, timing, and pickup — directly with you.</p>
+        <h3>COLLECTION: READING AREA ONLY</h3>
+        <p>Just so you know, we only offer our collection service within the Reading area. Drop us a WhatsApp message and we'll sort out all the details — service type, timing, and pickup, directly with you.</p>
         <a href="https://wa.me/447833931681?text=Hi%20Kiq%20Fresh%2C%20I%20would%20like%20to%20arrange%20a%20collection%20in%20Reading." class="wa-btn" target="_blank" rel="noopener noreferrer">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           TEXT US ON WHATSAPP
@@ -501,7 +501,7 @@
         <input type="hidden" name="subject" value="New Kiq Fresh Booking Request">
         <input type="hidden" name="from_name" value="Kiq Fresh Website">
         <input type="hidden" id="selectedServiceInput" name="service" value="Full Shoe Clean">
-        <input type="hidden" name="delivery_method" value="Postal — UK Wide">
+        <input type="hidden" name="delivery_method" value="Postal UK Wide">
         <!-- honeypot spam trap -->
         <input type="checkbox" name="botcheck" style="display:none;">
         <!-- STEP 1 -->
@@ -648,7 +648,7 @@
         <div class="success-title">BOOKING RECEIVED!</div>
         <p class="success-msg">
           Step 1 done. Now complete payment to confirm your booking.<br>
-          You'll get a Stripe receipt instantly — then we'll send you your prepaid returns label.
+          You'll get a Stripe receipt instantly, then we'll send you your prepaid returns label.
         </p>
         <a id="payNowBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn-comic btn-orange" style="margin-top:0.5rem;font-size:1.15rem;">Pay Now →</a>
         <a href="index.html" style="margin-top:1rem;font-size:0.82rem;font-weight:800;color:#888;text-decoration:underline;text-underline-offset:3px;">Back to Home</a>
@@ -867,25 +867,42 @@
     updateSummary();
   }
 
+  const SERVICE_BASE_PRICES = {
+    'Full Shoe Clean': 15,
+    'Full Clean + Plastic Wrap': 20,
+    'Full Shoe Deep Clean': 25,
+    'Triple Clean Bundle (3 pairs)': 40
+  };
+
+  function calcTotal(service, pairs) {
+    if (service === 'Triple Clean Bundle (3 pairs)') return { str: '£40', num: 40 };
+    if (pairs >= 4) return { str: 'Contact us', num: null };
+    const base = SERVICE_BASE_PRICES[service] || 15;
+    return { str: '£' + (base * pairs), num: base * pairs };
+  }
+
   function selectService(el, name, price) {
     document.querySelectorAll('.service-option').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
     selectedService = name;
     selectedPrice = price;
     document.getElementById('selectedServiceInput').value = name;
-    // inline badge (always visible)
-    document.getElementById('badgeName').textContent = name;
-    document.getElementById('badgePrice').textContent = 'From ' + price;
-    // sidebar
-    document.getElementById('pSvc').textContent = name;
-    document.getElementById('pPrice').textContent = 'From ' + price;
-    document.getElementById('pTotal').textContent = 'From ' + price;
     updateSummary();
   }
 
   function updateSummary() {
-    const pairs = document.getElementById('pairs') ? document.getElementById('pairs').value : 1;
-    document.getElementById('summaryLine').textContent = `${selectedService} × ${pairs} pair${pairs>1?'s':''} = ${selectedPrice}`;
+    const pairsEl = document.getElementById('pairs');
+    const pairs = pairsEl ? parseInt(pairsEl.value) || 1 : 1;
+    const isBundle = selectedService === 'Triple Clean Bundle (3 pairs)';
+    const { str: totalStr } = calcTotal(selectedService, pairs);
+    const basePrice = SERVICE_BASE_PRICES[selectedService] || 15;
+
+    document.getElementById('badgeName').textContent = selectedService;
+    document.getElementById('badgePrice').textContent = isBundle ? '£40 for 3 pairs' : '£' + basePrice + '/pair';
+    document.getElementById('summaryLine').textContent = `${selectedService} × ${pairs} pair${pairs > 1 ? 's' : ''} = ${totalStr}`;
+    document.getElementById('pSvc').textContent = selectedService;
+    document.getElementById('pPrice').textContent = isBundle ? '£40 for 3 pairs' : '£' + basePrice + '/pair';
+    document.getElementById('pTotal').textContent = totalStr;
   }
 
   // Drop zone
