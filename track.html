@@ -6,7 +6,7 @@
   <title>Track Your Order — KiqFresh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --orange: #F5540A;
@@ -27,47 +27,81 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem 1rem;
+      padding: 2.5rem 1rem;
     }
 
+    .wrap {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    /* Brand header */
+    .brand-bar {
+      margin-bottom: 2rem;
+    }
+
+    .brand-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      letter-spacing: 0.06em;
+      color: var(--orange);
+      line-height: 1;
+      display: block;
+    }
+
+    .brand-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: #555;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+      display: block;
+    }
+
+    /* Card */
     .card {
       background: #1a1a1a;
       border: 1px solid #2a2a2a;
       border-radius: 20px;
-      padding: 2.5rem;
-      width: 100%;
-      max-width: 460px;
+      overflow: hidden;
     }
 
-    .brand {
-      font-size: 0.85rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      color: var(--orange);
+    /* Orange top strip */
+    .card-header {
+      background: var(--orange);
+      padding: 1.5rem 2rem;
+    }
+
+    .card-header .label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.65);
       text-transform: uppercase;
-      margin-bottom: 1.75rem;
+      margin-bottom: 0.3rem;
     }
 
-    .greeting {
-      font-size: 0.9rem;
-      color: #888;
-      margin-bottom: 0.4rem;
+    .card-header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.04em;
+      color: white;
+      line-height: 1;
     }
 
-    h1 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 0.35rem;
+    .card-header .service {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.75);
+      margin-top: 0.4rem;
+      font-weight: 600;
     }
 
-    .service-label {
-      font-size: 0.88rem;
-      color: #777;
-      margin-bottom: 2.25rem;
-    }
+    /* Body */
+    .card-body { padding: 2rem; }
 
     /* Progress steps */
-    .steps { margin-bottom: 2rem; }
+    .steps { margin-bottom: 1.5rem; }
 
     .step {
       display: flex;
@@ -76,37 +110,35 @@
       position: relative;
     }
 
-    /* vertical connector line */
     .step:not(:last-child)::after {
       content: '';
       position: absolute;
       left: 15px;
       top: 40px;
       width: 2px;
-      height: 28px;
+      height: 26px;
       background: #2a2a2a;
-      transition: background 0.3s;
     }
-    .step.done:not(:last-child)::after { background: var(--orange); }
-    .step.active:not(:last-child)::after { background: #3a2010; }
+
+    .step.done:not(:last-child)::after  { background: var(--orange); }
+    .step.active:not(:last-child)::after { background: rgba(245,84,10,0.25); }
 
     .dot {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      border: 2px solid #2a2a2a;
+      border: 2px solid #333;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 700;
+      font-size: 0.75rem;
+      font-weight: 800;
       color: #444;
-      background: #111;
-      margin: 6px 0 30px;
+      background: var(--black);
+      margin: 5px 0 28px;
       position: relative;
       z-index: 1;
-      transition: all 0.3s;
     }
 
     .step.done .dot {
@@ -118,67 +150,73 @@
     .step.active .dot {
       border-color: var(--orange);
       color: var(--orange);
-      background: #111;
+      background: var(--black);
       box-shadow: 0 0 0 5px rgba(245,84,10,0.12);
     }
 
-    .step-text { padding: 4px 0 30px; }
+    .step-text { padding: 4px 0 28px; }
+
     .step-name {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #444;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #3a3a3a;
     }
-    .step.done .step-name  { color: #888; font-weight: 400; }
-    .step.active .step-name { color: var(--cream); }
+    .step.done .step-name   { color: #666; font-weight: 600; }
+    .step.active .step-name { color: var(--cream); font-weight: 800; }
 
     .step-desc {
-      font-size: 0.82rem;
-      color: #666;
-      margin-top: 0.2rem;
-    }
-    .step.active .step-desc { color: #888; }
-
-    /* Updated timestamp */
-    .updated {
       font-size: 0.8rem;
-      color: #555;
+      color: #777;
+      margin-top: 0.2rem;
+      line-height: 1.5;
+    }
+
+    .updated {
+      font-size: 0.75rem;
+      color: #444;
       border-top: 1px solid #222;
       padding-top: 1.25rem;
     }
 
-    /* Loading / error states */
+    /* Status / error */
     .status-msg {
-      text-align: center;
-      padding: 2rem 0;
-      color: #888;
+      padding: 2.5rem 2rem;
+      color: #777;
       font-size: 0.95rem;
+      text-align: center;
     }
-    .status-msg a { color: var(--orange); text-decoration: none; }
 
     footer {
       margin-top: 1.75rem;
-      font-size: 0.8rem;
-      color: #555;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #444;
     }
     footer a { color: var(--orange); text-decoration: none; }
   </style>
 </head>
 <body>
 
-  <div class="card" id="card">
-    <div class="brand">KiqFresh</div>
-    <div class="status-msg" id="loading">Loading your order…</div>
-  </div>
+  <div class="wrap">
+    <div class="brand-bar">
+      <span class="brand-name">KiqFresh</span>
+      <span class="brand-tag">Professional Shoe Cleaning</span>
+    </div>
 
-  <footer><a href="https://kiqfresh.net">kiqfresh.net</a></footer>
+    <div class="card" id="card">
+      <div class="status-msg" id="loading">Loading your order…</div>
+    </div>
+
+    <footer><a href="https://kiqfresh.net">kiqfresh.net</a></footer>
+  </div>
 
 <script>
   const STEPS = [
-    { key: 'purchase_complete', name: 'Purchase Completed',    desc: 'Payment received — we\'ll be in touch shortly about drop-off or collection.' },
-    { key: 'received',          name: 'Shoes Received',        desc: 'Your trainers are safe with us and ready to be cleaned.' },
-    { key: 'cleaning',          name: 'Cleaning in Progress',  desc: 'Our team is working on your kicks right now.' },
-    { key: 'complete',          name: 'Clean Complete',        desc: 'Your trainers are looking fresh and ready for you.' },
-    { key: 'returned',          name: 'Returned to You',       desc: 'All done — enjoy your fresh kicks!' },
+    { key: 'purchase_complete', name: 'Purchase Completed',   desc: 'Payment received — we\'ll be in touch shortly.' },
+    { key: 'received',          name: 'Shoes Received',       desc: 'Your trainers are safe with us and ready to be cleaned.' },
+    { key: 'cleaning',          name: 'Cleaning in Progress', desc: 'Our team is working on your kicks right now.' },
+    { key: 'complete',          name: 'Clean Complete',       desc: 'Your trainers are looking fresh and ready for you.' },
+    { key: 'returned',          name: 'Returned to You',      desc: 'All done — enjoy your fresh kicks!' },
   ];
 
   function getToken() {
@@ -190,75 +228,56 @@
   }
 
   function esc(s) {
-    return String(s ?? '')
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   function renderError(msg) {
-    document.getElementById('card').innerHTML = `
-      <div class="brand">KiqFresh</div>
-      <div class="status-msg">
-        <p>${msg}</p>
-        <p style="margin-top:0.75rem">
-          Questions? <a href="https://kiqfresh.net">Visit our website</a>
-        </p>
-      </div>
-    `;
+    document.getElementById('card').innerHTML = `<div class="status-msg"><p>${msg}</p><p style="margin-top:0.75rem;font-size:0.85rem"><a href="https://kiqfresh.net">Visit kiqfresh.net</a></p></div>`;
   }
 
   function renderOrder(order) {
     const currentIdx = STEPS.findIndex(s => s.key === order.status);
+    const firstName = order.customer_name ? order.customer_name.split(' ')[0] : '';
 
     const stepsHtml = STEPS.map((step, i) => {
       const cls = i < currentIdx ? 'done' : i === currentIdx ? 'active' : '';
-      const dotContent = i < currentIdx ? '✓' : String(i + 1);
-      const showDesc = i === currentIdx;
+      const dot = i < currentIdx ? '✓' : String(i + 1);
       return `
         <div class="step ${cls}">
-          <div class="dot">${dotContent}</div>
+          <div class="dot">${dot}</div>
           <div class="step-text">
             <div class="step-name">${esc(step.name)}</div>
-            ${showDesc ? `<div class="step-desc">${esc(step.desc)}</div>` : ''}
+            ${cls === 'active' ? `<div class="step-desc">${esc(step.desc)}</div>` : ''}
           </div>
-        </div>
-      `;
+        </div>`;
     }).join('');
 
     const updated = new Date(order.updated_at).toLocaleString('en-GB', {
-      day: 'numeric', month: 'long', year: 'numeric',
-      hour: '2-digit', minute: '2-digit',
+      day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit',
     });
 
-    const firstName = order.customer_name ? order.customer_name.split(' ')[0] : '';
-
     document.getElementById('card').innerHTML = `
-      <div class="brand">KiqFresh</div>
-      ${firstName ? `<div class="greeting">Hey ${esc(firstName)},</div>` : ''}
-      <h1>Your Order Status</h1>
-      <div class="service-label">${esc(order.service_type || 'Shoe Cleaning Service')}</div>
-      <div class="steps">${stepsHtml}</div>
-      <div class="updated">Last updated: ${updated}</div>
-    `;
+      <div class="card-header">
+        <div class="label">${firstName ? `Hey ${esc(firstName)} —` : ''} Your Order</div>
+        <h1>Order Status</h1>
+        <div class="service">${esc(order.service_type || 'Shoe Cleaning Service')}</div>
+      </div>
+      <div class="card-body">
+        <div class="steps">${stepsHtml}</div>
+        <div class="updated">Last updated: ${updated}</div>
+      </div>`;
   }
 
   async function init() {
     const token = getToken();
-
-    if (!token || !isValidUUID(token)) {
-      renderError('This tracking link is invalid or has expired.');
-      return;
-    }
-
+    if (!token || !isValidUUID(token)) { renderError('This tracking link is invalid.'); return; }
     try {
       const res = await fetch(`/.netlify/functions/track?token=${encodeURIComponent(token)}`);
-
-      if (res.status === 404) { renderError('Order not found. Double-check the link you received.'); return; }
-      if (!res.ok)            { renderError('Something went wrong. Please try again in a moment.'); return; }
-
+      if (res.status === 404) { renderError('Order not found. Check the link you received.'); return; }
+      if (!res.ok)            { renderError('Something went wrong. Try again in a moment.'); return; }
       renderOrder(await res.json());
     } catch {
-      renderError('Could not load your order. Please check your connection and try again.');
+      renderError('Could not load your order. Check your connection and try again.');
     }
   }
 

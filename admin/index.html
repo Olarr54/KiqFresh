@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>KiqFresh Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --orange: #F5540A;
@@ -19,7 +22,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
       background: var(--black);
       color: var(--cream);
       min-height: 100vh;
@@ -43,7 +46,7 @@
       max-width: 380px;
     }
 
-    .login-card h1 { font-size: 1.4rem; margin-bottom: 0.25rem; }
+    .login-card h1 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 0.05em; margin-bottom: 0.1rem; color: var(--orange); }
     .login-card .sub { color: #888; font-size: 0.88rem; margin-bottom: 2rem; }
 
     label { display: block; font-size: 0.82rem; color: #aaa; margin-bottom: 0.4rem; }
@@ -103,14 +106,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.9rem 1.5rem;
+      padding: 0.75rem 1.5rem;
       border-bottom: 1px solid var(--border);
       background: var(--surface);
       position: sticky;
       top: 0;
       z-index: 10;
+      border-left: 4px solid var(--orange);
     }
-    .top-bar h1 { font-size: 1.1rem; }
+    .top-bar h1 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.06em; color: var(--cream); }
 
     .main { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
 
@@ -231,8 +235,8 @@
 <!-- ── Login ── -->
 <div class="login-screen" id="loginScreen">
   <div class="login-card">
-    <h1>KiqFresh Admin</h1>
-    <p class="sub">Order management dashboard</p>
+    <h1>KiqFresh</h1>
+    <p class="sub">Admin — Order Management</p>
     <form id="loginForm">
       <div class="field">
         <label for="email">Email</label>
