@@ -9,7 +9,25 @@
       "Bash(git push *)",
       "Bash(git commit -m ' *#)",
       "Bash(rm tiktokvid1.mp4 tiktokvid2.mp4 tiktokvid3.mp4 tiktokvid4.mp4)",
-      "Bash(ls *.mp4)"
+      "Bash(ls *.mp4)",
+      "Skill(run)",
+      "PowerShell(python --version 2>&1; node --version 2>&1)",
+      "PowerShell(Start-Process python -ArgumentList \"-m http.server 8080 --directory `\"C:\\\\Users\\\\suboo\\\\OneDrive\\\\Documents\\\\KiqFresh\\\\build`\"\" -WindowStyle Hidden; Start-Sleep -Seconds 1; Start-Process \"http://localhost:8080\")",
+      "PowerShell(Start-Process \"http://localhost:8080/booking.html\")",
+      "PowerShell(Stop-Process *)",
+      "PowerShell(Start-Process \"http://localhost:8080/booking.html?v=2\")",
+      "PowerShell(Start-Process \"http://localhost:8080/services.html\")",
+      "Bash(sed -i 's|<a href=\"#\" class=\"footer-social-btn\">Instagram</a>|<a href=\"https://www.instagram.com/kiqfresh/\" class=\"footer-social-btn\" target=\"_blank\" rel=\"noopener noreferrer\">Instagram</a>|g' index.html booking.html services.html privacy-policy.html)",
+      "Bash(sed -i 's|<a href=\"#\" class=\"footer-social-btn\">Twitter</a>||g' index.html booking.html services.html privacy-policy.html)",
+      "Bash(grep -v \"url\\\\|href\\\\|src\\\\|class\\\\|id\\\\|content\\\\|<!--\\\\|//\\\\|http\\\\|data-\\\\|style\\\\|font-\\\\|border-\\\\|padding-\\\\|margin-\\\\|flex-\\\\|grid-\\\\|box-\\\\|text-\\\\|line-\\\\|letter-\\\\|background-\\\\|object-\\\\|word-\\\\|list-\\\\|scroll-\\\\|overflow-\\\\|pointer-\\\\|white-\\\\|min-\\\\|max-\\\\|animation-\\\\|transform-\\\\|border-\\\\|outline-\\\\|page-\\\\|footer-\\\\|nav-\\\\|hero-\\\\|feat-\\\\|step-\\\\|service-\\\\|form-\\\\|drop-\\\\|file-\")",
+      "Bash(grep -v \"url\\\\|href\\\\|src\\\\|class\\\\|id\\\\|<!--\\\\|//\\\\|http\\\\|data-\\\\|style=\")",
+      "Bash(grep -v \"class\\\\|style\\\\|href\\\\|src\\\\|data-\\\\|//\")",
+      "Bash(grep -v \"class\\\\|style=\\\\|href\\\\|src\\\\|data-\\\\|//\\\\|<!--\")",
+      "Bash(grep -v \"class=\\\\|style=\\\\|href=\\\\|src=\\\\|data-\\\\|//\\\\|<!--\\\\|meta\\\\|content=\\\\|<script\\\\|<link\\\\|CSP\\\\|font-\\\\|border-\\\\|padding-\\\\|margin-\")",
+      "Bash(grep -v \"class=\\\\|style=\\\\|href=\\\\|src=\\\\|data-\\\\|//\\\\|<!--\")",
+      "Bash(git pull *)",
+      "Bash(git stash *)",
+      "Bash(git revert *)"
     ]
   }
 }
