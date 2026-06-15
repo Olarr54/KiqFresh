@@ -322,10 +322,18 @@ function buildPage(title, excerpt, date, html, slug) {
 // ── Handler ───────────────────────────────────────────────────────────────────
 
 exports.handler = async (event) => {
-  const slug = (event.queryStringParameters || {}).slug;
+  // Extract slug from the original request URL (/blog/my-post-slug).
+  // Netlify does not substitute :splat into query strings, so we read
+  // event.rawUrl (the full pre-rewrite URL) instead.
+  let slug = (event.queryStringParameters || {}).slug;
+  if (!slug) {
+    const url = event.rawUrl || event.path || '';
+    const m = url.match(/\/blog\/([a-z0-9][a-z0-9-]*)/i);
+    if (m) slug = m[1].toLowerCase();
+  }
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
-    return { statusCode: 400, body: 'Invalid slug: ' + String(slug) };
+    return { statusCode: 400, body: 'Invalid slug: ' + JSON.stringify(slug) + ' | path: ' + event.path + ' | rawUrl: ' + event.rawUrl };
   }
 
   try {

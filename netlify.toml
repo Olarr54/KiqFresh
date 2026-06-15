@@ -15,10 +15,10 @@
   status = 200
   query  = { token = ":token" }
 
-# Blog post pages (SSR via function)
+# Blog post pages (SSR via function) — slug extracted from rawUrl inside function
 [[redirects]]
   from   = "/blog/*"
-  to     = "/.netlify/functions/blog-render?slug=:splat"
+  to     = "/.netlify/functions/blog-render"
   status = 200
 
 # Custom 404
