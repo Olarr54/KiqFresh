@@ -371,7 +371,10 @@
 
   function renderStats(orders) {
     const c = { purchase_complete: 0, received: 0, cleaning: 0, complete: 0, returned: 0 };
-    orders.forEach(o => { if (c[o.status] !== undefined) c[o.status]++; });
+    orders.forEach(o => {
+      if (c[o.status] !== undefined) c[o.status]++;
+      if (o.status === 'returned') c.complete++; // returned implies complete
+    });
     document.getElementById('stats').innerHTML = `
       <div class="stat">
         <div class="stat-label">Total Orders</div>
@@ -447,7 +450,15 @@
   function statusChanged(select) {
     const id = select.dataset.id;
     clearTimeout(timers[id + '_s']);
-    timers[id + '_s'] = setTimeout(() => save(id, { status: select.value }), 350);
+    if (select.value === 'returned') {
+      // Save "complete" first, then "returned" — one-way: returned implies complete
+      timers[id + '_s'] = setTimeout(async () => {
+        await save(id, { status: 'complete' });
+        await save(id, { status: 'returned' });
+      }, 350);
+    } else {
+      timers[id + '_s'] = setTimeout(() => save(id, { status: select.value }), 350);
+    }
   }
 
   function notesChanged(ta) {
