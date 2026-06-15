@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+const REPO = 'Olarr54/KiqFresh';
+const BRANCH = 'main';
 
 function parseFrontmatter(content) {
-  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/);
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) return {};
   const data = {};
   match[1].split('\n').forEach(line => {
@@ -18,31 +18,42 @@ function parseFrontmatter(content) {
 }
 
 exports.handler = async () => {
-  const postsDir = path.join(process.cwd(), 'blog', 'posts');
+  try {
+    const listRes = await fetch(
+      `https://api.github.com/repos/${REPO}/contents/blog/posts?ref=${BRANCH}`,
+      { headers: { 'User-Agent': 'KiqFresh' } }
+    );
 
-  if (!fs.existsSync(postsDir)) {
+    if (!listRes.ok) {
+      return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: '[]' };
+    }
+
+    const files = await listRes.json();
+    const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+    const posts = await Promise.all(mdFiles.map(async file => {
+      const raw = await fetch(
+        `https://raw.githubusercontent.com/${REPO}/${BRANCH}/blog/posts/${file.name}`
+      );
+      const content = await raw.text();
+      const data = parseFrontmatter(content);
+      return {
+        slug: file.name.replace('.md', ''),
+        title: data.title || file.name.replace('.md', ''),
+        date: data.date || '',
+        excerpt: data.excerpt || '',
+      };
+    }));
+
+    posts.sort((a, b) => (b.date > a.date ? 1 : -1));
+
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=300' },
+      body: JSON.stringify(posts),
+    };
+  } catch (err) {
+    console.error('blog-posts error:', err);
     return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: '[]' };
   }
-
-  const files = fs.readdirSync(postsDir)
-    .filter(f => f.endsWith('.md'))
-    .sort()
-    .reverse();
-
-  const posts = files.map(file => {
-    const raw = fs.readFileSync(path.join(postsDir, file), 'utf-8');
-    const data = parseFrontmatter(raw);
-    return {
-      slug: file.replace('.md', ''),
-      title: data.title || file.replace('.md', ''),
-      date: data.date || '',
-      excerpt: data.excerpt || '',
-    };
-  });
-
-  return {
-    statusCode: 200,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(posts),
-  };
 };

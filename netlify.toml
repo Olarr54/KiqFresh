@@ -6,7 +6,6 @@
 
 [functions]
   directory = "netlify/functions"
-  included_files = ["blog/posts/**"]
 
 # Clean tracking URL: /track?token=... → /track.html?token=...
 [[redirects]]
