@@ -7,6 +7,12 @@
 [functions]
   directory = "netlify/functions"
 
+# World Cup promo clean URL
+[[redirects]]
+  from = "/worldcup"
+  to   = "/worldcup.html"
+  status = 200
+
 # Clean tracking URL: /track?token=... → /track.html?token=...
 [[redirects]]
   from   = "/track"
