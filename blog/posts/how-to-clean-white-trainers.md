@@ -2,7 +2,7 @@
 title: How to Clean White Trainers and Keep Them Box Fresh
 date: 2026-06-15
 excerpt: White trainers look incredible but they get dirty fast. Here's the
-  proper way to clean them without ruining them  and when it's time to call in
+  proper way to clean them without ruining them and when it's time to call in
   the professionals.
 ---
 
