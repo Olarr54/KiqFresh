@@ -322,18 +322,31 @@ function buildPage(title, excerpt, date, html, slug) {
 // ── Handler ───────────────────────────────────────────────────────────────────
 
 exports.handler = async (event) => {
-  // Extract slug from the original request URL (/blog/my-post-slug).
-  // Netlify does not substitute :splat into query strings, so we read
-  // event.rawUrl (the full pre-rewrite URL) instead.
+  // Redirect: /blog/:slug → /.netlify/functions/blog-render/:slug
+  // event.path will be something like /.netlify/functions/blog-render/my-post-slug
+  // or /blog/my-post-slug — extract the last non-empty path segment.
   let slug = (event.queryStringParameters || {}).slug;
+
   if (!slug) {
-    const url = event.rawUrl || event.path || '';
-    const m = url.match(/\/blog\/([a-z0-9][a-z0-9-]*)/i);
-    if (m) slug = m[1].toLowerCase();
+    const path = event.path || '';
+    // Try /blog/X pattern
+    const blogM = path.match(/\/blog\/([a-z0-9][a-z0-9-]*)/i);
+    if (blogM) {
+      slug = blogM[1].toLowerCase();
+    } else {
+      // Fall back to last path segment (e.g. /.netlify/functions/blog-render/my-slug)
+      const last = path.split('/').filter(Boolean).pop();
+      if (last && last !== 'blog-render') slug = last.toLowerCase();
+    }
   }
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
-    return { statusCode: 400, body: 'Invalid slug: ' + JSON.stringify(slug) + ' | path: ' + event.path + ' | rawUrl: ' + event.rawUrl };
+    return {
+      statusCode: 400,
+      body: 'Debug — slug: ' + JSON.stringify(slug)
+        + ' | path: ' + event.path
+        + ' | rawUrl: ' + event.rawUrl,
+    };
   }
 
   try {
