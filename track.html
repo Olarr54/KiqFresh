@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Your Order — KiqFresh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #F5540A;
+      --black: #111;
+      --cream: #F7F4EF;
+      --blue: #A5D2FF;
+      --green: #4CAF50;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', system-ui, sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .brand {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+
+    .greeting {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.35rem;
+    }
+
+    .service-label {
+      font-size: 0.88rem;
+      color: #777;
+      margin-bottom: 2.25rem;
+    }
+
+    /* Progress steps */
+    .steps { margin-bottom: 2rem; }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      position: relative;
+    }
+
+    /* vertical connector line */
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 40px;
+      width: 2px;
+      height: 28px;
+      background: #2a2a2a;
+      transition: background 0.3s;
+    }
+    .step.done:not(:last-child)::after { background: var(--orange); }
+    .step.active:not(:last-child)::after { background: #3a2010; }
+
+    .dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #2a2a2a;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #444;
+      background: #111;
+      margin: 6px 0 30px;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s;
+    }
+
+    .step.done .dot {
+      border-color: var(--orange);
+      background: var(--orange);
+      color: white;
+    }
+
+    .step.active .dot {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: #111;
+      box-shadow: 0 0 0 5px rgba(245,84,10,0.12);
+    }
+
+    .step-text { padding: 4px 0 30px; }
+    .step-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #444;
+    }
+    .step.done .step-name  { color: #888; font-weight: 400; }
+    .step.active .step-name { color: var(--cream); }
+
+    .step-desc {
+      font-size: 0.82rem;
+      color: #666;
+      margin-top: 0.2rem;
+    }
+    .step.active .step-desc { color: #888; }
+
+    /* Updated timestamp */
+    .updated {
+      font-size: 0.8rem;
+      color: #555;
+      border-top: 1px solid #222;
+      padding-top: 1.25rem;
+    }
+
+    /* Loading / error states */
+    .status-msg {
+      text-align: center;
+      padding: 2rem 0;
+      color: #888;
+      font-size: 0.95rem;
+    }
+    .status-msg a { color: var(--orange); text-decoration: none; }
+
+    footer {
+      margin-top: 1.75rem;
+      font-size: 0.8rem;
+      color: #555;
+    }
+    footer a { color: var(--orange); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="card">
+    <div class="brand">KiqFresh</div>
+    <div class="status-msg" id="loading">Loading your order…</div>
+  </div>
+
+  <footer><a href="https://kiqfresh.net">kiqfresh.net</a></footer>
+
+<script>
+  const STEPS = [
+    { key: 'received',  name: 'Shoes Received',       desc: 'We have your trainers safe and ready.' },
+    { key: 'cleaning',  name: 'Cleaning in Progress',  desc: 'Our team is working on your kicks.' },
+    { key: 'ready',     name: 'Ready to Collect',      desc: 'Your trainers are cleaned and packaged.' },
+    { key: 'delivered', name: 'Delivered',             desc: 'All done — enjoy your fresh kicks!' },
+  ];
+
+  function getToken() {
+    return new URLSearchParams(window.location.search).get('token');
+  }
+
+  function isValidUUID(s) {
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(s);
+  }
+
+  function esc(s) {
+    return String(s ?? '')
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function renderError(msg) {
+    document.getElementById('card').innerHTML = `
+      <div class="brand">KiqFresh</div>
+      <div class="status-msg">
+        <p>${msg}</p>
+        <p style="margin-top:0.75rem">
+          Questions? <a href="https://kiqfresh.net">Visit our website</a>
+        </p>
+      </div>
+    `;
+  }
+
+  function renderOrder(order) {
+    const currentIdx = STEPS.findIndex(s => s.key === order.status);
+
+    const stepsHtml = STEPS.map((step, i) => {
+      const cls = i < currentIdx ? 'done' : i === currentIdx ? 'active' : '';
+      const dotContent = i < currentIdx ? '✓' : String(i + 1);
+      const showDesc = i === currentIdx;
+      return `
+        <div class="step ${cls}">
+          <div class="dot">${dotContent}</div>
+          <div class="step-text">
+            <div class="step-name">${esc(step.name)}</div>
+            ${showDesc ? `<div class="step-desc">${esc(step.desc)}</div>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    const updated = new Date(order.updated_at).toLocaleString('en-GB', {
+      day: 'numeric', month: 'long', year: 'numeric',
+      hour: '2-digit', minute: '2-digit',
+    });
+
+    const firstName = order.customer_name ? order.customer_name.split(' ')[0] : '';
+
+    document.getElementById('card').innerHTML = `
+      <div class="brand">KiqFresh</div>
+      ${firstName ? `<div class="greeting">Hey ${esc(firstName)},</div>` : ''}
+      <h1>Your Order Status</h1>
+      <div class="service-label">${esc(order.service_type || 'Shoe Cleaning Service')}</div>
+      <div class="steps">${stepsHtml}</div>
+      <div class="updated">Last updated: ${updated}</div>
+    `;
+  }
+
+  async function init() {
+    const token = getToken();
+
+    if (!token || !isValidUUID(token)) {
+      renderError('This tracking link is invalid or has expired.');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/.netlify/functions/track?token=${encodeURIComponent(token)}`);
+
+      if (res.status === 404) { renderError('Order not found. Double-check the link you received.'); return; }
+      if (!res.ok)            { renderError('Something went wrong. Please try again in a moment.'); return; }
+
+      renderOrder(await res.json());
+    } catch {
+      renderError('Could not load your order. Please check your connection and try again.');
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>

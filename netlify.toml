@@ -1,6 +1,19 @@
 [build]
   publish = "."
 
+[build.environment]
+  NODE_VERSION = "18"
+
+[functions]
+  directory = "netlify/functions"
+
+# Clean tracking URL: /track?token=... → /track.html?token=...
+[[redirects]]
+  from   = "/track"
+  to     = "/track.html"
+  status = 200
+  query  = { token = ":token" }
+
 # Custom 404
 [[redirects]]
   from   = "/*"
@@ -16,4 +29,4 @@
     Referrer-Policy              = "strict-origin-when-cross-origin"
     Permissions-Policy           = "camera=(), microphone=(), geolocation=(), payment=()"
     Strict-Transport-Security    = "max-age=31536000; includeSubDomains"
-    Content-Security-Policy      = "default-src 'none'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.web3forms.com; img-src 'self' data: blob:; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'"
+    Content-Security-Policy      = "default-src 'none'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://api.web3forms.com https://*.supabase.co; img-src 'self' data: blob:; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'"

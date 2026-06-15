@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>KiqFresh Admin</title>
+  <style>
+    :root {
+      --orange: #F5540A;
+      --black: #111;
+      --cream: #F7F4EF;
+      --blue: #A5D2FF;
+      --green: #4CAF50;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      min-height: 100vh;
+    }
+
+    /* ── Login ── */
+    .login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .login-card h1 { font-size: 1.4rem; margin-bottom: 0.25rem; }
+    .login-card .sub { color: #888; font-size: 0.88rem; margin-bottom: 2rem; }
+
+    label { display: block; font-size: 0.82rem; color: #aaa; margin-bottom: 0.4rem; }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      background: var(--black);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--cream);
+      padding: 0.65rem 0.75rem;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus { border-color: var(--orange); }
+
+    .field { margin-bottom: 1.25rem; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: #aaa;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.85rem;
+    }
+    .btn-ghost:hover { border-color: #aaa; color: var(--cream); opacity: 1; }
+
+    .error-msg {
+      color: #ff6b6b;
+      font-size: 0.84rem;
+      margin-top: 0.75rem;
+    }
+
+    /* ── Dashboard ── */
+    .dashboard { display: none; }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .top-bar h1 { font-size: 1.1rem; }
+
+    .main { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
+
+    /* Stats row */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .stat-value { font-size: 2rem; font-weight: 700; margin-top: 0.2rem; }
+
+    /* Table */
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 700px; }
+    th {
+      padding: 0.7rem 1rem;
+      text-align: left;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #777;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .customer-name { font-weight: 500; }
+    .customer-email { font-size: 0.78rem; color: #777; margin-top: 0.15rem; }
+
+    select.status-select {
+      background: var(--black);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--cream);
+      padding: 0.35rem 0.55rem;
+      font-size: 0.82rem;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    select.status-select:focus { border-color: var(--orange); }
+
+    .save-ind {
+      font-size: 0.73rem;
+      min-width: 55px;
+      display: inline-block;
+      margin-left: 0.4rem;
+      color: transparent;
+    }
+    .save-ind.saving { color: #888; }
+    .save-ind.saved  { color: var(--green); }
+    .save-ind.err    { color: #ff6b6b; }
+
+    .copy-btn {
+      background: rgba(165,210,255,0.1);
+      border: 1px solid rgba(165,210,255,0.2);
+      color: var(--blue);
+      border-radius: 5px;
+      padding: 0.3rem 0.65rem;
+      font-size: 0.78rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+    .copy-btn:hover { opacity: 0.75; }
+    .copy-btn.done { color: #888; border-color: #333; background: transparent; }
+
+    textarea.notes-input {
+      width: 100%;
+      min-width: 160px;
+      background: var(--black);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--cream);
+      padding: 0.4rem 0.5rem;
+      font-size: 0.82rem;
+      resize: vertical;
+      min-height: 38px;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    textarea.notes-input:focus { border-color: var(--orange); }
+
+    .loading-msg, .empty-msg {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Login ── -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <h1>KiqFresh Admin</h1>
+    <p class="sub">Order management dashboard</p>
+    <form id="loginForm">
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn" id="loginBtn">Sign In</button>
+      <p class="error-msg" id="loginError" style="display:none"></p>
+    </form>
+  </div>
+</div>
+
+<!-- ── Dashboard ── -->
+<div class="dashboard" id="dashboard">
+  <div class="top-bar">
+    <h1>KiqFresh Orders</h1>
+    <button class="btn btn-ghost" onclick="logout()">Sign Out</button>
+  </div>
+  <div class="main">
+    <div class="stats" id="stats"></div>
+    <div class="table-wrap" id="tableWrap">
+      <div class="loading-msg" id="loadingMsg">Loading orders…</div>
+      <table id="ordersTable" style="display:none">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Service</th>
+            <th>Status</th>
+            <th>Tracking Link</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+      <div class="empty-msg" id="emptyMsg" style="display:none">
+        No orders yet — they'll appear here when customers pay through Stripe.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Config (replace these after setting up Supabase) ──
+  const SUPABASE_URL     = 'YOUR_SUPABASE_URL';      // e.g. https://xxxx.supabase.co
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // from Supabase Settings → API
+  const SITE_URL = 'https://kiqfresh.net';
+
+  let token = sessionStorage.getItem('kf_admin_token');
+
+  // ── Auth ──
+
+  async function login(email, password) {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error_description || data.msg || 'Login failed');
+    return data.access_token;
+  }
+
+  function logout() {
+    sessionStorage.removeItem('kf_admin_token');
+    token = null;
+    showLogin();
+  }
+
+  // ── Screens ──
+
+  function showLogin() {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('dashboard').style.display  = 'none';
+  }
+
+  function showDashboard() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display  = 'block';
+  }
+
+  // ── Login form ──
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('loginBtn');
+    const err = document.getElementById('loginError');
+    btn.disabled = true;
+    btn.textContent = 'Signing in…';
+    err.style.display = 'none';
+    try {
+      token = await login(
+        document.getElementById('email').value.trim(),
+        document.getElementById('password').value
+      );
+      sessionStorage.setItem('kf_admin_token', token);
+      showDashboard();
+      loadOrders();
+    } catch (e) {
+      err.textContent = e.message;
+      err.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
+    }
+  });
+
+  // ── Orders ──
+
+  async function loadOrders() {
+    const res = await fetch('/.netlify/functions/orders', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (res.status === 401) { logout(); return; }
+
+    const orders = await res.json();
+    document.getElementById('loadingMsg').style.display = 'none';
+
+    renderStats(orders);
+
+    if (!orders.length) {
+      document.getElementById('emptyMsg').style.display = 'block';
+      return;
+    }
+
+    renderOrders(orders);
+    document.getElementById('ordersTable').style.display = 'table';
+  }
+
+  function renderStats(orders) {
+    const c = { received: 0, cleaning: 0, ready: 0, delivered: 0 };
+    orders.forEach(o => { if (c[o.status] !== undefined) c[o.status]++; });
+    document.getElementById('stats').innerHTML = `
+      <div class="stat">
+        <div class="stat-label">Total Orders</div>
+        <div class="stat-value">${orders.length}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Received</div>
+        <div class="stat-value" style="color:var(--blue)">${c.received}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Cleaning</div>
+        <div class="stat-value" style="color:var(--orange)">${c.cleaning}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Ready</div>
+        <div class="stat-value" style="color:var(--green)">${c.ready}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Delivered</div>
+        <div class="stat-value" style="color:#555">${c.delivered}</div>
+      </div>
+    `;
+  }
+
+  function esc(s) {
+    return String(s ?? '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function renderOrders(orders) {
+    document.getElementById('ordersBody').innerHTML = orders.map(o => {
+      const date = new Date(o.created_at).toLocaleDateString('en-GB', {
+        day: 'numeric', month: 'short', year: 'numeric',
+      });
+      const trackUrl = `${SITE_URL}/track.html?token=${encodeURIComponent(o.tracking_token)}`;
+
+      return `<tr>
+        <td style="white-space:nowrap;color:#aaa">${date}</td>
+        <td>
+          <div class="customer-name">${esc(o.customer_name || '—')}</div>
+          <div class="customer-email">${esc(o.customer_email)}</div>
+        </td>
+        <td>${esc(o.service_type || '—')}</td>
+        <td style="white-space:nowrap">
+          <select class="status-select" data-id="${esc(o.id)}" onchange="statusChanged(this)">
+            <option value="received"  ${o.status==='received'  ? 'selected':''}>Shoes Received</option>
+            <option value="cleaning"  ${o.status==='cleaning'  ? 'selected':''}>Cleaning in Progress</option>
+            <option value="ready"     ${o.status==='ready'     ? 'selected':''}>Ready to Collect</option>
+            <option value="delivered" ${o.status==='delivered' ? 'selected':''}>Delivered</option>
+          </select>
+          <span class="save-ind" id="ind-${esc(o.id)}"></span>
+        </td>
+        <td>
+          <button class="copy-btn" data-url="${esc(trackUrl)}" onclick="copyLink(this)">Copy Link</button>
+        </td>
+        <td>
+          <textarea class="notes-input" data-id="${esc(o.id)}" onchange="notesChanged(this)">${esc(o.notes)}</textarea>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── Save logic ──
+
+  const timers = {};
+
+  function statusChanged(select) {
+    const id = select.dataset.id;
+    clearTimeout(timers[id + '_s']);
+    timers[id + '_s'] = setTimeout(() => save(id, { status: select.value }), 350);
+  }
+
+  function notesChanged(ta) {
+    const id = ta.dataset.id;
+    clearTimeout(timers[id + '_n']);
+    timers[id + '_n'] = setTimeout(() => save(id, { notes: ta.value }), 700);
+  }
+
+  async function save(id, payload) {
+    const ind = document.getElementById(`ind-${id}`);
+    if (ind) { ind.className = 'save-ind saving'; ind.textContent = 'Saving…'; }
+    try {
+      const res = await fetch('/.netlify/functions/orders', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ id, ...payload }),
+      });
+      if (res.status === 401) { logout(); return; }
+      if (res.ok) {
+        if (ind) { ind.className = 'save-ind saved'; ind.textContent = 'Saved ✓'; }
+        setTimeout(() => { if (ind) { ind.className = 'save-ind'; ind.textContent = ''; } }, 2500);
+      } else {
+        if (ind) { ind.className = 'save-ind err'; ind.textContent = 'Error'; }
+      }
+    } catch {
+      if (ind) { ind.className = 'save-ind err'; ind.textContent = 'Error'; }
+    }
+  }
+
+  function copyLink(btn) {
+    navigator.clipboard.writeText(btn.dataset.url).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.classList.add('done');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('done'); }, 2000);
+    });
+  }
+
+  // ── Init ──
+  if (token) { showDashboard(); loadOrders(); } else { showLogin(); }
+</script>
+</body>
+</html>
