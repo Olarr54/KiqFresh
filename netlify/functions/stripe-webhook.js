@@ -37,6 +37,17 @@ function buildEmail(name, serviceType, trackUrl) {
             </td></tr>
           </table>
           <p style="margin:20px 0 0;font-size:11px;color:#555">Or copy: ${trackUrl}</p>
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:32px;border-top:1px solid #2a2a2a;padding-top:24px">
+            <tr><td>
+              <p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#F7F4EF">Posting your shoes?</p>
+              <p style="margin:0;font-size:13px;color:#888;line-height:1.7">Send them to:<br>
+                <strong style="color:#F7F4EF">KiqFresh</strong><br>
+                209 London Road<br>
+                Reading<br>
+                RG1 3NU
+              </p>
+            </td></tr>
+          </table>
         </td></tr>
         <tr><td style="padding-top:24px;text-align:center;font-size:11px;color:#555">
           KiqFresh &mdash; Professional Shoe Cleaning, Reading UK &nbsp;&middot;&nbsp;
