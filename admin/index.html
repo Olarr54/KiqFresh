@@ -366,7 +366,7 @@
   }
 
   function renderStats(orders) {
-    const c = { received: 0, cleaning: 0, ready: 0, delivered: 0 };
+    const c = { purchase_complete: 0, received: 0, cleaning: 0, complete: 0, returned: 0 };
     orders.forEach(o => { if (c[o.status] !== undefined) c[o.status]++; });
     document.getElementById('stats').innerHTML = `
       <div class="stat">
@@ -374,20 +374,24 @@
         <div class="stat-value">${orders.length}</div>
       </div>
       <div class="stat">
+        <div class="stat-label">Paid</div>
+        <div class="stat-value" style="color:var(--blue)">${c.purchase_complete}</div>
+      </div>
+      <div class="stat">
         <div class="stat-label">Received</div>
-        <div class="stat-value" style="color:var(--blue)">${c.received}</div>
+        <div class="stat-value" style="color:#aaa">${c.received}</div>
       </div>
       <div class="stat">
         <div class="stat-label">Cleaning</div>
         <div class="stat-value" style="color:var(--orange)">${c.cleaning}</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Ready</div>
-        <div class="stat-value" style="color:var(--green)">${c.ready}</div>
+        <div class="stat-label">Complete</div>
+        <div class="stat-value" style="color:var(--green)">${c.complete}</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Delivered</div>
-        <div class="stat-value" style="color:#555">${c.delivered}</div>
+        <div class="stat-label">Returned</div>
+        <div class="stat-value" style="color:#555">${c.returned}</div>
       </div>
     `;
   }
@@ -414,10 +418,11 @@
         <td>${esc(o.service_type || '—')}</td>
         <td style="white-space:nowrap">
           <select class="status-select" data-id="${esc(o.id)}" onchange="statusChanged(this)">
-            <option value="received"  ${o.status==='received'  ? 'selected':''}>Shoes Received</option>
-            <option value="cleaning"  ${o.status==='cleaning'  ? 'selected':''}>Cleaning in Progress</option>
-            <option value="ready"     ${o.status==='ready'     ? 'selected':''}>Ready to Collect</option>
-            <option value="delivered" ${o.status==='delivered' ? 'selected':''}>Delivered</option>
+            <option value="purchase_complete" ${o.status==='purchase_complete' ? 'selected':''}>Purchase Completed</option>
+            <option value="received"          ${o.status==='received'          ? 'selected':''}>Shoes Received</option>
+            <option value="cleaning"          ${o.status==='cleaning'          ? 'selected':''}>Cleaning in Progress</option>
+            <option value="complete"          ${o.status==='complete'          ? 'selected':''}>Clean Complete</option>
+            <option value="returned"          ${o.status==='returned'          ? 'selected':''}>Returned to You</option>
           </select>
           <span class="save-ind" id="ind-${esc(o.id)}"></span>
         </td>

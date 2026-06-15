@@ -174,10 +174,11 @@
 
 <script>
   const STEPS = [
-    { key: 'received',  name: 'Shoes Received',       desc: 'We have your trainers safe and ready.' },
-    { key: 'cleaning',  name: 'Cleaning in Progress',  desc: 'Our team is working on your kicks.' },
-    { key: 'ready',     name: 'Ready to Collect',      desc: 'Your trainers are cleaned and packaged.' },
-    { key: 'delivered', name: 'Delivered',             desc: 'All done — enjoy your fresh kicks!' },
+    { key: 'purchase_complete', name: 'Purchase Completed',    desc: 'Payment received — we\'ll be in touch shortly about drop-off or collection.' },
+    { key: 'received',          name: 'Shoes Received',        desc: 'Your trainers are safe with us and ready to be cleaned.' },
+    { key: 'cleaning',          name: 'Cleaning in Progress',  desc: 'Our team is working on your kicks right now.' },
+    { key: 'complete',          name: 'Clean Complete',        desc: 'Your trainers are looking fresh and ready for you.' },
+    { key: 'returned',          name: 'Returned to You',       desc: 'All done — enjoy your fresh kicks!' },
   ];
 
   function getToken() {

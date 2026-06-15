@@ -5,7 +5,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-const VALID_STATUSES = ['received', 'cleaning', 'ready', 'delivered'];
+const VALID_STATUSES = ['purchase_complete', 'received', 'cleaning', 'complete', 'returned'];
 
 async function verifyAdmin(authHeader) {
   if (!authHeader?.startsWith('Bearer ')) return null;

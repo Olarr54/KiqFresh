@@ -49,7 +49,7 @@ exports.handler = async (event) => {
       customer_email: session.customer_details?.email || 'unknown',
       service_type: SERVICE_MAP[amount] || `Service (£${(amount / 100).toFixed(2)})`,
       amount,
-      status: 'received',
+      status: 'purchase_complete',
     },
     { onConflict: 'stripe_session_id', ignoreDuplicates: true }
   );
