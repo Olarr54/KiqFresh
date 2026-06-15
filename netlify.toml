@@ -17,8 +17,8 @@
 
 # Blog post pages (SSR via function)
 [[redirects]]
-  from   = "/blog/:slug"
-  to     = "/.netlify/functions/blog-render?slug=:slug"
+  from   = "/blog/*"
+  to     = "/.netlify/functions/blog-render?slug=:splat"
   status = 200
 
 # Custom 404

@@ -18,7 +18,7 @@ function parseFrontmatter(content) {
 }
 
 exports.handler = async () => {
-  const postsDir = path.join(__dirname, '..', '..', 'blog', 'posts');
+  const postsDir = path.join(process.cwd(), 'blog', 'posts');
 
   if (!fs.existsSync(postsDir)) {
     return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: '[]' };

@@ -107,7 +107,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: 'Invalid slug' };
   }
 
-  const filePath = path.join(__dirname, '..', '..', 'blog', 'posts', `${slug}.md`);
+  const filePath = path.join(process.cwd(), 'blog', 'posts', `${slug}.md`);
 
   if (!fs.existsSync(filePath)) {
     return {
