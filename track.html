@@ -9,11 +9,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --orange: #F5540A;
+      --orange: #A5D2FF;
       --black: #111;
       --cream: #F7F4EF;
       --blue: #A5D2FF;
       --green: #4CAF50;
+      --navy: #0d2040;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -67,17 +68,18 @@
       overflow: hidden;
     }
 
-    /* Orange top strip */
+    /* Header strip */
     .card-header {
-      background: var(--orange);
+      background: var(--navy);
       padding: 1.5rem 2rem;
+      border-bottom: 2px solid var(--blue);
     }
 
     .card-header .label {
       font-size: 0.65rem;
       font-weight: 700;
       letter-spacing: 0.2em;
-      color: rgba(255,255,255,0.65);
+      color: var(--blue);
       text-transform: uppercase;
       margin-bottom: 0.3rem;
     }
@@ -86,13 +88,13 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: 2.2rem;
       letter-spacing: 0.04em;
-      color: white;
+      color: var(--cream);
       line-height: 1;
     }
 
     .card-header .service {
       font-size: 0.85rem;
-      color: rgba(255,255,255,0.75);
+      color: #aaa;
       margin-top: 0.4rem;
       font-weight: 600;
     }

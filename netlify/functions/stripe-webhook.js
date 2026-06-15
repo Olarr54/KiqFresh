@@ -27,13 +27,13 @@ function buildEmail(name, serviceType, trackUrl) {
 
         <!-- Brand -->
         <tr><td style="padding-bottom:20px">
-          <span style="font-size:11px;font-weight:900;letter-spacing:0.25em;color:#F5540A;text-transform:uppercase">KiqFresh</span>
+          <span style="font-size:11px;font-weight:900;letter-spacing:0.25em;color:#A5D2FF;text-transform:uppercase">KiqFresh</span>
         </td></tr>
 
-        <!-- Orange header -->
-        <tr><td style="background:#F5540A;border-radius:16px 16px 0 0;padding:32px 40px">
-          <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.65);text-transform:uppercase">Order Confirmed</p>
-          <h1 style="margin:0;font-size:30px;font-weight:900;color:white;line-height:1.1">Your kicks are<br>in good hands.</h1>
+        <!-- Header -->
+        <tr><td style="background:#0d2040;border-radius:16px 16px 0 0;padding:32px 40px;border-bottom:2px solid #A5D2FF">
+          <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:0.18em;color:#A5D2FF;text-transform:uppercase">Order Confirmed</p>
+          <h1 style="margin:0;font-size:30px;font-weight:900;color:#F7F4EF;line-height:1.1">Your kicks are<br>in good hands.</h1>
         </td></tr>
 
         <!-- Body -->
@@ -43,8 +43,8 @@ function buildEmail(name, serviceType, trackUrl) {
 
           <!-- Address — main hero block -->
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px">
-            <tr><td style="background:#111;border:2px solid #F5540A;border-radius:12px;padding:28px 32px">
-              <p style="margin:0 0 14px;font-size:10px;font-weight:700;letter-spacing:0.2em;color:#F5540A;text-transform:uppercase">Post your shoes to</p>
+            <tr><td style="background:#111;border:2px solid #A5D2FF;border-radius:12px;padding:28px 32px">
+              <p style="margin:0 0 14px;font-size:10px;font-weight:700;letter-spacing:0.2em;color:#A5D2FF;text-transform:uppercase">Post your shoes to</p>
               <p style="margin:0;font-size:22px;font-weight:900;color:#F7F4EF;line-height:1.55">KiqFresh<br>209 London Road<br>Reading<br>RG1 3NU</p>
             </td></tr>
           </table>
@@ -64,7 +64,7 @@ function buildEmail(name, serviceType, trackUrl) {
         <!-- Footer -->
         <tr><td style="padding-top:24px;text-align:center;font-size:11px;color:#444">
           KiqFresh &mdash; Professional Shoe Cleaning, Reading UK &nbsp;&middot;&nbsp;
-          <a href="${SITE_URL}" style="color:#F5540A;text-decoration:none">kiqfresh.net</a>
+          <a href="${SITE_URL}" style="color:#A5D2FF;text-decoration:none">kiqfresh.net</a>
         </td></tr>
 
       </table>
