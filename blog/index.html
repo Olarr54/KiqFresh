@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trainer Care Blog — KiqFresh Reading</title>
+  <meta name="description" content="Tips, guides and advice on keeping your trainers clean and fresh. From the KiqFresh team in Reading.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --blue:#A5D2FF; --black:#111; --cream:#F7F4EF; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Nunito',system-ui,sans-serif; background:var(--black); color:var(--cream); min-height:100vh; }
+    header { display:flex; align-items:center; justify-content:space-between; padding:1rem 2rem; border-bottom:1px solid #1e1e1e; }
+    .brand { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:0.06em; color:var(--blue); text-decoration:none; }
+    nav a { color:#777; text-decoration:none; font-size:0.88rem; margin-left:1.5rem; font-weight:600; }
+    nav a:hover { color:var(--cream); }
+    .hero { padding:4rem 2rem 3rem; max-width:960px; margin:0 auto; }
+    .hero-label { font-size:0.72rem; font-weight:700; letter-spacing:0.2em; color:var(--blue); text-transform:uppercase; margin-bottom:0.75rem; }
+    .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:4rem; letter-spacing:0.03em; line-height:1; margin-bottom:1rem; }
+    .hero p { color:#888; font-size:1rem; max-width:480px; line-height:1.65; }
+    .posts { max-width:960px; margin:0 auto; padding:0 2rem 5rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.25rem; }
+    .post-card { background:#1a1a1a; border:1px solid #2a2a2a; border-radius:12px; padding:1.75rem; text-decoration:none; color:var(--cream); display:block; transition:border-color 0.2s, transform 0.15s; }
+    .post-card:hover { border-color:var(--blue); transform:translateY(-2px); }
+    .post-date { font-size:0.72rem; color:#555; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.75rem; }
+    .post-title { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:0.02em; line-height:1.1; margin-bottom:0.75rem; color:var(--cream); }
+    .post-excerpt { font-size:0.88rem; color:#888; line-height:1.6; }
+    .post-read { font-size:0.8rem; font-weight:700; color:var(--blue); margin-top:1.25rem; display:block; }
+    .loading { padding:4rem 2rem; text-align:center; color:#555; }
+    .empty { padding:4rem 2rem; text-align:center; color:#555; max-width:960px; margin:0 auto; }
+    footer { text-align:center; padding:2rem; color:#444; font-size:0.78rem; border-top:1px solid #1a1a1a; }
+    footer a { color:var(--blue); text-decoration:none; }
+    @media(max-width:600px) { .hero h1 { font-size:2.8rem; } header { padding:1rem; } .hero,.posts { padding-left:1rem; padding-right:1rem; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="brand">KiqFresh</a>
+  <nav>
+    <a href="/blog/">Blog</a>
+    <a href="/booking.html">Book Now</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-label">KiqFresh Blog</div>
+  <h1>Trainer Care Tips</h1>
+  <p>Guides, advice and cleaning tips to keep your kicks looking box fresh — from the KiqFresh team in Reading.</p>
+</div>
+
+<div id="posts" class="posts">
+  <div class="loading" style="grid-column:1/-1">Loading posts…</div>
+</div>
+
+<footer>
+  <a href="/">kiqfresh.net</a> &middot; Professional Shoe Cleaning, Reading UK
+</footer>
+
+<script>
+  function esc(s) {
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  async function load() {
+    const container = document.getElementById('posts');
+    try {
+      const res = await fetch('/.netlify/functions/blog-posts');
+      const posts = await res.json();
+
+      if (!posts.length) {
+        container.innerHTML = '<div class="empty" style="grid-column:1/-1">No posts yet — check back soon.</div>';
+        return;
+      }
+
+      container.innerHTML = posts.map(p => {
+        const date = p.date
+          ? new Date(p.date).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
+          : '';
+        return `
+          <a class="post-card" href="/blog/${esc(p.slug)}">
+            ${date ? `<div class="post-date">${date}</div>` : ''}
+            <div class="post-title">${esc(p.title)}</div>
+            ${p.excerpt ? `<div class="post-excerpt">${esc(p.excerpt)}</div>` : ''}
+            <span class="post-read">Read more &rarr;</span>
+          </a>`;
+      }).join('');
+    } catch {
+      container.innerHTML = '<div class="empty" style="grid-column:1/-1">Could not load posts. Try again later.</div>';
+    }
+  }
+
+  load();
+</script>
+</body>
+</html>
