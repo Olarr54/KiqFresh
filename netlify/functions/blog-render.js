@@ -1,32 +1,117 @@
-const { marked } = require('marked');
-
 const REPO = 'Olarr54/KiqFresh';
 const BRANCH = 'main';
 const SITE_URL = 'https://kiqfresh.net';
 
+// ── Inline markdown renderer (no external packages) ──────────────────────────
+
+function inline(text) {
+  return text
+    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/_(.+?)_/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+}
+
+function renderMarkdown(md) {
+  const lines = md.split('\n');
+  const out = [];
+  let inUl = false;
+  let inOl = false;
+  let paraLines = [];
+
+  function flushPara() {
+    if (paraLines.length) {
+      out.push('<p>' + inline(paraLines.join(' ')) + '</p>');
+      paraLines = [];
+    }
+  }
+  function flushList() {
+    if (inUl) { out.push('</ul>'); inUl = false; }
+    if (inOl) { out.push('</ol>'); inOl = false; }
+  }
+
+  for (const line of lines) {
+    const t = line.trim();
+
+    if (!t) { flushPara(); flushList(); continue; }
+
+    const hMatch = t.match(/^(#{1,6}) (.+)/);
+    if (hMatch) {
+      flushPara(); flushList();
+      const n = hMatch[1].length;
+      out.push(`<h${n}>${inline(hMatch[2])}</h${n}>`);
+      continue;
+    }
+
+    if (/^[*-] /.test(t)) {
+      flushPara();
+      if (inOl) { out.push('</ol>'); inOl = false; }
+      if (!inUl) { out.push('<ul>'); inUl = true; }
+      out.push('<li>' + inline(t.slice(2)) + '</li>');
+      continue;
+    }
+
+    if (/^\d+\. /.test(t)) {
+      flushPara();
+      if (inUl) { out.push('</ul>'); inUl = false; }
+      if (!inOl) { out.push('<ol>'); inOl = true; }
+      out.push('<li>' + inline(t.replace(/^\d+\. /, '')) + '</li>');
+      continue;
+    }
+
+    if (/^> /.test(t)) {
+      flushPara(); flushList();
+      out.push('<blockquote>' + inline(t.slice(2)) + '</blockquote>');
+      continue;
+    }
+
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(t)) {
+      flushPara(); flushList();
+      out.push('<hr>');
+      continue;
+    }
+
+    flushList();
+    paraLines.push(t);
+  }
+
+  flushPara();
+  flushList();
+  return out.join('\n');
+}
+
+// ── Frontmatter parser ────────────────────────────────────────────────────────
+
 function parseFrontmatter(content) {
-  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!match) return { data: {}, body: content };
   const data = {};
-  match[1].split('\n').forEach(line => {
-    const i = line.indexOf(':');
-    if (i > 0) {
-      const key = line.slice(0, i).trim();
-      let val = line.slice(i + 1).trim();
-      if (/^["'].*["']$/.test(val)) val = val.slice(1, -1);
-      data[key] = val;
+  let currentKey = null;
+  for (const line of match[1].split('\n')) {
+    const colonIdx = line.indexOf(':');
+    if (colonIdx > 0 && !/^ /.test(line)) {
+      currentKey = line.slice(0, colonIdx).trim();
+      let val = line.slice(colonIdx + 1).trim();
+      if (/^["']/.test(val)) val = val.replace(/^["']|["']$/g, '');
+      data[currentKey] = val;
+    } else if (currentKey && /^ +/.test(line)) {
+      data[currentKey] += ' ' + line.trim();
     }
-  });
+  }
   return { data, body: match[2] };
 }
 
 function esc(s) {
-  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+
+// ── HTML template ─────────────────────────────────────────────────────────────
 
 function buildPage(title, excerpt, date, html, slug) {
   const dateStr = date
-    ? new Date(date).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
+    ? new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
     : '';
 
   return `<!DOCTYPE html>
@@ -83,7 +168,6 @@ function buildPage(title, excerpt, date, html, slug) {
       opacity: 0.04;
       pointer-events: none;
       user-select: none;
-      line-height: 1;
     }
 
     .post-body-wrap {
@@ -92,7 +176,6 @@ function buildPage(title, excerpt, date, html, slug) {
       padding: 3.5rem 5% 5rem;
     }
 
-    /* Article content */
     .article h1, .article h2, .article h3 {
       font-family: 'Bebas Neue', cursive;
       letter-spacing: 0.04em;
@@ -103,24 +186,15 @@ function buildPage(title, excerpt, date, html, slug) {
     .article h1 { font-size: 2.8rem; }
     .article h2 { font-size: 2.2rem; }
     .article h3 { font-size: 1.6rem; }
-    .article p {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      color: #333;
-      font-weight: 700;
-      margin-bottom: 1.4rem;
-    }
-    .article ul, .article ol {
-      margin: 0 0 1.4rem 1.5rem;
-      color: #333;
-      font-weight: 700;
-    }
+    .article p { font-size: 1.05rem; line-height: 1.85; color: #333; font-weight: 700; margin-bottom: 1.4rem; }
+    .article ul, .article ol { margin: 0 0 1.4rem 1.5rem; color: #333; font-weight: 700; }
     .article li { margin-bottom: 0.5rem; line-height: 1.65; font-size: 1.02rem; }
     .article strong { color: var(--black); }
     .article em { font-style: italic; }
     .article a { color: var(--black); text-decoration: underline; }
     .article a:hover { color: #555; }
     .article hr { border: none; border-top: 3.5px solid var(--black); margin: 2.5rem 0; }
+    .article code { background: #eef3ff; border: 1.5px solid #ccc; border-radius: 4px; padding: 0.1em 0.4em; font-size: 0.9em; }
     .article blockquote {
       border-left: 4px solid var(--orange);
       padding: 0.75rem 1.25rem;
@@ -135,14 +209,13 @@ function buildPage(title, excerpt, date, html, slug) {
       border-bottom: 2px solid var(--black);
     }
 
-    /* CTA box */
     .cta-box {
       margin-top: 3.5rem;
       background: var(--orange);
       border: 3.5px solid var(--black);
       border-radius: 20px;
       box-shadow: 6px 6px 0 var(--black);
-      padding: 2rem 2rem 2rem;
+      padding: 2rem;
       text-align: center;
     }
     .cta-box h3 {
@@ -152,12 +225,7 @@ function buildPage(title, excerpt, date, html, slug) {
       color: var(--black);
       margin-bottom: 0.5rem;
     }
-    .cta-box p {
-      font-weight: 700;
-      color: rgba(0,0,0,0.6);
-      margin-bottom: 1.5rem;
-      font-size: 1rem;
-    }
+    .cta-box p { font-weight: 700; color: rgba(0,0,0,0.6); margin-bottom: 1.5rem; }
     .cta-box a {
       display: inline-block;
       font-family: 'Bangers', cursive;
@@ -172,10 +240,7 @@ function buildPage(title, excerpt, date, html, slug) {
       box-shadow: 4px 4px 0 rgba(0,0,0,0.25);
       transition: transform 0.12s, box-shadow 0.12s;
     }
-    .cta-box a:hover {
-      transform: translate(-3px, -3px);
-      box-shadow: 6px 6px 0 rgba(0,0,0,0.25);
-    }
+    .cta-box a:hover { transform: translate(-3px,-3px); box-shadow: 7px 7px 0 rgba(0,0,0,0.25); }
 
     .back-link {
       display: inline-flex;
@@ -192,17 +257,16 @@ function buildPage(title, excerpt, date, html, slug) {
 
     footer {
       background: var(--black);
-      color: rgba(255,255,255,0.35);
       text-align: center;
       padding: 2rem 5%;
       font-size: 0.82rem;
       font-weight: 700;
+      color: rgba(255,255,255,0.35);
     }
     footer a { color: var(--orange); text-decoration: none; }
   </style>
 </head>
 <body>
-
 <nav id="main-nav">
   <a href="/" class="nav-logo">
     <img src="/logo.jpeg" class="nav-logo-img" alt="KiqFresh logo">
@@ -222,7 +286,7 @@ function buildPage(title, excerpt, date, html, slug) {
   <div class="section-tag">${dateStr ? dateStr + ' &middot; ' : ''}KiqFresh Blog</div>
   <h1>${esc(title)}</h1>
   ${excerpt ? `<p class="excerpt">${esc(excerpt)}</p>` : ''}
-  <div class="post-deco">BLOG</div>
+  <div class="post-deco">FRESH</div>
 </div>
 
 <div class="post-body-wrap">
@@ -230,7 +294,7 @@ function buildPage(title, excerpt, date, html, slug) {
   <div class="article">${html}</div>
   <div class="cta-box">
     <h3>Ready for Fresh Kicks?</h3>
-    <p>Professional shoe cleaning from £15 &mdash; Reading collection or UK postal.</p>
+    <p>Professional shoe cleaning from &pound;15 &mdash; Reading collection or UK postal.</p>
     <a href="/booking.html">Book a Clean</a>
   </div>
 </div>
@@ -243,9 +307,7 @@ function buildPage(title, excerpt, date, html, slug) {
   document.getElementById('burger').addEventListener('click', function() {
     document.querySelector('.nav-links').classList.toggle('open');
   });
-
-  var lastY = 0;
-  var nav = document.getElementById('main-nav');
+  var lastY = 0, nav = document.getElementById('main-nav');
   window.addEventListener('scroll', function() {
     var y = window.scrollY;
     if (y > lastY && y > 120) nav.classList.add('nav-hidden');
@@ -257,32 +319,38 @@ function buildPage(title, excerpt, date, html, slug) {
 </html>`;
 }
 
+// ── Handler ───────────────────────────────────────────────────────────────────
+
 exports.handler = async (event) => {
-  const slug = event.queryStringParameters?.slug;
+  const slug = (event.queryStringParameters || {}).slug;
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
-    return { statusCode: 400, body: 'Invalid slug' };
+    return { statusCode: 400, body: 'Invalid slug: ' + String(slug) };
   }
 
-  const rawRes = await fetch(
-    `https://raw.githubusercontent.com/${REPO}/${BRANCH}/blog/posts/${slug}.md`
-  );
+  try {
+    const url = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/blog/posts/${slug}.md`;
+    const rawRes = await fetch(url);
 
-  if (!rawRes.ok) {
+    if (!rawRes.ok) {
+      return {
+        statusCode: 404,
+        headers: { 'Content-Type': 'text/html' },
+        body: `<!DOCTYPE html><html><head><title>Not Found</title><link rel="stylesheet" href="/shared.css"></head><body style="padding-top:68px;background:var(--cream);display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Nunito,sans-serif;flex-direction:column;gap:1rem;text-align:center"><h1 style="font-family:'Bebas Neue',cursive;font-size:4rem;color:#A5D2FF;text-shadow:4px 4px 0 #111">Post Not Found</h1><a href="/blog/" style="font-family:Bangers,cursive;letter-spacing:.1em;color:#111;border:3px solid #111;padding:.5rem 1.5rem;border-radius:100px;text-decoration:none;box-shadow:3px 3px 0 #111">Back to Blog</a></body></html>`,
+      };
+    }
+
+    const content = await rawRes.text();
+    const { data, body } = parseFrontmatter(content);
+    const htmlContent = renderMarkdown(body);
+
     return {
-      statusCode: 404,
-      headers: { 'Content-Type': 'text/html' },
-      body: `<!DOCTYPE html><html><head><title>Not Found — KiqFresh</title><link rel="stylesheet" href="/shared.css"></head><body style="padding-top:68px;background:var(--cream);display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Nunito,sans-serif;flex-direction:column;gap:1rem;text-align:center"><h1 style="font-family:'Bebas Neue',cursive;font-size:4rem;color:#A5D2FF;text-shadow:4px 4px 0 #111">Post Not Found</h1><a href="/blog/" style="font-family:Bangers,cursive;letter-spacing:.1em;color:#111;border:3px solid #111;padding:.5rem 1.5rem;border-radius:100px;text-decoration:none;box-shadow:3px 3px 0 #111">Back to Blog</a></body></html>`,
+      statusCode: 200,
+      headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=300' },
+      body: buildPage(data.title || slug, data.excerpt || '', data.date || '', htmlContent, slug),
     };
+  } catch (err) {
+    console.error('blog-render error:', err);
+    return { statusCode: 500, body: 'Server error: ' + err.message };
   }
-
-  const content = await rawRes.text();
-  const { data, body } = parseFrontmatter(content);
-  const htmlContent = marked(body);
-
-  return {
-    statusCode: 200,
-    headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=300' },
-    body: buildPage(data.title || slug, data.excerpt || '', data.date || '', htmlContent, slug),
-  };
 };
