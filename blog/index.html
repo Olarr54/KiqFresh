@@ -5,57 +5,210 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trainer Care Blog — KiqFresh Reading</title>
   <meta name="description" content="Tips, guides and advice on keeping your trainers clean and fresh. From the KiqFresh team in Reading.">
+  <link rel="icon" type="image/jpeg" href="/logo.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bangers&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
   <style>
-    :root { --blue:#A5D2FF; --black:#111; --cream:#F7F4EF; }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:'Nunito',system-ui,sans-serif; background:var(--black); color:var(--cream); min-height:100vh; }
-    header { display:flex; align-items:center; justify-content:space-between; padding:1rem 2rem; border-bottom:1px solid #1e1e1e; }
-    .brand { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:0.06em; color:var(--blue); text-decoration:none; }
-    nav a { color:#777; text-decoration:none; font-size:0.88rem; margin-left:1.5rem; font-weight:600; }
-    nav a:hover { color:var(--cream); }
-    .hero { padding:4rem 2rem 3rem; max-width:960px; margin:0 auto; }
-    .hero-label { font-size:0.72rem; font-weight:700; letter-spacing:0.2em; color:var(--blue); text-transform:uppercase; margin-bottom:0.75rem; }
-    .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:4rem; letter-spacing:0.03em; line-height:1; margin-bottom:1rem; }
-    .hero p { color:#888; font-size:1rem; max-width:480px; line-height:1.65; }
-    .posts { max-width:960px; margin:0 auto; padding:0 2rem 5rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.25rem; }
-    .post-card { background:#1a1a1a; border:1px solid #2a2a2a; border-radius:12px; padding:1.75rem; text-decoration:none; color:var(--cream); display:block; transition:border-color 0.2s, transform 0.15s; }
-    .post-card:hover { border-color:var(--blue); transform:translateY(-2px); }
-    .post-date { font-size:0.72rem; color:#555; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.75rem; }
-    .post-title { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:0.02em; line-height:1.1; margin-bottom:0.75rem; color:var(--cream); }
-    .post-excerpt { font-size:0.88rem; color:#888; line-height:1.6; }
-    .post-read { font-size:0.8rem; font-weight:700; color:var(--blue); margin-top:1.25rem; display:block; }
-    .loading { padding:4rem 2rem; text-align:center; color:#555; }
-    .empty { padding:4rem 2rem; text-align:center; color:#555; max-width:960px; margin:0 auto; }
-    footer { text-align:center; padding:2rem; color:#444; font-size:0.78rem; border-top:1px solid #1a1a1a; }
-    footer a { color:var(--blue); text-decoration:none; }
-    @media(max-width:600px) { .hero h1 { font-size:2.8rem; } header { padding:1rem; } .hero,.posts { padding-left:1rem; padding-right:1rem; } }
+    body { background: var(--cream); padding-top: 68px; }
+
+    /* Page header */
+    .page-header {
+      padding: 4.5rem 5% 3.5rem;
+      background: white;
+      border-bottom: 3.5px solid var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header .section-tag { transform: rotate(-1.5deg); }
+    .page-header h1 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(4rem, 11vw, 8rem);
+      line-height: 0.9;
+      letter-spacing: 0.05em;
+      color: var(--orange);
+      text-shadow: 6px 6px 0 var(--black);
+      margin: 0.5rem 0;
+    }
+    .page-header p {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #555;
+      max-width: 480px;
+      line-height: 1.6;
+      margin-top: 1rem;
+    }
+    .page-header-deco {
+      position: absolute;
+      right: 5%; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Bangers', cursive;
+      font-size: clamp(8rem, 18vw, 15rem);
+      color: var(--black);
+      opacity: 0.04;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Posts grid */
+    .posts-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 5% 6rem;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .post-card {
+      background: white;
+      border: 3.5px solid var(--black);
+      border-radius: 20px;
+      box-shadow: 5px 5px 0 var(--black);
+      padding: 2rem;
+      text-decoration: none;
+      color: var(--black);
+      display: block;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .post-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 8px 8px 0 var(--black);
+    }
+
+    .post-date {
+      font-family: 'Bangers', cursive;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      color: #999;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .post-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.9rem;
+      letter-spacing: 0.03em;
+      line-height: 1.05;
+      margin-bottom: 0.85rem;
+      color: var(--black);
+    }
+
+    .post-excerpt {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .post-read {
+      display: inline-block;
+      margin-top: 1.25rem;
+      font-family: 'Bangers', cursive;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      color: var(--black);
+      padding: 0.4rem 1.1rem;
+      border: 2.5px solid var(--black);
+      border-radius: 100px;
+      box-shadow: 2px 2px 0 var(--black);
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+    .post-card:hover .post-read {
+      background: var(--orange);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--black);
+    }
+
+    .loading-msg {
+      text-align: center;
+      font-family: 'Bangers', cursive;
+      font-size: 1.3rem;
+      letter-spacing: 0.1em;
+      color: #aaa;
+      padding: 4rem 0;
+      grid-column: 1 / -1;
+    }
+
+    /* CTA band */
+    .cta-band {
+      background: var(--orange);
+      border-top: 3.5px solid var(--black);
+      border-bottom: 3.5px solid var(--black);
+      padding: 4rem 5%;
+      text-align: center;
+    }
+    .cta-band h2 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: 0.05em;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+    }
+    .cta-band p {
+      font-weight: 700;
+      color: rgba(0,0,0,0.6);
+      margin-bottom: 1.75rem;
+    }
+
+    footer {
+      background: var(--black);
+      color: white;
+      text-align: center;
+      padding: 2rem 5%;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.35);
+    }
+    footer a { color: var(--orange); text-decoration: none; }
+
+    @media(max-width: 768px) {
+      .posts-section { padding: 3rem 5% 4rem; }
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="/" class="brand">KiqFresh</a>
-  <nav>
-    <a href="/blog/">Blog</a>
-    <a href="/booking.html">Book Now</a>
-  </nav>
-</header>
+<nav id="main-nav">
+  <a href="/" class="nav-logo">
+    <img src="/logo.jpeg" class="nav-logo-img" alt="KiqFresh logo">
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/blog/" class="active">Blog</a></li>
+    <li><a href="/booking.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <button class="nav-burger" id="burger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-<div class="hero">
-  <div class="hero-label">KiqFresh Blog</div>
+<div class="page-header">
+  <div class="section-tag">KiqFresh Blog</div>
   <h1>Trainer Care Tips</h1>
   <p>Guides, advice and cleaning tips to keep your kicks looking box fresh — from the KiqFresh team in Reading.</p>
+  <div class="page-header-deco">BLOG</div>
 </div>
 
-<div id="posts" class="posts">
-  <div class="loading" style="grid-column:1/-1">Loading posts…</div>
+<section class="posts-section">
+  <div class="posts-grid" id="posts">
+    <div class="loading-msg">Loading posts&hellip;</div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Ready for Fresh Kicks?</h2>
+  <p>Professional shoe cleaning from £15 — Reading collection or UK postal.</p>
+  <a href="/booking.html" class="btn-comic btn-black">Book a Clean</a>
 </div>
 
 <footer>
-  <a href="/">kiqfresh.net</a> &middot; Professional Shoe Cleaning, Reading UK
+  <a href="/">kiqfresh.net</a> &nbsp;&middot;&nbsp; Professional Shoe Cleaning, Reading UK
 </footer>
 
 <script>
@@ -70,7 +223,7 @@
       const posts = await res.json();
 
       if (!posts.length) {
-        container.innerHTML = '<div class="empty" style="grid-column:1/-1">No posts yet — check back soon.</div>';
+        container.innerHTML = '<div class="loading-msg">No posts yet — check back soon.</div>';
         return;
       }
 
@@ -83,13 +236,17 @@
             ${date ? `<div class="post-date">${date}</div>` : ''}
             <div class="post-title">${esc(p.title)}</div>
             ${p.excerpt ? `<div class="post-excerpt">${esc(p.excerpt)}</div>` : ''}
-            <span class="post-read">Read more &rarr;</span>
+            <span class="post-read">Read More &rarr;</span>
           </a>`;
       }).join('');
     } catch {
-      container.innerHTML = '<div class="empty" style="grid-column:1/-1">Could not load posts. Try again later.</div>';
+      container.innerHTML = '<div class="loading-msg">Could not load posts. Try again later.</div>';
     }
   }
+
+  document.getElementById('burger').addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.toggle('open');
+  });
 
   load();
 </script>

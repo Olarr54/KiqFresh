@@ -4,106 +4,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Track Your Order — KiqFresh</title>
+  <meta name="description" content="Track the status of your shoe cleaning order with KiqFresh.">
+  <link rel="icon" type="image/jpeg" href="/logo.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bangers&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
   <style>
-    :root {
-      --orange: #A5D2FF;
-      --black: #111;
-      --cream: #F7F4EF;
-      --blue: #A5D2FF;
-      --green: #4CAF50;
-      --navy: #0d2040;
-    }
+    body { background: var(--cream); padding-top: 68px; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Nunito', system-ui, sans-serif;
-      background: var(--black);
-      color: var(--cream);
-      min-height: 100vh;
+    .page-wrap {
+      min-height: calc(100vh - 68px);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 2.5rem 1rem;
+      justify-content: flex-start;
+      padding: 4rem 1.25rem 5rem;
     }
 
-    .wrap {
+    .track-card {
       width: 100%;
       max-width: 480px;
     }
 
-    /* Brand header */
-    .brand-bar {
+    .track-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(3.5rem, 12vw, 5.5rem);
+      letter-spacing: 0.05em;
+      line-height: 0.9;
+      color: var(--orange);
+      text-shadow: 5px 5px 0 var(--black);
+      margin-bottom: 0.25rem;
+    }
+
+    .track-sub {
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #888;
       margin-bottom: 2rem;
     }
 
-    .brand-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.8rem;
-      letter-spacing: 0.06em;
-      color: var(--orange);
-      line-height: 1;
-      display: block;
-    }
-
-    .brand-tag {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      color: #555;
-      text-transform: uppercase;
-      margin-top: 0.2rem;
-      display: block;
-    }
-
-    /* Card */
     .card {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
+      background: white;
+      border: 3.5px solid var(--black);
       border-radius: 20px;
+      box-shadow: 6px 6px 0 var(--black);
       overflow: hidden;
     }
 
-    /* Header strip */
     .card-header {
-      background: var(--navy);
+      background: var(--orange);
+      border-bottom: 3.5px solid var(--black);
       padding: 1.5rem 2rem;
-      border-bottom: 2px solid var(--blue);
     }
 
     .card-header .label {
-      font-size: 0.65rem;
-      font-weight: 700;
+      font-family: 'Bangers', cursive;
+      font-size: 0.8rem;
       letter-spacing: 0.2em;
-      color: var(--blue);
+      color: var(--black);
+      opacity: 0.6;
       text-transform: uppercase;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.2rem;
     }
 
-    .card-header h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.2rem;
+    .card-header h2 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2rem;
       letter-spacing: 0.04em;
-      color: var(--cream);
+      color: var(--black);
       line-height: 1;
     }
 
     .card-header .service {
       font-size: 0.85rem;
-      color: #aaa;
-      margin-top: 0.4rem;
-      font-weight: 600;
+      font-weight: 700;
+      color: rgba(0,0,0,0.55);
+      margin-top: 0.35rem;
     }
 
-    /* Body */
     .card-body { padding: 2rem; }
 
-    /* Progress steps */
-    .steps { margin-bottom: 1.5rem; }
+    /* Steps */
+    .steps { display: flex; flex-direction: column; gap: 0; }
 
     .step {
       display: flex;
@@ -115,102 +100,140 @@
     .step:not(:last-child)::after {
       content: '';
       position: absolute;
-      left: 15px;
-      top: 40px;
-      width: 2px;
-      height: 26px;
-      background: #2a2a2a;
+      left: 14px;
+      top: 38px;
+      width: 3px;
+      height: 30px;
+      background: #ddd;
+      border-radius: 2px;
     }
 
-    .step.done:not(:last-child)::after  { background: var(--orange); }
-    .step.active:not(:last-child)::after { background: rgba(245,84,10,0.25); }
+    .step.done:not(:last-child)::after  { background: var(--black); }
+    .step.active:not(:last-child)::after { background: rgba(165,210,255,0.4); }
 
     .dot {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      border: 2px solid #333;
+      border: 3px solid #ddd;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 800;
-      color: #444;
-      background: var(--black);
-      margin: 5px 0 28px;
+      font-size: 0.7rem;
+      font-weight: 900;
+      color: #bbb;
+      background: white;
+      margin: 4px 0 32px;
       position: relative;
       z-index: 1;
     }
 
     .step.done .dot {
-      border-color: var(--orange);
-      background: var(--orange);
+      border-color: var(--black);
+      background: var(--black);
       color: white;
     }
 
     .step.active .dot {
       border-color: var(--orange);
-      color: var(--orange);
-      background: var(--black);
-      box-shadow: 0 0 0 5px rgba(245,84,10,0.12);
+      border-width: 3px;
+      background: var(--orange);
+      color: var(--black);
+      box-shadow: 3px 3px 0 var(--black);
     }
 
-    .step-text { padding: 4px 0 28px; }
+    .step-text { padding: 3px 0 32px; flex: 1; }
 
     .step-name {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #3a3a3a;
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: #ccc;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
-    .step.done .step-name   { color: #666; font-weight: 600; }
-    .step.active .step-name { color: var(--cream); font-weight: 800; }
+
+    .step.done .step-name   { color: #999; }
+    .step.active .step-name {
+      color: var(--black);
+      font-size: 0.95rem;
+    }
 
     .step-desc {
-      font-size: 0.8rem;
-      color: #777;
-      margin-top: 0.2rem;
+      font-size: 0.82rem;
+      color: #666;
+      margin-top: 0.3rem;
       line-height: 1.5;
+      font-weight: 700;
     }
 
     .updated {
       font-size: 0.75rem;
-      color: #444;
-      border-top: 1px solid #222;
+      font-weight: 700;
+      color: #aaa;
+      border-top: 2px solid #eee;
       padding-top: 1.25rem;
+      margin-top: 0.5rem;
     }
 
-    /* Status / error */
     .status-msg {
       padding: 2.5rem 2rem;
       color: #777;
       font-size: 0.95rem;
       text-align: center;
+      font-weight: 700;
     }
+    .status-msg a { color: var(--black); font-weight: 900; }
 
-    footer {
-      margin-top: 1.75rem;
+    .book-cta {
+      margin-top: 1.5rem;
       text-align: center;
-      font-size: 0.78rem;
-      color: #444;
     }
-    footer a { color: var(--orange); text-decoration: none; }
+    .book-cta a {
+      font-family: 'Bangers', cursive;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: #888;
+      text-decoration: none;
+      font-weight: normal;
+    }
+    .book-cta a:hover { color: var(--black); }
+
+    @media(max-width:500px) {
+      .page-wrap { padding: 3rem 1rem 4rem; }
+      .card-body { padding: 1.5rem; }
+    }
   </style>
 </head>
 <body>
 
-  <div class="wrap">
-    <div class="brand-bar">
-      <span class="brand-name">KiqFresh</span>
-      <span class="brand-tag">Professional Shoe Cleaning</span>
-    </div>
+<nav id="main-nav">
+  <a href="/" class="nav-logo">
+    <img src="/logo.jpeg" class="nav-logo-img" alt="KiqFresh logo">
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/booking.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <button class="nav-burger" id="burger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="page-wrap">
+  <div class="track-card">
+    <h1 class="track-title">Your Order</h1>
+    <p class="track-sub">KiqFresh &mdash; Shoe Cleaning Reading</p>
 
     <div class="card" id="card">
       <div class="status-msg" id="loading">Loading your order…</div>
     </div>
 
-    <footer><a href="https://kiqfresh.net">kiqfresh.net</a></footer>
+    <div class="book-cta">
+      <a href="/">Back to kiqfresh.net</a>
+    </div>
   </div>
+</div>
 
 <script>
   const STEPS = [
@@ -234,16 +257,16 @@
   }
 
   function renderError(msg) {
-    document.getElementById('card').innerHTML = `<div class="status-msg"><p>${msg}</p><p style="margin-top:0.75rem;font-size:0.85rem"><a href="https://kiqfresh.net">Visit kiqfresh.net</a></p></div>`;
+    document.getElementById('card').innerHTML =
+      `<div class="status-msg"><p>${msg}</p><p style="margin-top:0.75rem;font-size:0.85rem"><a href="/">Visit kiqfresh.net</a></p></div>`;
   }
 
   function renderOrder(order) {
     const currentIdx = STEPS.findIndex(s => s.key === order.status);
     const firstName = order.customer_name ? order.customer_name.split(' ')[0] : '';
-
     const stepsHtml = STEPS.map((step, i) => {
       const cls = i < currentIdx ? 'done' : i === currentIdx ? 'active' : '';
-      const dot = i < currentIdx ? '✓' : String(i + 1);
+      const dot = i < currentIdx ? '&#10003;' : String(i + 1);
       return `
         <div class="step ${cls}">
           <div class="dot">${dot}</div>
@@ -260,8 +283,8 @@
 
     document.getElementById('card').innerHTML = `
       <div class="card-header">
-        <div class="label">${firstName ? `Hey ${esc(firstName)} —` : ''} Your Order</div>
-        <h1>Order Status</h1>
+        ${firstName ? `<div class="label">Hey ${esc(firstName)} &mdash;</div>` : ''}
+        <h2>Order Status</h2>
         <div class="service">${esc(order.service_type || 'Shoe Cleaning Service')}</div>
       </div>
       <div class="card-body">
@@ -282,6 +305,11 @@
       renderError('Could not load your order. Check your connection and try again.');
     }
   }
+
+  // Mobile nav
+  document.getElementById('burger').addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.toggle('open');
+  });
 
   init();
 </script>
