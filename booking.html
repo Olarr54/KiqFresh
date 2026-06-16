@@ -666,6 +666,15 @@
         </div>
       </div>
 
+      <div class="sidebar-card" id="selectionCard" style="display:none;border-color:var(--orange);box-shadow:6px 6px 0 var(--orange);">
+        <h3 style="color:var(--orange);">YOUR PICK ✦</h3>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">
+          <span style="font-family:'Bangers',cursive;font-size:1.3rem;letter-spacing:0.04em;" id="sidebarPickName">Full Shoe Clean</span>
+          <span style="font-family:'Bangers',cursive;font-size:1.5rem;letter-spacing:0.04em;color:var(--orange);white-space:nowrap;" id="sidebarPickPrice">£15</span>
+        </div>
+        <div style="font-size:0.78rem;font-weight:800;color:#888;margin-top:0.35rem;" id="sidebarPickPairs"></div>
+      </div>
+
       <div class="sidebar-card">
         <h3>WHY KIQFRESH?</h3>
         <div class="sidebar-feature">
@@ -910,19 +919,17 @@
     const svcDisplay   = contactUs ? 'Contact us' : fmt(serviceTotal);
     const totalDisplay = contactUs ? 'Contact us' : fmt(grandTotal);
 
-    // Sidebar
-    const pSvc = document.getElementById('pSvc');
-    if (pSvc) {
-      if (isBundleService) {
-        pSvc.textContent = 'Triple Clean Bundle (3 pairs)';
-      } else {
-        pSvc.textContent = pairsNum > 1 ? `${selectedService} ×${pairsNum}` : selectedService;
-      }
+    // Sidebar selection card
+    const selCard = document.getElementById('selectionCard');
+    const pickName = document.getElementById('sidebarPickName');
+    const pickPrice = document.getElementById('sidebarPickPrice');
+    const pickPairs = document.getElementById('sidebarPickPairs');
+    if (selCard && document.getElementById('postalFlow').style.display !== 'none') {
+      selCard.style.display = 'block';
+      if (pickName) pickName.textContent = isBundleService ? 'Triple Clean Bundle' : selectedService;
+      if (pickPrice) pickPrice.textContent = svcDisplay;
+      if (pickPairs) pickPairs.textContent = isBundleService ? '3 pairs' : pairsNum > 1 ? `${pairsNum} pairs` : '1 pair';
     }
-    const pPrice = document.getElementById('pPrice');
-    if (pPrice) pPrice.textContent = svcDisplay;
-    const pTotal = document.getElementById('pTotal');
-    if (pTotal) pTotal.textContent = totalDisplay;
 
     // Step 3 summary box
     const lbl = document.getElementById('summaryServiceLabel');
