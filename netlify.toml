@@ -35,7 +35,7 @@
     Referrer-Policy              = "strict-origin-when-cross-origin"
     Permissions-Policy           = "camera=(), microphone=(), geolocation=(), payment=()"
     Strict-Transport-Security    = "max-age=31536000; includeSubDomains"
-    Content-Security-Policy      = "default-src 'none'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://api.web3forms.com https://*.supabase.co; img-src 'self' data: blob:; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'"
+    Content-Security-Policy      = "default-src 'none'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://api.web3forms.com https://*.supabase.co; img-src 'self' data: blob:; media-src 'self'; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'"
 
 # Relaxed CSP for the CMS editor (needs external scripts from Decap + Netlify Identity)
 [[headers]]
