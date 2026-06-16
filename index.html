@@ -333,10 +333,11 @@
   border:3.5px solid var(--black); border-radius:20px;
   box-shadow:8px 8px 0 var(--black); overflow:hidden;
   aspect-ratio:16/8; position:relative; user-select:none; cursor:ew-resize;
+  touch-action:none;
 }
 .ba-mini-before,.ba-mini-after { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
 .ba-mini-before { background:#e8e2da; }
-.ba-mini-after { background:var(--cream); clip-path:inset(0 50% 0 0); transition:clip-path .04s; }
+.ba-mini-after { background:var(--cream); clip-path:inset(0 50% 0 0); will-change:clip-path; }
 .ba-mini-label { position:absolute; bottom:1rem; font-family:'Bangers',cursive; font-size:1rem; letter-spacing:.1em; background:var(--black); color:white; padding:.3rem .8rem; border-radius:8px; }
 .ba-mini-before .ba-mini-label { left:1rem; }
 .ba-mini-after .ba-mini-label { right:1rem; color:var(--orange); }
@@ -946,15 +947,19 @@
   function setBA(x) {
     const r = baMini.getBoundingClientRect();
     const pct = Math.max(5, Math.min(95, ((x - r.left) / r.width) * 100));
-    baAfter.style.clipPath   = `inset(0 ${100 - pct}% 0 0)`;
-    baDivider.style.left     = pct + '%';
+    baAfter.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+    baDivider.style.left   = pct + '%';
   }
-  baMini.addEventListener('mousedown',  () => baDrag = true);
+  baMini.addEventListener('mousedown',  e => { baDrag = true; setBA(e.clientX); });
   document.addEventListener('mouseup',   () => baDrag = false);
   document.addEventListener('mousemove', e => { if (baDrag) setBA(e.clientX); });
-  baMini.addEventListener('touchstart',  () => baDrag = true, { passive: true });
+  baMini.addEventListener('touchstart',  e => { baDrag = true; setBA(e.touches[0].clientX); }, { passive: true });
   document.addEventListener('touchend',  () => baDrag = false);
-  document.addEventListener('touchmove', e => { if (baDrag) setBA(e.touches[0].clientX); }, { passive: true });
+  document.addEventListener('touchmove', e => {
+    if (!baDrag) return;
+    e.preventDefault();
+    setBA(e.touches[0].clientX);
+  }, { passive: false });
 
   ScrollTrigger.create({
     trigger: '#teaser', start: 'top 65%', once: true,
