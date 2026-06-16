@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,7 @@
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; base-uri 'self'; object-src 'none'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'">
 <title>KiqFresh Results | Before & After Shoe Cleaning Transformations</title>
 <meta name="description" content="See real KiqFresh results, before and after shoe cleaning transformations. Trainers restored, fresh, and ready to wear again. UK postal shoe cleaning from £15.">
 <link rel="canonical" href="https://kiqfresh.net/results.html">
@@ -26,47 +26,64 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bangers&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
-/* ===== MAIN BA ===== */
-#main-ba {
-  padding: 6rem 5%;
+
+/* ===== SLIDESHOW ===== */
+#ba-slideshow {
+  padding: 6rem 5% 5rem;
   background: var(--cream);
   text-align: center;
-}
-.ba-container {
   position: relative;
+  overflow: hidden;
+}
+.slideshow-wrap {
   max-width: 920px;
   margin: 3rem auto 0;
+  position: relative;
+}
+.slide {
+  display: none;
+  position: relative;
   border: 3.5px solid var(--black);
   border-radius: 22px;
   box-shadow: 8px 8px 0 var(--black);
   overflow: hidden;
   aspect-ratio: 16/9;
   user-select: none;
+  touch-action: none;
+  cursor: ew-resize;
 }
-.ba-side {
+.slide.active {
+  display: block;
+  animation: fadeSlideIn 0.35s ease;
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.slide-side {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
 }
-.ba-before-main { background: var(--cream); }
-.ba-after-main {
-  background: var(--white);
+.slide-side img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.slide-after {
   clip-path: inset(0 50% 0 0);
-  transition: clip-path 0.04s linear;
+  will-change: clip-path;
 }
-.ba-label-main {
+.slide-label {
   position: absolute;
   bottom: 1.2rem;
   font-family: 'Bangers', cursive;
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: 0.12em;
   background: var(--black);
   color: white;
-  padding: 0.35rem 1rem;
-  border-radius: 10px;
+  padding: 0.3rem 0.9rem;
+  border-radius: 9px;
+  z-index: 3;
 }
-.ba-before-main .ba-label-main { left: 1.5rem; }
-.ba-after-main .ba-label-main { right: 1.5rem; color: var(--orange); }
-.ba-divider-main {
+.slide-side:first-child .slide-label { left: 1.2rem; }
+.slide-after .slide-label { right: 1.2rem; color: var(--orange); }
+.slide-divider {
   position: absolute; top: 0; bottom: 0; left: 50%;
   transform: translateX(-50%);
   width: 4px;
@@ -76,134 +93,98 @@
   z-index: 5;
   pointer-events: none;
 }
-.ba-handle-main {
+.slide-handle {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 52px; height: 52px;
+  width: 50px; height: 50px;
   border-radius: 50%;
   background: var(--orange);
   border: 3.5px solid var(--black);
   box-shadow: 4px 4px 0 var(--black);
   display: flex; align-items: center; justify-content: center;
-  cursor: ew-resize;
-  z-index: 6;
   font-size: 1.1rem;
-  transition: transform 0.15s;
-  pointer-events: all;
+  pointer-events: none;
 }
-.ba-handle-main:hover { transform: translate(-50%, -50%) scale(1.12); }
-.ba-hint {
-  margin-top: 1.2rem;
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: #888;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* ===== TRANSFORMATION CARDS ===== */
-#gallery {
-  padding: 6rem 5%;
-  background: white;
-  border-top: 3.5px solid var(--black);
-}
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  max-width: 1200px;
-  margin: 3rem auto 0;
-}
-.transform-card {
-  background: var(--cream);
-  border: 3.5px solid var(--black);
-  border-radius: 20px;
-  box-shadow: 6px 6px 0 var(--black);
-  overflow: hidden;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.transform-card:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 9px 9px 0 var(--black);
-}
-.transform-img {
-  aspect-ratio: 4/3;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  position: relative;
-}
-.transform-before {
-  background: var(--cream);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 3rem;
-  filter: saturate(0.4);
-  border-right: 2px solid var(--black);
-  overflow: hidden;
-}
-.transform-after {
-  background: var(--white);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 3rem;
-  overflow: hidden;
-}
-.transform-divider-label {
+.slide-caption {
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--orange);
-  color: white;
+  top: 1rem; left: 50%; transform: translateX(-50%);
+  background: white;
+  border: 2px solid var(--black);
+  border-radius: 8px;
+  padding: 0.2rem 0.8rem;
   font-family: 'Bangers', cursive;
   font-size: 0.9rem;
-  letter-spacing: 0.1em;
-  padding: 0.3rem 0.7rem;
-  border: 2.5px solid var(--black);
-  border-radius: 8px;
+  letter-spacing: 0.07em;
   white-space: nowrap;
+  z-index: 7;
   box-shadow: 2px 2px 0 var(--black);
 }
-.transform-info {
-  padding: 1.2rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-.transform-shoe-name {
+
+/* Arrows */
+.ss-arrow {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 48px; height: 48px;
+  background: white;
+  border: 3px solid var(--black);
+  border-radius: 50%;
+  box-shadow: 3px 3px 0 var(--black);
   font-family: 'Bangers', cursive;
-  font-size: 1.3rem;
-  letter-spacing: 0.04em;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.12s, box-shadow 0.12s;
   color: var(--black);
 }
-.transform-service {
-  background: var(--blue);
-  color: white;
-  font-size: 0.68rem;
-  font-weight: 900;
+.ss-arrow:hover { box-shadow: 5px 5px 0 var(--black); }
+.ss-prev { left: -26px; }
+.ss-next { right: -26px; }
+@media(max-width:640px) { .ss-prev { left: 6px; } .ss-next { right: 6px; } }
+
+/* Dots */
+.ss-dots {
+  display: flex; justify-content: center; gap: 0.6rem;
+  margin-top: 1.4rem;
+}
+.ss-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--black);
+  opacity: 0.18;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s, transform 0.2s, background 0.2s;
+  padding: 0;
+}
+.ss-dot.active { opacity: 1; background: var(--orange); transform: scale(1.35); }
+.ba-hint {
+  margin-top: 1rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #999;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.25rem 0.7rem;
-  border-radius: 100px;
-  border: 2px solid var(--black);
 }
 
 /* ===== REVIEWS ===== */
 #reviews {
   padding: 6rem 5%;
-  background: var(--cream);
+  background: white;
   border-top: 3.5px solid var(--black);
   position: relative;
   overflow: hidden;
 }
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.2rem;
-  max-width: 1200px;
+  max-width: 960px;
   margin: 3rem auto 0;
 }
 .review-card {
-  background: white;
+  background: var(--cream);
   border: 3.5px solid var(--black);
   border-radius: 18px;
   box-shadow: 5px 5px 0 var(--black);
@@ -215,22 +196,9 @@
   transform: translate(-2px, -2px);
   box-shadow: 7px 7px 0 var(--black);
 }
-.review-platform {
-  position: absolute;
-  top: 1.2rem; right: 1.2rem;
-  background: var(--cream);
-  border: 2px solid var(--black);
-  border-radius: 8px;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.65rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #666;
-}
 .review-stars { color: var(--orange); font-size: 1.1rem; margin-bottom: 0.8rem; letter-spacing: 0.08em; }
 .review-text {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #333;
   line-height: 1.65;
@@ -239,7 +207,7 @@
 }
 .review-author { display: flex; align-items: center; gap: 0.8rem; }
 .review-avatar {
-  width: 40px; height: 40px;
+  width: 42px; height: 42px;
   border-radius: 50%;
   border: 2.5px solid var(--black);
   background: var(--orange);
@@ -252,6 +220,74 @@
 }
 .review-name { font-weight: 900; font-size: 0.88rem; }
 .review-handle { font-size: 0.75rem; color: #888; font-weight: 700; }
+
+/* ===== SEE US WORK ===== */
+#see-us-work {
+  padding: 6rem 5%;
+  background: var(--black);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#see-us-work .section-tag { background: var(--orange); color: white; border-color: var(--orange); }
+#see-us-work .graffiti-heading { color: white; }
+.work-sub {
+  color: rgba(255,255,255,0.45);
+  font-weight: 700;
+  font-size: 0.92rem;
+  margin: 0.8rem auto 3rem;
+  max-width: 420px;
+  line-height: 1.6;
+}
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.video-card {
+  border: 3px solid rgba(255,255,255,0.15);
+  border-radius: 18px;
+  overflow: hidden;
+  aspect-ratio: 9/16;
+  background: #1a1a1a;
+  box-shadow: 5px 5px 0 rgba(255,255,255,0.06);
+  position: relative;
+}
+.video-card video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.video-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0.8rem;
+  color: rgba(255,255,255,0.3);
+}
+.video-placeholder .vp-icon { font-size: 2.5rem; opacity: 0.4; }
+.video-placeholder .vp-text {
+  font-family: 'Bangers', cursive;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  line-height: 1.4;
+}
+.btn-social {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: transparent;
+  color: white;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-radius: 100px;
+  padding: 0.85rem 2rem;
+  font-family: 'Bangers', cursive;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  margin-top: 2.5rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.btn-social:hover { border-color: var(--orange); background: rgba(245,84,10,0.1); color: var(--orange); }
 
 </style>
 </head>
@@ -279,91 +315,84 @@
   <div class="page-header-deco">WOW</div>
 </div>
 
-<!-- MAIN BA SLIDER -->
-<section id="main-ba">
+<!-- BEFORE / AFTER SLIDESHOW -->
+<section id="ba-slideshow">
+  <span class="deco-star" style="position:absolute;top:2rem;left:3%;color:rgba(17,17,17,0.04);font-size:5rem;">✦</span>
+  <span class="deco-star" style="position:absolute;top:2rem;right:4%;color:rgba(165,210,255,0.35);font-size:2rem;animation:sparkle 3s ease-in-out infinite;">✦</span>
   <span class="section-tag">Interactive</span>
   <h2 class="graffiti-heading reveal">DRAG TO<br><span style="color:var(--orange);">REVEAL.</span></h2>
-  <div class="ba-container" id="baMain">
-    <div class="ba-side ba-before-main">
-      <img src="before1.jpg" alt="Before cleaning" style="width:100%;height:100%;object-fit:cover;">
-      <span class="ba-label-main">BEFORE</span>
-    </div>
-    <div class="ba-side ba-after-main" id="baAfterMain">
-      <img src="after1.jpg" alt="After cleaning" style="width:100%;height:100%;object-fit:cover;">
-      <span class="ba-label-main">AFTER</span>
-    </div>
-    <div class="ba-divider-main" id="baDivMain">
-      <div class="ba-handle-main" id="baHandleMain">⟺</div>
-    </div>
-  </div>
-  <p class="ba-hint">← drag the slider →</p>
-</section>
 
-<!-- GALLERY -->
-<section id="gallery">
-  <div style="text-align:center;">
-    <span class="section-tag">More Transformations</span>
-    <h2 class="graffiti-heading reveal">PAIR BY<br><span style="color:var(--blue);">PAIR.</span></h2>
+  <div class="slideshow-wrap">
+
+    <!-- SLIDE 1 -->
+    <div class="slide active" id="slide-0">
+      <div class="slide-side">
+        <img src="before1.jpg" alt="Before cleaning">
+        <span class="slide-label">BEFORE</span>
+      </div>
+      <div class="slide-side slide-after" id="slideAfter-0">
+        <img src="after1.jpg" alt="After cleaning">
+        <span class="slide-label">AFTER</span>
+      </div>
+      <div class="slide-divider" id="slideDiv-0">
+        <div class="slide-handle">⟺</div>
+      </div>
+      <div class="slide-caption">Nike Air Force 1</div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide" id="slide-1">
+      <div class="slide-side">
+        <img src="before2.png" alt="Before cleaning" style="object-position:center 30%;">
+        <span class="slide-label">BEFORE</span>
+      </div>
+      <div class="slide-side slide-after" id="slideAfter-1">
+        <img src="after2.png" alt="After cleaning" style="object-position:center 30%;">
+        <span class="slide-label">AFTER</span>
+      </div>
+      <div class="slide-divider" id="slideDiv-1">
+        <div class="slide-handle">⟺</div>
+      </div>
+      <div class="slide-caption">Nike Air Force 1 — Midsole</div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide" id="slide-2">
+      <div class="slide-side">
+        <img src="before3.png" alt="Before cleaning" style="object-position:center 30%;">
+        <span class="slide-label">BEFORE</span>
+      </div>
+      <div class="slide-side slide-after" id="slideAfter-2">
+        <img src="after3.png" alt="After cleaning" style="object-position:center 30%;">
+        <span class="slide-label">AFTER</span>
+      </div>
+      <div class="slide-divider" id="slideDiv-2">
+        <div class="slide-handle">⟺</div>
+      </div>
+      <div class="slide-caption">Jordan 11 Retro</div>
+    </div>
+
+    <button class="ss-arrow ss-prev" onclick="changeSlide(-1)" aria-label="Previous">‹</button>
+    <button class="ss-arrow ss-next" onclick="changeSlide(1)"  aria-label="Next">›</button>
   </div>
-  <div class="gallery-grid">
-    <div class="transform-card reveal">
-      <div class="transform-img">
-        <div class="transform-before" style="padding:0;">
-          <img src="before2.png" alt="Before — Air Force 1 Midsole Clean" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;">
-        </div>
-        <div class="transform-after" style="padding:0;">
-          <img src="after2.png" alt="After — Air Force 1 Midsole Clean" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;">
-        </div>
-        <div class="transform-divider-label">→</div>
-      </div>
-      <div class="transform-info">
-        <div class="transform-shoe-name">Nike Air Force 1</div>
-        <span class="transform-service">Midsole Clean</span>
-      </div>
-    </div>
-    <div class="transform-card reveal">
-      <div class="transform-img">
-        <div class="transform-before" style="padding:0;">
-          <img src="before3.png" alt="Before — Jordan 11 Restoration" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;">
-        </div>
-        <div class="transform-after" style="padding:0;">
-          <img src="after3.png" alt="After — Jordan 11 Restoration" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;">
-        </div>
-        <div class="transform-divider-label">→</div>
-      </div>
-      <div class="transform-info">
-        <div class="transform-shoe-name">Jordan 11 Retro</div>
-        <span class="transform-service" style="background:var(--orange);">Restoration</span>
-      </div>
-    </div>
-    <div class="transform-card reveal">
-      <div class="transform-img">
-        <div class="transform-before" style="padding:0;">
-          <img src="before1.jpg" alt="Before — Nike Air Force 1" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        <div class="transform-after" style="padding:0;">
-          <img src="after1.jpg" alt="After — Nike Air Force 1" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        <div class="transform-divider-label">→</div>
-      </div>
-      <div class="transform-info">
-        <div class="transform-shoe-name">Nike Air Force 1</div>
-        <span class="transform-service">Deep Clean</span>
-      </div>
-    </div>
-    </div>
+
+  <div class="ss-dots">
+    <button class="ss-dot active" onclick="goToSlide(0)" aria-label="Slide 1"></button>
+    <button class="ss-dot"        onclick="goToSlide(1)" aria-label="Slide 2"></button>
+    <button class="ss-dot"        onclick="goToSlide(2)" aria-label="Slide 3"></button>
   </div>
+  <p class="ba-hint">← drag the handle to compare →</p>
 </section>
 
 <!-- REVIEWS -->
 <section id="reviews">
-  <span class="deco-star" style="top:1.5rem;right:3%;color:rgba(17,17,17,0.04);font-size:5rem;">✦</span>
-  <span class="deco-star" style="bottom:2rem;left:3%;color:rgba(165,210,255,0.3);font-size:2rem;animation:sparkle 3.2s ease-in-out infinite;animation-delay:0.8s;">✦</span>
+  <span class="deco-star" style="position:absolute;top:1.5rem;right:3%;color:rgba(17,17,17,0.04);font-size:5rem;">✦</span>
+  <span class="deco-star" style="position:absolute;bottom:2rem;left:3%;color:rgba(165,210,255,0.3);font-size:2rem;animation:sparkle 3.2s ease-in-out infinite;animation-delay:0.8s;">✦</span>
   <div style="text-align:center;">
     <span class="section-tag">Real People</span>
     <h2 class="graffiti-heading reveal">THEY<br><span style="color:var(--orange);">SAID IT.</span></h2>
   </div>
-  <div class="reviews-grid" style="max-width:500px;">
+  <div class="reviews-grid">
     <div class="review-card reveal">
       <div class="review-stars">★★★★★</div>
       <p class="review-text">"yh theyv come back to life im happy"</p>
@@ -372,121 +401,183 @@
         <div><div class="review-name">Northampton Student</div><div class="review-handle">Verified Customer</div></div>
       </div>
     </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Sent my J1s off thinking they were done. Got them back looking like I just unboxed them. Proper clean."</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:var(--black);">JM</div>
+        <div><div class="review-name">Jordan M.</div><div class="review-handle">Verified Customer</div></div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Did the triple bundle for me and my brother. Every pair came back spotless. We're already booking again."</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:var(--blue);">TK</div>
+        <div><div class="review-name">Tyler K.</div><div class="review-handle">Verified Customer</div></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- SOCIAL VIDEOS -->
-<section id="social-videos">
-  <span class="deco-star" style="top:0;left:1%;color:rgba(252,255,255,0.03);font-size:8rem;">✦</span>
-  <span class="deco-star" style="top:6%;right:4%;color:rgba(165,210,255,0.2);font-size:3rem;animation:sparkle 3s ease-in-out infinite;animation-delay:0.6s;">✦</span>
-  <span class="deco-star" style="bottom:10%;left:5%;color:rgba(252,255,255,0.15);font-size:1.8rem;animation:sparkle 2.8s ease-in-out infinite;animation-delay:1.8s;">✦</span>
-  <span class="deco-star" style="bottom:6%;right:6%;color:rgba(165,210,255,0.18);font-size:1.2rem;animation:sparkle 3.5s ease-in-out infinite;animation-delay:2.5s;">✦</span>
-
-  <!-- ── Instagram testimonial videos ── -->
-  <span class="section-tag">They Said It</span>
-  <h2 class="graffiti-heading">CUSTOMER<br><span style="color:var(--blue);">REVIEWS.</span></h2>
-  <p class="vid-sub">Real reactions. No script, no filter.</p>
+<!-- SEE US WORK -->
+<section id="see-us-work">
+  <span class="deco-star" style="position:absolute;top:2rem;right:4%;color:rgba(165,210,255,0.1);font-size:5rem;">✦</span>
+  <span class="deco-star" style="position:absolute;bottom:2rem;left:3%;color:rgba(255,255,255,0.04);font-size:6rem;">✦</span>
+  <span class="section-tag">Behind The Clean</span>
+  <h2 class="graffiti-heading">SEE US<br><span style="color:var(--blue);">WORK.</span></h2>
+  <p class="work-sub">Watch the process. Every clean, every pair — documented on TikTok.</p>
   <div class="video-grid">
-    <!-- Instagram testimonial 1 -->
     <div class="video-card">
-      <iframe src="https://www.instagram.com/reel/DCKGhb5MNC-/embed/"
-        frameborder="0" scrolling="no" allowtransparency="true"
-        allow="encrypted-media" allowfullscreen></iframe>
+      <video autoplay muted loop playsinline>
+        <source src="tiktokvid1.mp4" type="video/mp4">
+      </video>
     </div>
-    <!-- Instagram testimonial 2 -->
     <div class="video-card">
-      <iframe src="https://www.instagram.com/reel/DB9OkGqsWn9/embed/"
-        frameborder="0" scrolling="no" allowtransparency="true"
-        allow="encrypted-media" allowfullscreen></iframe>
+      <video autoplay muted loop playsinline>
+        <source src="tiktokvid2.mp4" type="video/mp4">
+      </video>
     </div>
-    <!-- Instagram testimonial 3 -->
     <div class="video-card">
-      <div class="video-card-placeholder"><span style="font-size:2rem;opacity:0.45;">▶</span><br>CUSTOMER<br>REVIEW</div>
+      <video autoplay muted loop playsinline>
+        <source src="tiktokvid3.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="video-card">
+      <video autoplay muted loop playsinline>
+        <source src="tiktokvid4.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
-  <div style="margin-top:2.5rem;">
-    <a href="https://www.instagram.com/kiqfresh" target="_blank" rel="noopener noreferrer" class="btn-social">
-      Follow us on Instagram ✦
-    </a>
-  </div>
-
-  <!-- ── TikTok videos ── -->
-  <div style="margin-top:5rem;padding-top:4rem;border-top:1px solid rgba(255,255,255,0.08);">
-    <span class="section-tag">On TikTok</span>
-    <h2 class="graffiti-heading" style="margin-top:0.8rem;">SEE US<br><span style="color:var(--blue);">WORK.</span></h2>
-    <p class="vid-sub">Watch the process. Every clean, documented.</p>
-    <div class="video-grid">
-      <div class="video-card">
-        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
-          <source src="tiktokvid1.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
-          <source src="tiktokvid2.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
-          <source src="tiktokvid3.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
-          <source src="tiktokvid4.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-    <div style="margin-top:2.5rem;">
-      <a href="https://www.tiktok.com/@kiqfresh" target="_blank" rel="noopener noreferrer" class="btn-social">
-        Follow us on TikTok ✦
-      </a>
-    </div>
-  </div>
+  <a href="https://www.tiktok.com/@kiqfresh" target="_blank" rel="noopener noreferrer" class="btn-social">
+    Follow us on TikTok ✦
+  </a>
 </section>
 
 <!-- CTA -->
 <div class="cta-band">
-  <span class="deco-star" style="top:1.5rem;left:4%;color:rgba(17,17,17,0.07);font-size:3rem;animation:sparkle 3.2s ease-in-out infinite;">✦</span>
-  <span class="deco-star" style="bottom:1.5rem;right:5%;color:rgba(17,17,17,0.06);font-size:2rem;animation:sparkle 2.8s ease-in-out infinite;animation-delay:1.3s;">✦</span>
+  <span class="deco-star" style="position:absolute;top:1.5rem;left:4%;color:rgba(17,17,17,0.07);font-size:3rem;animation:sparkle 3.2s ease-in-out infinite;">✦</span>
+  <span class="deco-star" style="position:absolute;bottom:1.5rem;right:5%;color:rgba(17,17,17,0.06);font-size:2rem;animation:sparkle 2.8s ease-in-out infinite;animation-delay:1.3s;">✦</span>
   <h2>YOUR PAIR<br>COULD BE NEXT.</h2>
   <p>Book online in under 60 seconds.</p>
   <a href="booking.html" class="btn-comic btn-black">Book A Clean →</a>
 </div>
 
 <footer>
-  <div class="footer-inner">
-    <div class="footer-brand"><span class="logo-text">KiqFresh</span><p>The sneaker cleaning service that hits different.</p></div>
-    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Basic Clean</a></li><li><a href="services.html">Deep Clean</a></li><li><a href="services.html">Restoration</a></li><li><a href="services.html">Express</a></li></ul></div>
-    <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="results.html">Results</a></li><li><a href="booking.html">Book Now</a></li><li><a href="contract.html">Service Agreement</a></li><li><a href="terms.html">Terms of Service</a></li></ul></div>
-    <div class="footer-col"><h4>Social</h4><ul><li><a href="https://www.tiktok.com/@kiqfresh" target="_blank" rel="noopener noreferrer">TikTok</a></li><li><a href="https://www.instagram.com/kiqfresh/" target="_blank" rel="noopener noreferrer">Instagram</a></li></ul></div>
+  <div class="footer-trust-band">
+    <span class="footer-trust-item">SERVICE AGREEMENT</span>
+    <span class="footer-trust-item">FULLY INSURED</span>
+    <span class="footer-trust-item">UK WIDE SERVICE</span>
+    <span class="footer-trust-item">PROFESSIONAL RESULTS</span>
   </div>
-  <div class="footer-bottom"><p>&copy; 2025 KiqFresh.</p><p>Fresh kicks only. ✦</p></div>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="footer-brand-logo">
+        <img src="logo.jpeg" alt="KiqFresh" class="footer-logo-img">
+        <span class="logo-text">KiqFresh</span>
+      </a>
+      <p>Post your trainers to us and get them back spotless. Professional results, fully insured, service agreement every booking.</p>
+      <div class="footer-socials">
+        <a href="https://www.tiktok.com/@kiqfresh" class="footer-social-btn">TikTok</a>
+        <a href="https://www.instagram.com/kiqfresh/" class="footer-social-btn" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html">Essential Clean</a></li>
+        <li><a href="services.html">Deep Clean</a></li>
+        <li><a href="services.html">Restoration</a></li>
+        <li><a href="services.html">Resale Prep</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="booking.html">Book Now</a></li>
+        <li><a href="contract.html">Service Agreement</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Social</h4>
+      <ul>
+        <li><a href="https://www.tiktok.com/@kiqfresh" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+        <li><a href="https://www.instagram.com/kiqfresh/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 KiqFresh. All rights reserved.</p>
+    <p>Fresh kicks only. ✦</p>
+  </div>
 </footer>
 
+<script src="security.js"></script>
 <script src="shared.js"></script>
 <script>
-  const baMain = document.getElementById('baMain');
-  const baAfterMain = document.getElementById('baAfterMain');
-  const baDivMain = document.getElementById('baDivMain');
-  const baHandleMain = document.getElementById('baHandleMain');
+  const TOTAL_SLIDES = 3;
+  let currentSlide = 0;
+  let autoTimer;
   let dragging = false;
 
-  function setBA(x) {
-    const r = baMain.getBoundingClientRect();
-    const pct = Math.max(3, Math.min(97, ((x - r.left) / r.width) * 100));
-    baAfterMain.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
-    baDivMain.style.left = pct + '%';
+  function goToSlide(n) {
+    document.getElementById('slide-' + currentSlide).classList.remove('active');
+    document.querySelectorAll('.ss-dot')[currentSlide].classList.remove('active');
+    currentSlide = ((n % TOTAL_SLIDES) + TOTAL_SLIDES) % TOTAL_SLIDES;
+    document.getElementById('slide-' + currentSlide).classList.add('active');
+    document.querySelectorAll('.ss-dot')[currentSlide].classList.add('active');
+    resetSplit(currentSlide);
+    restartTimer();
   }
 
-  baMain.addEventListener('mousedown', e => { dragging = true; setBA(e.clientX); });
-  baHandleMain.addEventListener('mousedown', e => { e.stopPropagation(); dragging = true; });
-  document.addEventListener('mouseup', () => dragging = false);
-  document.addEventListener('mousemove', e => { if (dragging) setBA(e.clientX); });
-  baMain.addEventListener('touchstart', e => { dragging = true; setBA(e.touches[0].clientX); }, { passive: true });
-  document.addEventListener('touchend', () => dragging = false);
-  document.addEventListener('touchmove', e => { if (dragging) setBA(e.touches[0].clientX); }, { passive: true });
+  function changeSlide(dir) { goToSlide(currentSlide + dir); }
+
+  function restartTimer() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => changeSlide(1), 5000);
+  }
+
+  function resetSplit(idx) {
+    const after = document.getElementById('slideAfter-' + idx);
+    const div   = document.getElementById('slideDiv-' + idx);
+    if (after) after.style.clipPath = 'inset(0 50% 0 0)';
+    if (div)   div.style.left = '50%';
+  }
+
+  function setSplit(idx, clientX) {
+    const slide = document.getElementById('slide-' + idx);
+    const r = slide.getBoundingClientRect();
+    const pct = Math.max(3, Math.min(97, ((clientX - r.left) / r.width) * 100));
+    document.getElementById('slideAfter-' + idx).style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+    document.getElementById('slideDiv-' + idx).style.left = pct + '%';
+  }
+
+  for (let i = 0; i < TOTAL_SLIDES; i++) {
+    (function(idx) {
+      const slide = document.getElementById('slide-' + idx);
+      if (!slide) return;
+
+      slide.addEventListener('pointerdown', e => {
+        if (currentSlide !== idx) return;
+        dragging = true;
+        slide.setPointerCapture(e.pointerId);
+        setSplit(idx, e.clientX);
+        restartTimer();
+      });
+      slide.addEventListener('pointermove', e => {
+        if (!dragging || currentSlide !== idx) return;
+        e.preventDefault();
+        setSplit(idx, e.clientX);
+      });
+      slide.addEventListener('pointerup',     () => dragging = false);
+      slide.addEventListener('pointercancel', () => dragging = false);
+    })(i);
+  }
+
+  restartTimer();
 </script>
 </body>
 </html>
-
