@@ -168,6 +168,94 @@
   text-transform: uppercase;
 }
 
+/* ===== GALLERY ===== */
+#gallery {
+  padding: 6rem 5%;
+  background: white;
+  border-top: 3.5px solid var(--black);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 3rem auto 0;
+}
+.transform-card {
+  background: var(--cream);
+  border: 3.5px solid var(--black);
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 var(--black);
+  overflow: hidden;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.transform-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--black);
+}
+.transform-img {
+  aspect-ratio: 4/3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+}
+.transform-before {
+  background: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  border-right: 2px solid var(--black);
+  overflow: hidden;
+}
+.transform-after {
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.transform-before img, .transform-after img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.transform-divider-label {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--blue);
+  color: white;
+  font-family: 'Bangers', cursive;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.8rem;
+  border: 2.5px solid var(--black);
+  border-radius: 10px;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0 var(--black);
+}
+.transform-info {
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  background: white;
+  border-top: 2.5px solid var(--black);
+}
+.transform-shoe-name {
+  font-family: 'Bangers', cursive;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  color: var(--black);
+}
+.transform-service {
+  background: var(--blue);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.8rem;
+  border-radius: 100px;
+  border: 2px solid var(--black);
+}
+
 /* ===== REVIEWS ===== */
 #reviews {
   padding: 6rem 5%;
@@ -382,6 +470,61 @@
     <button class="ss-dot"        onclick="goToSlide(2)" aria-label="Slide 3"></button>
   </div>
   <p class="ba-hint">← drag the handle to compare →</p>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div style="text-align:center;">
+    <span class="section-tag">More Transformations</span>
+    <h2 class="graffiti-heading reveal">PAIR BY<br><span style="color:var(--blue);">PAIR.</span></h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="transform-card reveal">
+      <div class="transform-img">
+        <div class="transform-before">
+          <img src="before2.png" alt="Before — Nike Air Force 1 Midsole" style="object-position:center 30%;">
+        </div>
+        <div class="transform-after">
+          <img src="after2.png" alt="After — Nike Air Force 1 Midsole" style="object-position:center 30%;">
+        </div>
+        <div class="transform-divider-label">→</div>
+      </div>
+      <div class="transform-info">
+        <div class="transform-shoe-name">Nike Air Force 1</div>
+        <span class="transform-service">Midsole Clean</span>
+      </div>
+    </div>
+    <div class="transform-card reveal">
+      <div class="transform-img">
+        <div class="transform-before">
+          <img src="before3.png" alt="Before — Jordan 11 Retro" style="object-position:center 30%;">
+        </div>
+        <div class="transform-after">
+          <img src="after3.png" alt="After — Jordan 11 Retro" style="object-position:center 30%;">
+        </div>
+        <div class="transform-divider-label">→</div>
+      </div>
+      <div class="transform-info">
+        <div class="transform-shoe-name">Jordan 11 Retro</div>
+        <span class="transform-service" style="background:var(--orange);">Restoration</span>
+      </div>
+    </div>
+    <div class="transform-card reveal">
+      <div class="transform-img">
+        <div class="transform-before">
+          <img src="before1.jpg" alt="Before — Nike Air Force 1">
+        </div>
+        <div class="transform-after">
+          <img src="after1.jpg" alt="After — Nike Air Force 1">
+        </div>
+        <div class="transform-divider-label">→</div>
+      </div>
+      <div class="transform-info">
+        <div class="transform-shoe-name">Nike Air Force 1</div>
+        <span class="transform-service">Deep Clean</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- REVIEWS -->
