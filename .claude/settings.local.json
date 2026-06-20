@@ -27,7 +27,8 @@
       "Bash(grep -v \"class=\\\\|style=\\\\|href=\\\\|src=\\\\|data-\\\\|//\\\\|<!--\")",
       "Bash(git pull *)",
       "Bash(git stash *)",
-      "Bash(git revert *)"
+      "Bash(git revert *)",
+      "Bash(git rm *)"
     ]
   }
 }
