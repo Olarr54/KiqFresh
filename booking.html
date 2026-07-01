@@ -537,6 +537,15 @@
             <label>Phone <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
             <input type="tel" id="phone" name="phone" placeholder="+44 7700 000000" autocomplete="tel" maxlength="25">
           </div>
+          <div class="form-group">
+            <label>Return Address <span style="color:#e53;font-weight:900;">*</span></label>
+            <textarea id="returnAddress" name="return_address" rows="3" placeholder="Your full address including postcode" autocomplete="street-address" maxlength="300"></textarea>
+            <span class="field-error-msg">Please enter your return address so we know where to send your trainers back.</span>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-top:0.5rem;background:rgba(165,210,255,0.12);border:1px solid rgba(165,210,255,0.3);border-radius:10px;padding:0.6rem 0.9rem;">
+              <span style="font-size:1rem;flex-shrink:0;">📬</span>
+              <span style="font-size:0.78rem;font-weight:700;color:#555;line-height:1.45;">This is the address we'll post your cleaned trainers back to. Make sure it's correct before continuing.</span>
+            </div>
+          </div>
           <button type="button" class="form-submit" onclick="goStep(2)">Next: Your Trainers →</button>
         </div>
 
@@ -811,16 +820,14 @@
       3: 'https://buy.stripe.com/7sY00l78c5Wx80mdYS8og0c',
     },
     'Premium Clean': {
-      // REPLACE these 3 links with new Stripe payment links for £30 / £60 / £90
-      1: 'REPLACE_WITH_STRIPE_LINK_PREMIUM_1PAIR',
-      2: 'REPLACE_WITH_STRIPE_LINK_PREMIUM_2PAIRS',
-      3: 'REPLACE_WITH_STRIPE_LINK_PREMIUM_3PAIRS',
+      1: 'https://buy.stripe.com/bJe5kF648fx73K61c68og0j',
+      2: 'https://buy.stripe.com/9B614p0JO84F1BY9IC8og0k',
+      3: 'https://buy.stripe.com/dRmeVf3W0bgRdkG8Ey8og0l',
     },
     'Elite Restore': {
-      // REPLACE these 3 links with new Stripe payment links for £45 / £90 / £135
-      1: 'REPLACE_WITH_STRIPE_LINK_ELITE_1PAIR',
-      2: 'REPLACE_WITH_STRIPE_LINK_ELITE_2PAIRS',
-      3: 'REPLACE_WITH_STRIPE_LINK_ELITE_3PAIRS',
+      1: 'https://buy.stripe.com/8x28wR9gkgBb6Wi2ga8og0m',
+      2: 'https://buy.stripe.com/fZuaEZ648fx7fsO6wq8og0n',
+      3: 'https://buy.stripe.com/fZu7sN8cgfx76WiaMG8og0o',
     },
     'Triple Clean Bundle': 'https://buy.stripe.com/fZu5kF78c1GhdkGf2W8og08',
   };
@@ -855,9 +862,10 @@
   function validateStep(n) {
     let ok = true;
     if (n === 1) {
-      ok = checkField('fname',  v => v.length > 0,  'First name is required.') & ok;
-      ok = checkField('lname',  v => v.length > 0,  'Last name is required.') & ok;
-      ok = checkField('email',  v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Enter a valid email. We\'ll send your next steps here.') & ok;
+      ok = checkField('fname',         v => v.length > 0,  'First name is required.') & ok;
+      ok = checkField('lname',         v => v.length > 0,  'Last name is required.') & ok;
+      ok = checkField('email',         v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Enter a valid email. We\'ll send your next steps here.') & ok;
+      ok = checkField('returnAddress', v => v.length > 5,  'Please enter your return address so we know where to send your trainers back.') & ok;
     }
     if (n === 2) {
       ok = checkField('shoeType', v => v.length > 0, 'Tell us the shoe. It helps us prepare the right treatment.') & ok;
@@ -1008,12 +1016,13 @@
     }
 
     // Validate individual fields
-    const fname = document.getElementById('fname').value;
-    const lname = document.getElementById('lname').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const shoeType = document.getElementById('shoeType').value;
-    const notes = document.getElementById('notes').value;
+    const fname         = document.getElementById('fname').value;
+    const lname         = document.getElementById('lname').value;
+    const email         = document.getElementById('email').value;
+    const phone         = document.getElementById('phone').value;
+    const returnAddress = document.getElementById('returnAddress').value;
+    const shoeType      = document.getElementById('shoeType').value;
+    const notes         = document.getElementById('notes').value;
 
     if (!KiqSecurity.validate.name(fname)) {
       KiqSecurity.showError(form, 'First name contains invalid characters.');
@@ -1029,6 +1038,10 @@
     }
     if (!KiqSecurity.validate.phone(phone)) {
       KiqSecurity.showError(form, 'Phone number format is invalid.');
+      return;
+    }
+    if (!KiqSecurity.validate.text(returnAddress, 300) || returnAddress.trim().length < 6) {
+      KiqSecurity.showError(form, 'Please enter a valid return address.');
       return;
     }
     if (!KiqSecurity.validate.shoeType(shoeType)) {
