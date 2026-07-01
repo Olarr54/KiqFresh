@@ -510,7 +510,7 @@
         <input type="hidden" name="access_key" value="b80110e8-924f-4279-8651-bf379dd8748f">
         <input type="hidden" name="subject" value="New KiqFresh Booking Request">
         <input type="hidden" name="from_name" value="KiqFresh Website">
-        <input type="hidden" id="selectedServiceInput" name="service" value="Full Shoe Clean">
+        <input type="hidden" id="selectedServiceInput" name="service" value="Full Standard Clean">
         <!-- honeypot spam trap -->
         <input type="checkbox" name="botcheck" style="display:none;" autocomplete="off" tabindex="-1" aria-hidden="true">
         <!-- STEP 1 -->
@@ -545,26 +545,26 @@
           <h3 style="font-family:'Bangers',cursive;font-size:1.8rem;letter-spacing:0.04em;margin-bottom:1.5rem;">YOUR TRAINERS</h3>
           <label style="font-size:0.72rem;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#666;display:block;margin-bottom:0.7rem;">Service Type</label>
           <div class="service-options">
-            <div class="service-option selected" onclick="selectService(this,'Full Shoe Clean','£15')">
-              <div class="sopt-name">🧹 FULL SHOE CLEAN</div>
+            <div class="service-option selected" onclick="selectService(this,'Full Standard Clean','£15')">
+              <div class="sopt-name">🧹 Full Standard Clean</div>
               <div class="sopt-price">£15 / pair</div>
             </div>
-            <div class="service-option" onclick="selectService(this,'Full Clean + Plastic Wrap','£20')">
-              <div class="sopt-name">📦 FULL CLEAN + WRAP</div>
-              <div class="sopt-price">£20 / pair</div>
+            <div class="service-option" onclick="selectService(this,'Premium Clean','£30')">
+              <div class="sopt-name">📦 Premium Clean</div>
+              <div class="sopt-price">£30 / pair</div>
             </div>
-            <div class="service-option" onclick="selectService(this,'Full Shoe Deep Clean','£25')">
-              <div class="sopt-name">🔥 FULL SHOE DEEP CLEAN</div>
-              <div class="sopt-price">£25 / pair</div>
+            <div class="service-option" onclick="selectService(this,'Elite Restore','£45')">
+              <div class="sopt-name">🔥 Elite Restore</div>
+              <div class="sopt-price">£45 / pair</div>
             </div>
             <div class="service-option" onclick="selectService(this,'Triple Clean Bundle','£40',true)">
-              <div class="sopt-name">🎁 TRIPLE CLEAN BUNDLE</div>
+              <div class="sopt-name">🎁 Triple Clean Bundle</div>
               <div class="sopt-price">£40 — 3 pairs</div>
             </div>
           </div>
           <div id="selectedBadge" style="display:flex;align-items:center;justify-content:space-between;background:var(--black);border:3px solid var(--black);border-radius:14px;padding:.85rem 1.2rem;margin-bottom:1.1rem;">
-            <span style="font-family:'Bangers',cursive;font-size:1.1rem;letter-spacing:.06em;color:white;" id="badgeName">Full Shoe Clean</span>
-            <span style="font-family:'Bangers',cursive;font-size:1.4rem;letter-spacing:.04em;color:var(--orange);" id="badgePrice">£15 / pair</span>
+            <span style="font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;color:white;" id="badgeName">Full Standard Clean</span>
+            <span style="font-family:'Nunito',sans-serif;font-size:1.3rem;font-weight:900;color:var(--orange);" id="badgePrice">£15 / pair</span>
           </div>
 
           <div class="form-group">
@@ -671,7 +671,7 @@
       <div class="sidebar-card" id="selectionCard" style="display:none;border-color:var(--orange);box-shadow:6px 6px 0 var(--orange);">
         <h3 style="color:var(--orange);">YOUR PICK ✦</h3>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">
-          <span style="font-family:'Bangers',cursive;font-size:1.3rem;letter-spacing:0.04em;" id="sidebarPickName">Full Shoe Clean</span>
+          <span style="font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;" id="sidebarPickName">Full Standard Clean</span>
           <span style="font-family:'Bangers',cursive;font-size:1.5rem;letter-spacing:0.04em;color:var(--orange);white-space:nowrap;" id="sidebarPickPrice">£15</span>
         </div>
         <div style="font-size:0.78rem;font-weight:800;color:#888;margin-top:0.35rem;" id="sidebarPickPairs"></div>
@@ -805,24 +805,26 @@
   const RETURN_POSTAGE = 3.99;
 
   const STRIPE_LINKS_POSTAL = {
-    'Full Shoe Clean': {
+    'Full Standard Clean': {
       1: 'https://buy.stripe.com/28E6oJbos84FgwSdYS8og05',
       2: 'https://buy.stripe.com/14AfZjfEIgBb80mdYS8og09',
       3: 'https://buy.stripe.com/7sY00l78c5Wx80mdYS8og0c',
     },
-    'Full Clean + Plastic Wrap': {
-      1: 'https://buy.stripe.com/5kQ14pgIM70Ba8udYS8og06',
-      2: 'https://buy.stripe.com/6oU3cxdwAacNbcyg708og0a',
-      3: 'https://buy.stripe.com/28EcN7gIMfx72G2aMG8og0d',
+    'Premium Clean': {
+      // REPLACE these 3 links with new Stripe payment links for £30 / £60 / £90
+      1: 'REPLACE_WITH_STRIPE_LINK_PREMIUM_1PAIR',
+      2: 'REPLACE_WITH_STRIPE_LINK_PREMIUM_2PAIRS',
+      3: 'REPLACE_WITH_STRIPE_LINK_PREMIUM_3PAIRS',
     },
-    'Full Shoe Deep Clean': {
-      1: 'https://buy.stripe.com/5kQbJ3648gBb94qbQK8og07',
-      2: 'https://buy.stripe.com/8x26oJbosfx7eoK3ke8og0b',
-      3: 'https://buy.stripe.com/aFadRb3W01GhgwS7Au8og0e',
+    'Elite Restore': {
+      // REPLACE these 3 links with new Stripe payment links for £45 / £90 / £135
+      1: 'REPLACE_WITH_STRIPE_LINK_ELITE_1PAIR',
+      2: 'REPLACE_WITH_STRIPE_LINK_ELITE_2PAIRS',
+      3: 'REPLACE_WITH_STRIPE_LINK_ELITE_3PAIRS',
     },
     'Triple Clean Bundle': 'https://buy.stripe.com/fZu5kF78c1GhdkGf2W8og08',
   };
-  let selectedService = 'Full Shoe Clean';
+  let selectedService = 'Full Standard Clean';
   let selectedPrice = '£15';
   let isBundleService = false;
 
