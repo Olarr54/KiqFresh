@@ -536,6 +536,22 @@
       <div class="slide-caption">Louis Vuitton Runner</div>
     </div>
 
+    <!-- SLIDE 8 -->
+    <div class="slide" id="slide-7">
+      <div class="slide-side">
+        <img src="before4.png" alt="Before cleaning">
+        <span class="slide-label">BEFORE</span>
+      </div>
+      <div class="slide-side slide-after" id="slideAfter-7">
+        <img src="after4.png" alt="After cleaning">
+        <span class="slide-label">AFTER</span>
+      </div>
+      <div class="slide-divider" id="slideDiv-7">
+        <div class="slide-handle">⟺</div>
+      </div>
+      <div class="slide-caption">Nike Dunk Low "Panda"</div>
+    </div>
+
     <button class="ss-arrow ss-prev" onclick="changeSlide(-1)" aria-label="Previous">‹</button>
     <button class="ss-arrow ss-next" onclick="changeSlide(1)"  aria-label="Next">›</button>
   </div>
@@ -548,6 +564,7 @@
     <button class="ss-dot"        onclick="goToSlide(4)" aria-label="Slide 5"></button>
     <button class="ss-dot"        onclick="goToSlide(5)" aria-label="Slide 6"></button>
     <button class="ss-dot"        onclick="goToSlide(6)" aria-label="Slide 7"></button>
+    <button class="ss-dot"        onclick="goToSlide(7)" aria-label="Slide 8"></button>
   </div>
   <p class="ba-hint">← drag the handle to compare →</p>
 </section>
@@ -662,6 +679,21 @@
       <div class="transform-info">
         <div class="transform-shoe-name">Louis Vuitton Runner</div>
         <span class="transform-service">Premium Clean</span>
+      </div>
+    </div>
+    <div class="transform-card reveal">
+      <div class="transform-img">
+        <div class="transform-before">
+          <img src="before4.png" alt="Before — Nike Dunk Low Panda" style="object-position:center 30%;">
+        </div>
+        <div class="transform-after">
+          <img src="after4.png" alt="After — Nike Dunk Low Panda" style="object-position:center 30%;">
+        </div>
+        <div class="transform-divider-label">→</div>
+      </div>
+      <div class="transform-info">
+        <div class="transform-shoe-name">Nike Dunk Low "Panda"</div>
+        <span class="transform-service" style="background:var(--orange);">Elite Restore</span>
       </div>
     </div>
   </div>
@@ -836,7 +868,7 @@
 <script src="security.js"></script>
 <script src="shared.js"></script>
 <script>
-  const TOTAL_SLIDES = 7;
+  const TOTAL_SLIDES = 8;
   let currentSlide = 0;
   let autoTimer;
   let dragging = false;
