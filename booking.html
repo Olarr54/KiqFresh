@@ -430,7 +430,21 @@
   color: #555;
   line-height: 1.45;
 }
-.coll-hours-note { font-size: 0.76rem; font-weight: 800; color: #888; margin-top: -0.4rem; margin-bottom: 1.1rem; }
+.coll-hours-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  background: var(--cream);
+  border: 2.5px solid var(--black);
+  border-radius: 12px;
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 1.3rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #333;
+  line-height: 1.5;
+}
+.coll-hours-box .chb-icon { font-size: 1.15rem; flex-shrink: 0; line-height: 1.4; }
 .coll-summary-box {
   background: var(--cream);
   border: 2.5px solid var(--black);
@@ -583,6 +597,7 @@
         <!-- CSTEP 3: Date & time -->
         <div id="cstep3" class="form-step" style="display:none;">
           <h3 style="font-family:'Bangers',cursive;font-size:1.8rem;letter-spacing:0.04em;margin-bottom:1.5rem;">PICK A DATE &amp; TIME</h3>
+          <div class="coll-hours-box" id="collHoursNote"></div>
           <div class="form-group" id="collDateGroup">
             <label>Preferred Date <span style="color:#e53;font-weight:900;">*</span></label>
             <input type="date" id="collDate">
@@ -593,7 +608,6 @@
             <select id="collTime"><option value="">Select a time</option></select>
             <span class="field-error-msg">Please choose a preferred time.</span>
           </div>
-          <p class="coll-hours-note" id="collHoursNote"></p>
           <div class="coll-note">
             <span>📅</span>
             <span>This is a booking request, not a confirmed slot. Kiqfresh will check availability and confirm your collection or drop-off time on WhatsApp.</span>
@@ -1392,10 +1406,17 @@
     const note = document.getElementById('collHoursNote');
     if (note) {
       const closedNames = (collAvailability.closedDays || []).map(d => DAY_NAMES[d]).filter(Boolean);
-      const hoursTxt = `Hours: ${to12h(collAvailability.startTime)} – ${to12h(collAvailability.endTime)}`;
-      note.textContent = closedNames.length
-        ? `${hoursTxt}. Closed: ${closedNames.join(', ')}.`
-        : hoursTxt + '.';
+      const hoursTxt = `Our collection and drop-off hours are ${to12h(collAvailability.startTime)}–${to12h(collAvailability.endTime)}`;
+      let msg;
+      if (!closedNames.length) {
+        msg = `${hoursTxt}, every day.`;
+      } else {
+        const closedList = closedNames.length === 1
+          ? `${closedNames[0]}s`
+          : closedNames.slice(0, -1).map(n => n + 's').join(', ') + ` and ${closedNames[closedNames.length - 1]}s`;
+        msg = `Please note: we do not offer collections or drop-offs on ${closedList}. ${hoursTxt} on all other days.`;
+      }
+      note.innerHTML = `<span class="chb-icon">🗓️</span><span>${msg}</span>`;
     }
     const dateInput = document.getElementById('collDate');
     if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
