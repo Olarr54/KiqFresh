@@ -259,6 +259,23 @@
     <button class="btn btn-ghost" onclick="logout()">Sign Out</button>
   </div>
   <div class="main">
+    <div class="table-wrap" id="availabilityCard" style="padding:1.3rem 1.5rem;margin-bottom:1.5rem;">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.05em;margin-bottom:0.9rem;">Booking Availability</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;" id="closedDaysWrap"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:1.2rem;align-items:flex-end;">
+        <div>
+          <label style="display:block;font-size:0.78rem;color:#aaa;margin-bottom:0.35rem;">Available from</label>
+          <input type="time" id="availStart" style="background:var(--black);border:1px solid var(--border);border-radius:6px;color:var(--cream);padding:0.5rem 0.6rem;">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.78rem;color:#aaa;margin-bottom:0.35rem;">Available until</label>
+          <input type="time" id="availEnd" style="background:var(--black);border:1px solid var(--border);border-radius:6px;color:var(--cream);padding:0.5rem 0.6rem;">
+        </div>
+        <button class="btn" id="availSaveBtn" onclick="saveAvailability()">Save Availability</button>
+        <span class="save-ind" id="availInd"></span>
+      </div>
+      <p style="font-size:0.78rem;color:#666;margin-top:0.9rem;">This controls the days and time slots customers can pick on the collection booking form.</p>
+    </div>
     <div class="stats" id="stats"></div>
     <div class="table-wrap" id="tableWrap">
       <div class="loading-msg" id="loadingMsg">Loading orders…</div>
@@ -338,6 +355,7 @@
       sessionStorage.setItem('kf_admin_token', token);
       showDashboard();
       loadOrders();
+      loadAvailability();
     } catch (e) {
       err.textContent = e.message;
       err.style.display = 'block';
@@ -497,8 +515,67 @@
     });
   }
 
+  // ── Booking Availability ──
+
+  const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  let closedDays = [];
+
+  function renderClosedDayToggles() {
+    document.getElementById('closedDaysWrap').innerHTML = DAY_NAMES.map((name, i) => `
+      <label style="display:flex;align-items:center;gap:0.35rem;background:var(--black);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.7rem;font-size:0.85rem;cursor:pointer;">
+        <input type="checkbox" data-day="${i}" ${closedDays.includes(i) ? 'checked' : ''} onchange="toggleClosedDay(${i}, this.checked)">
+        ${name}
+      </label>
+    `).join('');
+  }
+
+  function toggleClosedDay(day, checked) {
+    closedDays = checked ? [...new Set([...closedDays, day])] : closedDays.filter(d => d !== day);
+  }
+
+  async function loadAvailability() {
+    try {
+      const res = await fetch('/.netlify/functions/booking-availability');
+      const data = await res.json();
+      closedDays = Array.isArray(data.closedDays) ? data.closedDays : [];
+      document.getElementById('availStart').value = data.startTime || '12:00';
+      document.getElementById('availEnd').value = data.endTime || '17:00';
+    } catch {
+      closedDays = [];
+    }
+    renderClosedDayToggles();
+  }
+
+  async function saveAvailability() {
+    const ind = document.getElementById('availInd');
+    const startTime = document.getElementById('availStart').value;
+    const endTime = document.getElementById('availEnd').value;
+    ind.className = 'save-ind saving';
+    ind.textContent = 'Saving…';
+    try {
+      const res = await fetch('/.netlify/functions/booking-availability', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ closedDays, startTime, endTime }),
+      });
+      if (res.status === 401) { logout(); return; }
+      if (res.ok) {
+        ind.className = 'save-ind saved';
+        ind.textContent = 'Saved ✓';
+      } else {
+        const data = await res.json().catch(() => ({}));
+        ind.className = 'save-ind err';
+        ind.textContent = data.error || 'Error';
+      }
+    } catch {
+      ind.className = 'save-ind err';
+      ind.textContent = 'Error';
+    }
+    setTimeout(() => { ind.className = 'save-ind'; ind.textContent = ''; }, 2500);
+  }
+
   // ── Init ──
-  if (token) { showDashboard(); loadOrders(); } else { showLogin(); }
+  if (token) { showDashboard(); loadOrders(); loadAvailability(); } else { showLogin(); }
 </script>
 </body>
 </html>
