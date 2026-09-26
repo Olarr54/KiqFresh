@@ -66,7 +66,7 @@
 }
 .slide-side img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 .slide-after {
-  clip-path: inset(0 50% 0 0);
+  clip-path: inset(0 0 0 50%);
   will-change: clip-path;
 }
 .slide-label {
@@ -79,7 +79,6 @@
   color: white;
   padding: 0.3rem 0.9rem;
   border-radius: 9px;
-  z-index: 3;
 }
 .slide-side:first-child .slide-label { left: 1.2rem; }
 .slide-after .slide-label { right: 1.2rem; color: var(--orange); }
@@ -479,7 +478,7 @@
         <span class="slide-label">BEFORE</span>
       </div>
       <div class="slide-side slide-after" id="slideAfter-3">
-        <img src="after5.jpeg" alt="After cleaning" style="object-position:center 30%;">
+        <img src="after5.jpeg" alt="After cleaning" style="object-position:60% 38%;transform:scale(1.9);">
         <span class="slide-label">AFTER</span>
       </div>
       <div class="slide-divider" id="slideDiv-3">
@@ -495,7 +494,7 @@
         <span class="slide-label">BEFORE</span>
       </div>
       <div class="slide-side slide-after" id="slideAfter-4">
-        <img src="after6.jpeg" alt="After cleaning" style="object-position:center 30%;">
+        <img src="after6.jpeg" alt="After cleaning" style="object-position:center 60%;transform:scale(1.35);">
         <span class="slide-label">AFTER</span>
       </div>
       <div class="slide-divider" id="slideDiv-4">
@@ -511,7 +510,7 @@
         <span class="slide-label">BEFORE</span>
       </div>
       <div class="slide-side slide-after" id="slideAfter-5">
-        <img src="after7.jpeg" alt="After cleaning" style="object-position:center 30%;">
+        <img src="after7.jpeg" alt="After cleaning" style="object-position:center 55%;transform:scale(1.3);">
         <span class="slide-label">AFTER</span>
       </div>
       <div class="slide-divider" id="slideDiv-5">
@@ -527,29 +526,13 @@
         <span class="slide-label">BEFORE</span>
       </div>
       <div class="slide-side slide-after" id="slideAfter-6">
-        <img src="after8.jpeg" alt="After cleaning" style="object-position:center 30%;">
+        <img src="after8.jpeg" alt="After cleaning" style="object-position:center 55%;transform:scale(1.3);">
         <span class="slide-label">AFTER</span>
       </div>
       <div class="slide-divider" id="slideDiv-6">
         <div class="slide-handle">⟺</div>
       </div>
       <div class="slide-caption">Louis Vuitton Runner</div>
-    </div>
-
-    <!-- SLIDE 8 -->
-    <div class="slide" id="slide-7">
-      <div class="slide-side">
-        <img src="before4.png" alt="Before cleaning">
-        <span class="slide-label">BEFORE</span>
-      </div>
-      <div class="slide-side slide-after" id="slideAfter-7">
-        <img src="after4.png" alt="After cleaning">
-        <span class="slide-label">AFTER</span>
-      </div>
-      <div class="slide-divider" id="slideDiv-7">
-        <div class="slide-handle">⟺</div>
-      </div>
-      <div class="slide-caption">Nike Dunk Low "Panda"</div>
     </div>
 
     <button class="ss-arrow ss-prev" onclick="changeSlide(-1)" aria-label="Previous">‹</button>
@@ -564,7 +547,6 @@
     <button class="ss-dot"        onclick="goToSlide(4)" aria-label="Slide 5"></button>
     <button class="ss-dot"        onclick="goToSlide(5)" aria-label="Slide 6"></button>
     <button class="ss-dot"        onclick="goToSlide(6)" aria-label="Slide 7"></button>
-    <button class="ss-dot"        onclick="goToSlide(7)" aria-label="Slide 8"></button>
   </div>
   <p class="ba-hint">← drag the handle to compare →</p>
 </section>
@@ -679,21 +661,6 @@
       <div class="transform-info">
         <div class="transform-shoe-name">Louis Vuitton Runner</div>
         <span class="transform-service">Premium Clean</span>
-      </div>
-    </div>
-    <div class="transform-card reveal">
-      <div class="transform-img">
-        <div class="transform-before">
-          <img src="before4.png" alt="Before — Nike Dunk Low Panda" style="object-position:center 30%;">
-        </div>
-        <div class="transform-after">
-          <img src="after4.png" alt="After — Nike Dunk Low Panda" style="object-position:center 30%;">
-        </div>
-        <div class="transform-divider-label">→</div>
-      </div>
-      <div class="transform-info">
-        <div class="transform-shoe-name">Nike Dunk Low "Panda"</div>
-        <span class="transform-service" style="background:var(--orange);">Elite Restore</span>
       </div>
     </div>
   </div>
@@ -868,7 +835,7 @@
 <script src="security.js"></script>
 <script src="shared.js"></script>
 <script>
-  const TOTAL_SLIDES = 8;
+  const TOTAL_SLIDES = 7;
   let currentSlide = 0;
   let autoTimer;
   let dragging = false;
@@ -893,7 +860,7 @@
   function resetSplit(idx) {
     const after = document.getElementById('slideAfter-' + idx);
     const div   = document.getElementById('slideDiv-' + idx);
-    if (after) after.style.clipPath = 'inset(0 50% 0 0)';
+    if (after) after.style.clipPath = 'inset(0 0 0 50%)';
     if (div)   div.style.left = '50%';
   }
 
@@ -901,7 +868,7 @@
     const slide = document.getElementById('slide-' + idx);
     const r = slide.getBoundingClientRect();
     const pct = Math.max(3, Math.min(97, ((clientX - r.left) / r.width) * 100));
-    document.getElementById('slideAfter-' + idx).style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+    document.getElementById('slideAfter-' + idx).style.clipPath = `inset(0 0 0 ${pct}%)`;
     document.getElementById('slideDiv-' + idx).style.left = pct + '%';
   }
 
