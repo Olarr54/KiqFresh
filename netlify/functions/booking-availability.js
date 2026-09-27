@@ -5,6 +5,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+// Backup opening hours, used only if the admin settings can't be loaded.
+// The admin panel (kiqfresh.net/admin → Booking Availability) always wins.
+// closedDays: 0=Sun 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri 6=Sat   e.g. [3, 0] = closed Wed + Sun
+// startTime/endTime: 24-hour time, 2-digit hour, e.g. '09:00' to '16:00'
+// Keep this line matching the "collAvailability" line in booking.html.
 const DEFAULTS = { closedDays: [3], startTime: '12:00', endTime: '17:00' };
 const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
 
