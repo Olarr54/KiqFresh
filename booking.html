@@ -539,7 +539,7 @@
             <div class="service-option selected" id="collOptDropoff" onclick="selectCollMethod('dropoff')">
               <div class="sopt-name">📍 Free Drop-off</div>
               <div class="sopt-price">FREE</div>
-              <div class="sopt-desc">Drop off at Biscuit Factory, Reading, RG1 7QE during our collection hours.</div>
+              <div class="sopt-desc">Drop off at Biscuit Factory, Reading, RG1 7QE — Sundays &amp; Mondays, 3:00–4:45 pm.</div>
             </div>
           </div>
           <div class="form-group" id="collAddressGroup" style="display:none;">
@@ -1308,6 +1308,18 @@
      4. Save, then commit and push. Netlify puts it live in about a minute.
      ----------------------------------------------------- */
   let collAvailability = { closedDays: [3], startTime: '12:00', endTime: '17:00' };
+
+  /* -----------------------------------------------------
+     FREE DROP-OFF HOURS (Biscuit Factory)
+     -----------------------------------------------------
+     Drop-off has its own fixed hours and is NOT controlled by the
+     admin panel. The admin panel / line above only affects Home Collection.
+     - openDays = the days drop-off is allowed (0 = Sunday, 1 = Monday ... 6 = Saturday)
+     - startTime / endTime = 24-hour time, e.g. '15:00' = 3pm, '16:45' = 4:45pm
+     - stepMins = gap between the time options shown (15 = every 15 minutes)
+     ----------------------------------------------------- */
+  const DROPOFF_AVAILABILITY = { openDays: [0, 1], startTime: '15:00', endTime: '16:45', stepMins: 15 };
+
   let collMethod = 'dropoff';
   let collSelectedService = 'Full Standard Clean';
   let collSelectedPrice = '£15';
@@ -1364,6 +1376,10 @@
     document.getElementById('collOptHome').classList.toggle('selected', method === 'home');
     document.getElementById('collOptDropoff').classList.toggle('selected', method === 'dropoff');
     document.getElementById('collAddressGroup').style.display = method === 'home' ? 'flex' : 'none';
+    // Each method has different days/hours, so reset the date & time picks
+    const dateInput = document.getElementById('collDate');
+    if (dateInput) dateInput.value = '';
+    renderAvailabilityUI();
     updateCollSummary();
   }
 
@@ -1400,7 +1416,7 @@
     return `${h12}:${String(m).padStart(2,'0')} ${period}`;
   }
 
-  function generateTimeSlots(start, end) {
+  function generateTimeSlots(start, end, step = 30) {
     const [sh, sm] = start.split(':').map(Number);
     const [eh, em] = end.split(':').map(Number);
     let mins = sh * 60 + sm;
@@ -1409,9 +1425,26 @@
     while (mins <= endMins) {
       const h24 = Math.floor(mins / 60), m = mins % 60;
       out.push(to12h(`${String(h24).padStart(2,'0')}:${String(m).padStart(2,'0')}`));
-      mins += 30;
+      mins += step;
     }
     return out;
+  }
+
+  // The days/hours that apply to whichever method (drop-off or home collection) is picked
+  function activeAvailability() {
+    if (collMethod === 'dropoff') {
+      const d = DROPOFF_AVAILABILITY;
+      return {
+        closedDays: [0,1,2,3,4,5,6].filter(n => !d.openDays.includes(n)),
+        startTime: d.startTime, endTime: d.endTime, stepMins: d.stepMins
+      };
+    }
+    return { ...collAvailability, stepMins: 30 };
+  }
+
+  function dropoffDaysText() {
+    const names = DROPOFF_AVAILABILITY.openDays.map(d => DAY_NAMES[d] + 's');
+    return names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0];
   }
 
   const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1423,24 +1456,27 @@
   }
 
   function renderAvailabilityUI() {
+    const avail = activeAvailability();
     const sel = document.getElementById('collTime');
     if (sel) {
       sel.innerHTML = '<option value="">Select a time</option>' +
-        generateTimeSlots(collAvailability.startTime, collAvailability.endTime)
+        generateTimeSlots(avail.startTime, avail.endTime, avail.stepMins)
           .map(t => `<option value="${t}">${t}</option>`).join('');
     }
     const note = document.getElementById('collHoursNote');
     if (note) {
-      const closedNames = (collAvailability.closedDays || []).map(d => DAY_NAMES[d]).filter(Boolean);
-      const hoursTxt = `Our collection and drop-off hours are ${to12h(collAvailability.startTime)}–${to12h(collAvailability.endTime)}`;
+      const closedNames = (avail.closedDays || []).map(d => DAY_NAMES[d]).filter(Boolean);
+      const hoursTxt = `Our collection hours are ${to12h(avail.startTime)}–${to12h(avail.endTime)}`;
       let msg;
-      if (!closedNames.length) {
+      if (collMethod === 'dropoff') {
+        msg = `Free drop-off is available on ${dropoffDaysText()} only, ${to12h(avail.startTime)}–${to12h(avail.endTime)}.`;
+      } else if (!closedNames.length) {
         msg = `${hoursTxt}, every day.`;
       } else {
         const closedList = closedNames.length === 1
           ? `${closedNames[0]}s`
           : closedNames.slice(0, -1).map(n => n + 's').join(', ') + ` and ${closedNames[closedNames.length - 1]}s`;
-        msg = `Please note: we do not offer collections or drop-offs on ${closedList}. ${hoursTxt} on all other days.`;
+        msg = `Please note: we do not offer collections on ${closedList}. ${hoursTxt} on all other days.`;
       }
       note.innerHTML = `<span class="chb-icon">🗓️</span><span>${msg}</span>`;
     }
@@ -1468,10 +1504,12 @@
     const val = e.target.value;
     if (!val) return;
     const day = new Date(val + 'T00:00:00').getDay();
-    if ((collAvailability.closedDays || []).includes(day)) {
+    if ((activeAvailability().closedDays || []).includes(day)) {
       group.classList.add('has-error');
       const span = group.querySelector('.field-error-msg');
-      if (span) span.textContent = `We're closed on ${DAY_NAMES[day]}s — please pick another date.`;
+      if (span) span.textContent = collMethod === 'dropoff'
+        ? `Drop-off is only available on ${dropoffDaysText()} — please pick another date.`
+        : `We're closed on ${DAY_NAMES[day]}s — please pick another date.`;
       e.target.value = '';
     } else {
       group.classList.remove('has-error');
