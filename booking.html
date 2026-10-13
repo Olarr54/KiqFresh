@@ -412,6 +412,50 @@
 .wa-btn:active { transform: translate(2px,2px); box-shadow: 3px 3px 0 var(--black); }
 .wa-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: 5px 5px 0 var(--black); }
 
+/* === COLLECTION CALENDAR === */
+.kq-cal {
+  background: var(--cream);
+  border: 3px solid var(--black);
+  border-radius: 12px;
+  box-shadow: 3px 3px 0 var(--black);
+  padding: 0.8rem;
+  max-width: 360px;
+  width: 100%;
+}
+.form-group.has-error .kq-cal { border-color: #e53; box-shadow: 3px 3px 0 #e53; animation: fieldShake 0.4s ease; }
+.kq-cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+.kq-cal-title { font-family: 'Bangers', cursive; font-size: 1.25rem; letter-spacing: 0.05em; }
+.kq-cal-nav {
+  width: 2.2rem; height: 2.2rem;
+  border: 2.5px solid var(--black);
+  border-radius: 10px;
+  background: white;
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--black);
+}
+.kq-cal-nav:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
+.kq-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.3rem; }
+.kq-cal-dow { text-align: center; font-size: 0.68rem; font-weight: 900; letter-spacing: 0.08em; color: #888; padding-bottom: 0.2rem; }
+.kq-cal-day {
+  aspect-ratio: 1;
+  border: 2px solid var(--black);
+  border-radius: 8px;
+  background: white;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: var(--black);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.1s;
+}
+.kq-cal-day:hover:not(:disabled) { transform: translate(-1px,-1px); box-shadow: 2px 2px 0 var(--black); }
+.kq-cal-day:disabled { background: #e9e6e0; border-color: #d4d0c8; color: #b5b1aa; cursor: not-allowed; text-decoration: line-through; }
+.kq-cal-day.selected { background: var(--orange); border-color: var(--black); color: white; box-shadow: 2px 2px 0 var(--black); }
+.kq-cal-day.today:not(.selected):not(:disabled) { border-color: var(--orange); }
+
 /* === COLLECTION FLOW EXTRAS === */
 .sopt-desc { font-size: 0.76rem; font-weight: 700; color: #777; margin-top: 0.3rem; line-height: 1.4; }
 .service-option.selected .sopt-desc { color: rgba(255,255,255,0.8); }
@@ -600,7 +644,8 @@
           <div class="coll-hours-box" id="collHoursNote"></div>
           <div class="form-group" id="collDateGroup">
             <label>Preferred Date <span style="color:#e53;font-weight:900;">*</span></label>
-            <input type="date" id="collDate">
+            <input type="hidden" id="collDate">
+            <div class="kq-cal" id="collCal"></div>
             <span class="field-error-msg">Please choose a preferred date.</span>
           </div>
           <div class="form-group" id="collTimeGroup">
@@ -1480,8 +1525,7 @@
       }
       note.innerHTML = `<span class="chb-icon">🗓️</span><span>${msg}</span>`;
     }
-    const dateInput = document.getElementById('collDate');
-    if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+    renderCalendar();
   }
 
   async function loadCollAvailability() {
@@ -1498,21 +1542,74 @@
   }
   loadCollAvailability();
 
-  document.addEventListener('change', e => {
-    if (e.target.id !== 'collDate') return;
-    const group = e.target.closest('.form-group');
-    const val = e.target.value;
-    if (!val) return;
-    const day = new Date(val + 'T00:00:00').getDay();
-    if ((activeAvailability().closedDays || []).includes(day)) {
-      group.classList.add('has-error');
-      const span = group.querySelector('.field-error-msg');
-      if (span) span.textContent = collMethod === 'dropoff'
-        ? `Drop-off is only available on ${dropoffDaysText()} — please pick another date.`
-        : `We're closed on ${DAY_NAMES[day]}s — please pick another date.`;
-      e.target.value = '';
-    } else {
-      group.classList.remove('has-error');
+  /* Custom calendar: unavailable days (past, closed, or outside drop-off days)
+     are greyed out and can't be clicked. CAL_MONTHS_AHEAD = how many months
+     forward customers can browse. */
+  const CAL_MONTHS_AHEAD = 3;
+  let calView = null; // first day of the month being shown
+
+  function toDateStr(d) {
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function isDayAvailable(d) {
+    const avail = activeAvailability();
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    if (d < today) return false;
+    if ((avail.closedDays || []).includes(d.getDay())) return false;
+    if (d.getTime() === today.getTime()) {
+      // Today only counts if there's still time left in today's hours
+      const [eh, em] = avail.endTime.split(':').map(Number);
+      if (now.getHours() * 60 + now.getMinutes() >= eh * 60 + em) return false;
+    }
+    return true;
+  }
+
+  function renderCalendar() {
+    const cal = document.getElementById('collCal');
+    if (!cal) return;
+    const now = new Date();
+    const firstMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastMonth = new Date(now.getFullYear(), now.getMonth() + CAL_MONTHS_AHEAD, 1);
+    if (!calView || calView < firstMonth) calView = firstMonth;
+    if (calView > lastMonth) calView = lastMonth;
+
+    const selected = document.getElementById('collDate').value;
+    const todayStr = toDateStr(now);
+    const y = calView.getFullYear(), m = calView.getMonth();
+    const daysInMonth = new Date(y, m + 1, 0).getDate();
+    const lead = (new Date(y, m, 1).getDay() + 6) % 7; // weeks start on Monday
+
+    let html = `<div class="kq-cal-head">
+        <button type="button" class="kq-cal-nav" data-cal-nav="-1" aria-label="Previous month" ${calView <= firstMonth ? 'disabled' : ''}>‹</button>
+        <span class="kq-cal-title">${MONTH_NAMES[m]} ${y}</span>
+        <button type="button" class="kq-cal-nav" data-cal-nav="1" aria-label="Next month" ${calView >= lastMonth ? 'disabled' : ''}>›</button>
+      </div><div class="kq-cal-grid">`;
+    html += ['Mo','Tu','We','Th','Fr','Sa','Su'].map(d => `<div class="kq-cal-dow">${d}</div>`).join('');
+    html += '<div></div>'.repeat(lead);
+    for (let day = 1; day <= daysInMonth; day++) {
+      const d = new Date(y, m, day);
+      const ds = toDateStr(d);
+      const cls = ['kq-cal-day', ds === selected ? 'selected' : '', ds === todayStr ? 'today' : ''].join(' ').trim();
+      html += `<button type="button" class="${cls}" data-cal-date="${ds}" aria-label="${formatDatePretty(ds)}" ${isDayAvailable(d) ? '' : 'disabled'}>${day}</button>`;
+    }
+    cal.innerHTML = html + '</div>';
+  }
+
+  document.addEventListener('click', e => {
+    const nav = e.target.closest('[data-cal-nav]');
+    if (nav) {
+      calView = new Date(calView.getFullYear(), calView.getMonth() + Number(nav.dataset.calNav), 1);
+      renderCalendar();
+      return;
+    }
+    const dayBtn = e.target.closest('[data-cal-date]');
+    if (dayBtn && !dayBtn.disabled) {
+      document.getElementById('collDate').value = dayBtn.dataset.calDate;
+      document.getElementById('collDateGroup').classList.remove('has-error');
+      renderCalendar();
+      updateCollSummary();
     }
   });
 
